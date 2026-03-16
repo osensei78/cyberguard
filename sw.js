@@ -1,8 +1,6 @@
-// CyberGuard Service Worker — Network First (sempre aggiornato)
-const VERSION = 'cg-v1';
-
-// Strategia: network first, nessuna cache persistente
-// Ogni apertura scarica la versione più recente dal server
+// CyberGuard Service Worker — Network First + Push Notifications
+const VERSION = 'cg-v3';
+const BASE = 'https://osensei78.github.io/cyberguard/';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -16,13 +14,11 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Network first — sempre aggiornato
 self.addEventListener('fetch', event => {
-  // Strategia network-first: prova sempre la rete
-  // Se offline, prova la cache come fallback
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Salva nella cache solo come fallback offline
         const clone = response.clone();
         caches.open(VERSION).then(cache => {
           if(event.request.method === 'GET') {
@@ -31,9 +27,58 @@ self.addEventListener('fetch', event => {
         });
         return response;
       })
-      .catch(() => {
-        // Offline: usa la cache se disponibile
-        return caches.match(event.request);
+      .catch(() => caches.match(event.request))
+  );
+});
+
+// Ricevi messaggi dall'app per mostrare notifiche
+self.addEventListener('message', event => {
+  if(event.data?.type === 'SHOW_NOTIF') {
+    const { title, body, tag } = event.data;
+    self.registration.showNotification(title, {
+      body,
+      icon: BASE + 'icon-192.png',
+      badge: BASE + 'icon-192.png',
+      tag: tag || 'cyberguard',
+      renotify: false,
+      vibrate: [200, 100, 200],
+      actions: [
+        { action: 'open', title: 'Vedi alert' },
+        { action: 'dismiss', title: 'Ignora' }
+      ]
+    });
+  }
+});
+
+// Gestisci il click sulla notifica
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  if(event.action === 'dismiss') return;
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then(clientList => {
+        for(const client of clientList) {
+          if('focus' in client) return client.focus();
+        }
+        if(clients.openWindow) return clients.openWindow(BASE);
       })
+  );
+});
+
+// Push dal server
+self.addEventListener('push', event => {
+  if(!event.data) return;
+  let data;
+  try { data = event.data.json(); }
+  catch(e) { data = { title: '⚠️ Nuovo Alert', body: event.data.text() }; }
+  event.waitUntil(
+    self.registration.showNotification(data.title || '⚠️ CyberGuard Alert', {
+      body: data.body || 'Nuova minaccia rilevata. Apri l\'app per i dettagli.',
+      icon: BASE + 'icon-192.png',
+      badge: BASE + 'icon-192.png',
+      tag: data.tag || 'cyberguard-push',
+      vibrate: [200, 100, 200],
+      data: { url: data.url || BASE }
+    })
   );
 });
