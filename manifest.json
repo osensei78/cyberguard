@@ -2,7 +2,8 @@
   "name": "CyberGuard Italia — 5T3C4V78",
   "short_name": "CyberGuard",
   "description": "Impara a riconoscere e difenderti dalle truffe digitali più diffuse in Italia.",
-  "start_url": "/",
+  "start_url": "https://osensei78.github.io/cyberguard/",
+  "scope": "https://osensei78.github.io/cyberguard/",
   "display": "standalone",
   "background_color": "#0f1117",
   "theme_color": "#0f1117",
@@ -10,13 +11,13 @@
   "lang": "it",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "https://osensei78.github.io/cyberguard/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "https://osensei78.github.io/cyberguard/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
