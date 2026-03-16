@@ -1407,7 +1407,7 @@ let aData=[
 let unread=0,aFilter='all';
 const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
 
-// Feed RSS reali — solo fonti italiane
+// Feed RSS reali — solo fonti italiane specializzate in cybersecurity
 const RSS_FEEDS = [
   {
     url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fcert-agid.gov.it%2Ffeed%2F',
@@ -1420,18 +1420,6 @@ const RSS_FEEDS = [
     source: 'Cybersecurity360',
     ico: '🛡️',
     defaultTags: ['phishing']
-  },
-  {
-    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.agendadigitale.eu%2Ffeed%2F',
-    source: 'Agenda Digitale',
-    ico: '📰',
-    defaultTags: ['malware']
-  },
-  {
-    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fpunto-informatico.it%2Ffeed%2F',
-    source: 'Punto Informatico',
-    ico: '💻',
-    defaultTags: ['social']
   }
 ];
 
