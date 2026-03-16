@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CyberGuard Italia — 5T3C4V78</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0f1117;
+  --surface:#1a1d27;
+  --surface2:#22263a;
+  --border:#2a2d3e;
+  --border2:#3a3d55;
+  --accent:#3b82f6;
+  --accent2:#2563eb;
+  --green:#22c55e;
+  --red:#ef4444;
+  --yellow:#f59e0b;
+  --orange:#f97316;
+  --text:#f1f5f9;
+  --text2:#94a3b8;
+  --text3:#64748b;
+  --sans:'Inter',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);}
+body{font-family:var(--sans);color:var(--text);font-size:15px;display:flex;flex-direction:column;}
+button{font-family:var(--sans);}
+input{font-family:var(--sans);}
+
+/* ── TOPBAR ── */
+#topbar{
+  flex-shrink:0;height:52px;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+}
+.tb-brand{display:flex;align-items:center;gap:10px;}
+.tb-logo{
+  width:30px;height:30px;background:var(--accent);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.tb-name{font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-.01em;}
+.tb-right{display:flex;align-items:center;gap:8px;}
+.tb-pill{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;
+  font-size:.72rem;font-weight:500;
+}
+.pill-green{background:rgba(34,197,94,.12);color:var(--green);}
+.pill-red{background:rgba(239,68,68,.12);color:var(--red);}
+.pill-red .dot{animation:pd 1.4s infinite;}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+@keyframes pd{0%,100%{opacity:1;}50%{opacity:.3;}}
+#tb-clock{font-size:.75rem;color:var(--text3);font-weight:500;}
+
+/* ── LAYOUT ── */
+#content{flex:1;overflow:hidden;position:relative;}
+.screen{position:absolute;inset:0;overflow-y:auto;display:none;-webkit-overflow-scrolling:touch;}
+.screen.active{display:block;}
+.screen::-webkit-scrollbar{width:4px;}
+.screen::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ── TABBAR ── */
+#tabbar{
+  flex-shrink:0;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  display:flex;
+  padding-bottom:env(safe-area-inset-bottom,0);
+}
+.tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;padding:8px 4px 6px;
+  background:none;border:none;color:var(--text3);
+  font-size:.62rem;font-weight:500;letter-spacing:.02em;
+  cursor:pointer;transition:color .15s;position:relative;
+  -webkit-tap-highlight-color:transparent;
+}
+.tab-ico{font-size:1.3rem;line-height:1;}
+.tab::after{
+  content:'';position:absolute;top:0;left:20%;right:20%;
+  height:2px;background:var(--accent);
+  transform:scaleX(0);transition:transform .2s;
+  border-radius:0 0 2px 2px;
+}
+.tab.active{color:var(--accent);}
+.tab.active::after{transform:scaleX(1);}
+.tab-badge{
+  position:absolute;top:5px;right:calc(50% - 18px);
+  background:var(--red);color:#fff;
+  font-size:.5rem;min-width:14px;height:14px;
+  border-radius:7px;display:none;align-items:center;justify-content:center;padding:0 3px;
+}
+.tab-badge.show{display:flex;}
+
+/* ── SHARED ── */
+.pg{padding:20px;}
+.page-header{margin-bottom:20px;}
+.page-title{font-size:1.5rem;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:3px;}
+.page-sub{font-size:.82rem;color:var(--text3);}
+
+.section-title{
+  font-size:.7rem;font-weight:600;color:var(--text3);
+  letter-spacing:.08em;text-transform:uppercase;
+  margin:24px 0 10px;
+}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin-bottom:8px;
+  overflow:hidden;
+  transition:border-color .15s;
+}
+.card:hover{border-color:var(--border2);}
+.card.open{border-color:var(--accent);}
+.card-head{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.c-ico{
+  width:42px;height:42px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;
+}
+.ico-red{background:rgba(239,68,68,.12);}
+.ico-orange{background:rgba(249,115,22,.12);}
+.ico-yellow{background:rgba(245,158,11,.12);}
+.ico-blue{background:rgba(59,130,246,.12);}
+.ico-purple{background:rgba(168,85,247,.12);}
+.ico-green{background:rgba(34,197,94,.12);}
+.c-body{flex:1;min-width:0;}
+.c-label{font-size:.68rem;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}
+.c-title{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:4px;}
+.c-desc{font-size:.8rem;color:var(--text2);line-height:1.5;}
+.c-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.badge{
+  font-size:.65rem;font-weight:600;padding:2px 8px;
+  border-radius:4px;letter-spacing:.04em;
+}
+.badge-red{background:rgba(239,68,68,.15);color:#f87171;}
+.badge-orange{background:rgba(249,115,22,.15);color:#fb923c;}
+.badge-yellow{background:rgba(245,158,11,.15);color:#fbbf24;}
+.c-chevron{color:var(--text3);font-size:.8rem;transition:transform .2s;flex-shrink:0;margin-top:2px;}
+.card.open .c-chevron{transform:rotate(180deg);color:var(--accent);}
+
+/* ── DETAIL ── */
+.detail{
+  display:none;
+  border-top:1px solid var(--border);
+  padding:16px;
+  background:var(--bg);
+}
+.detail.open{display:block;animation:fadeUp .2s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:580px){.d-grid{grid-template-columns:1fr;}}
+.d-section-title{
+  font-size:.7rem;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.07em;
+  margin-bottom:10px;padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+}
+.step-list{display:flex;flex-direction:column;gap:0;}
+.step{
+  display:flex;gap:12px;padding:7px 0;
+  border-bottom:1px solid var(--border);
+  font-size:.8rem;color:var(--text2);line-height:1.5;
+}
+.step:last-child{border:none;}
+.sn{
+  font-size:.7rem;font-weight:700;color:var(--accent);
+  min-width:20px;flex-shrink:0;padding-top:1px;
+}
+.flags{margin-top:12px;}
+.flag-title{font-size:.68rem;font-weight:600;color:var(--red);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;}
+.flag{
+  display:flex;gap:8px;padding:5px 0;
+  border-bottom:1px solid rgba(239,68,68,.08);
+  font-size:.78rem;color:#f87171;line-height:1.4;
+}
+.flag:last-child{border:none;}
+.flag-dot{color:var(--red);flex-shrink:0;font-size:.9rem;}
+.tips{display:flex;flex-direction:column;gap:6px;}
+.tip{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:9px 12px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);
+  font-size:.8rem;color:var(--text2);line-height:1.5;
+  transition:border-color .15s;
+}
+.tip:hover{border-color:var(--border2);}
+.tip-ico{color:var(--green);flex-shrink:0;font-size:.9rem;padding-top:1px;}
+.info-banner{
+  margin-top:10px;padding:10px 12px;border-radius:8px;
+  background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);
+  font-size:.78rem;color:#d97706;line-height:1.55;
+}
+.info-banner strong{color:var(--yellow);}
+
+/* ── HOME ── */
+.home-hero{
+  padding:28px 20px 20px;
+}
+.home-greeting{font-size:.8rem;font-weight:500;color:var(--text3);margin-bottom:6px;}
+.home-title{font-size:1.8rem;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1.2;margin-bottom:6px;}
+.home-title span{color:var(--accent);}
+.home-desc{font-size:.85rem;color:var(--text2);line-height:1.6;max-width:500px;}
+.home-alert-bar{
+  margin:0 20px 20px;
+  padding:12px 16px;border-radius:10px;
+  background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);
+  display:flex;align-items:center;gap:10px;
+}
+.home-alert-ico{font-size:1.1rem;}
+.home-alert-text{font-size:.8rem;color:#f87171;line-height:1.4;flex:1;}
+.home-alert-text strong{color:var(--red);}
+.nav-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  padding:0 20px 24px;
+}
+.nav-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:18px 16px;
+  cursor:pointer;transition:all .15s;
+  display:flex;flex-direction:column;gap:10px;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-card:hover,.nav-card:active{border-color:var(--accent);background:var(--surface2);}
+.nav-card-ico{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+}
+.nav-card-title{font-size:1rem;font-weight:600;color:var(--text);}
+.nav-card-desc{font-size:.75rem;color:var(--text3);line-height:1.4;}
+.nav-card-arrow{font-size:.75rem;color:var(--text3);margin-top:auto;}
+
+/* ── QUIZ ── */
+/* ── LEVEL CARDS (quiz) ── */
+.lvl-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.lvl-card{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--border);
+  cursor:pointer;transition:all .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.lvl-card:hover{border-color:var(--border2);}
+.lvl-card.active{border-color:var(--accent);background:rgba(59,130,246,.07);}
+.lvl-card.locked{opacity:.45;cursor:not-allowed;}
+.lvl-card-icon{font-size:1.5rem;flex-shrink:0;}
+.lvl-card-body{flex:1;}
+.lvl-card-title{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:2px;}
+.lvl-card.active .lvl-card-title{color:var(--accent);}
+.lvl-card-sub{font-size:.75rem;color:var(--text3);}
+.lvl-card-check{font-size:.85rem;color:var(--accent);font-weight:700;}
+.lvl-card.active .lvl-card-check::before{content:'✓';}
+
+/* ── SIM CARDS ── */
+.sim-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px;}
+.sim-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:14px 12px;
+  cursor:pointer;transition:all .15s;
+  display:flex;flex-direction:column;gap:4px;
+  -webkit-tap-highlight-color:transparent;
+}
+.sim-card:hover{border-color:var(--border2);}
+.sim-card.active{border-color:var(--accent);background:rgba(59,130,246,.07);}
+.sim-card-ico{font-size:1.6rem;margin-bottom:2px;}
+.sim-card-title{font-size:.88rem;font-weight:600;color:var(--text);}
+.sim-card.active .sim-card-title{color:var(--accent);}
+.sim-card-desc{font-size:.72rem;color:var(--text3);line-height:1.4;}
+
+/* ── LEVEL TABS / SIM TABS (kept for compat, hidden) ── */
+.level-tabs,.sim-tabs{display:none;}
+.quiz-progress{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+  padding:10px 14px;border-radius:10px;
+  background:var(--surface);border:1px solid var(--border);
+  font-size:.78rem;color:var(--text2);
+}
+.quiz-progress .val{color:var(--text);font-weight:600;}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.q-label{font-size:.68rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
+.q-text{font-size:1rem;font-weight:500;color:var(--text);line-height:1.5;margin-bottom:16px;}
+.q-opts{display:flex;flex-direction:column;gap:8px;}
+.qopt{
+  background:var(--bg);border:1px solid var(--border);border-radius:8px;
+  color:var(--text2);font-size:.85rem;
+  padding:11px 14px;cursor:pointer;text-align:left;
+  transition:.15s;-webkit-tap-highlight-color:transparent;
+}
+.qopt:hover:not(:disabled){border-color:var(--border2);color:var(--text);background:var(--surface2);}
+.qopt.correct{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.08);}
+.qopt.wrong{border-color:var(--red);color:var(--red);background:rgba(239,68,68,.08);}
+.qopt:disabled{cursor:default;}
+.q-feedback{
+  margin-top:12px;padding:12px 14px;border-radius:8px;
+  font-size:.82rem;line-height:1.6;display:none;
+}
+.q-feedback.show{display:block;}
+.q-feedback.good{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#4ade80;}
+.q-feedback.bad{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#f87171;}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 20px;border-radius:8px;font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:.15s;border:none;
+}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent2);}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-outline:hover{border-color:var(--border2);color:var(--text);}
+.btn-wrap{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;}
+.q-final{text-align:center;padding:32px 16px;}
+.q-final-score{font-size:4rem;font-weight:700;color:var(--accent);margin-bottom:8px;}
+.q-final-label{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:6px;}
+.q-final-msg{font-size:.85rem;color:var(--text2);line-height:1.6;margin-bottom:20px;white-space:pre-line;}
+.q-final-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+
+/* ── SIMULATORI ── */
+.sim-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.sim-tab{
+  padding:6px 14px;border-radius:6px;
+  font-size:.78rem;font-weight:500;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text3);cursor:pointer;transition:.15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.sim-tab:hover{border-color:var(--border2);color:var(--text);}
+.sim-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.sim-scene{display:none;}
+.sim-scene.active{display:block;animation:fadeUp .2s ease;}
+.sim-intro{
+  padding:12px 14px;border-radius:8px;margin-bottom:14px;
+  background:var(--surface);border-left:3px solid var(--accent);
+  font-size:.82rem;color:var(--text2);line-height:1.6;
+}
+/* browser mock */
+.browser{max-width:480px;border-radius:10px;overflow:hidden;border:1px solid var(--border);margin-bottom:12px;}
+.b-bar{background:#1e2030;padding:8px 12px;display:flex;align-items:center;gap:6px;}
+.bdot{width:10px;height:10px;border-radius:50%;}
+.bd-r{background:#ff5f57;}.bd-y{background:#ffbd2e;}.bd-g{background:#28c940;}
+.b-url{
+  flex:1;background:#0f1117;border:1px solid #2a2d3e;
+  padding:4px 10px;border-radius:5px;
+  font-size:.68rem;color:#f87171;font-family:monospace;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.b-body{padding:18px;background:#13142a;font-family:'Inter',sans-serif;}
+.b-logo{font-size:1.4rem;margin-bottom:5px;}
+.b-h{font-size:1rem;font-weight:700;color:#fff;margin-bottom:5px;}
+.b-p{font-size:.78rem;color:#888;margin-bottom:12px;line-height:1.5;}
+.b-inp{width:100%;background:#1e1f3a;border:1px solid #3a3d55;color:#fff;padding:8px 10px;margin-bottom:6px;font-size:.8rem;border-radius:6px;font-family:'Inter',sans-serif;}
+.b-btn{width:100%;background:#dc2626;color:#fff;border:none;padding:9px;font-size:.85rem;font-weight:600;border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif;}
+/* SMS mock */
+.sms-wrap{max-width:320px;background:#0f1117;border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:12px;}
+.sms-head{background:var(--surface);padding:10px 14px;font-size:.75rem;font-weight:600;color:var(--text2);text-align:center;}
+.sms-body{padding:14px;}
+.sms-ts{font-size:.65rem;color:var(--text3);margin-bottom:6px;}
+.sms-bubble{background:var(--surface2);border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:.8rem;color:var(--text2);line-height:1.55;max-width:90%;}
+.sms-link{color:#60a5fa;text-decoration:underline;word-break:break-all;}
+/* call mock */
+.call-wrap{max-width:280px;background:var(--surface);border-radius:20px;padding:24px;text-align:center;border:1px solid var(--border);margin-bottom:12px;}
+.call-ico{font-size:3rem;margin-bottom:8px;}
+.call-name{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:3px;}
+.call-sub{font-size:.72rem;color:var(--text3);margin-bottom:12px;}
+.call-num{font-size:.75rem;color:var(--text2);margin-bottom:12px;padding:6px 10px;background:var(--bg);border-radius:8px;}
+.call-script{font-size:.78rem;color:var(--text2);line-height:1.6;margin-bottom:16px;text-align:left;}
+.call-btns{display:flex;gap:14px;justify-content:center;}
+.call-btn{width:56px;height:56px;border-radius:50%;border:none;font-size:1.4rem;cursor:pointer;transition:.15s;}
+.call-end{background:#dc2626;}.call-end:hover{background:#b91c1c;}
+.call-ans{background:#16a34a;}.call-ans:hover{background:#15803d;}
+/* reveal */
+.sim-reveal{display:none;padding:14px 16px;border-radius:10px;margin-top:10px;font-size:.82rem;line-height:1.65;}
+.sim-reveal.show{display:block;}
+.sim-reveal.good{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#4ade80;}
+.sim-reveal.bad{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#f87171;}
+.sim-reveal-title{font-weight:700;margin-bottom:6px;font-size:.85rem;}
+.sim-choices{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.sim-btn-g{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#4ade80;border-radius:8px;padding:9px 14px;font-size:.8rem;font-weight:500;cursor:pointer;flex:1;min-width:130px;transition:.15s;}
+.sim-btn-g:hover{background:rgba(34,197,94,.18);}
+.sim-btn-r{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171;border-radius:8px;padding:9px 14px;font-size:.8rem;font-weight:500;cursor:pointer;flex:1;min-width:130px;transition:.15s;}
+.sim-btn-r:hover{background:rgba(239,68,68,.18);}
+/* password checker */
+.pw-inp-wrap{display:flex;gap:8px;margin-bottom:10px;}
+.pw-inp{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:.9rem;padding:10px 14px;border-radius:8px;outline:none;transition:border-color .15s;}
+.pw-inp:focus{border-color:var(--accent);}
+.pw-result{display:none;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.pw-result.show{display:block;}
+.pw-score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.pw-score-lbl{font-size:.82rem;font-weight:600;}
+.pw-crack{font-size:.75rem;color:var(--text3);}
+.pw-bar{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:12px;}
+.pw-fill{height:100%;border-radius:3px;transition:width .4s ease;}
+.pw-checks{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+@media(max-width:400px){.pw-checks{grid-template-columns:1fr;}}
+.pw-check{font-size:.75rem;padding:2px 0;display:flex;align-items:center;gap:5px;}
+.pw-check.ok{color:var(--green);}.pw-check.no{color:var(--text3);}
+
+/* ── ALERTS ── */
+.filter-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.flt{
+  padding:5px 12px;border-radius:6px;font-size:.75rem;font-weight:500;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text3);cursor:pointer;transition:.15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.flt:hover{border-color:var(--border2);color:var(--text);}
+.flt.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.alert-list{display:flex;flex-direction:column;gap:8px;}
+.alert-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
+  animation:fadeUp .25s ease;
+}
+.alert-card.new{border-left:3px solid var(--red);}
+.a-ico{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
+.a-body{flex:1;min-width:0;}
+.a-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
+.a-title{font-size:.88rem;font-weight:600;color:var(--text);}
+.a-time{font-size:.68rem;color:var(--text3);white-space:nowrap;}
+.a-text{font-size:.78rem;color:var(--text2);line-height:1.5;margin-bottom:6px;}
+.a-tags{display:flex;gap:4px;flex-wrap:wrap;}
+.a-tag{
+  font-size:.63rem;font-weight:600;padding:2px 7px;
+  border-radius:4px;letter-spacing:.03em;
+}
+.at-red{background:rgba(239,68,68,.12);color:#f87171;}
+.at-yellow{background:rgba(245,158,11,.12);color:#fbbf24;}
+.at-blue{background:rgba(59,130,246,.12);color:#60a5fa;}
+.at-green{background:rgba(34,197,94,.12);color:#4ade80;}
+
+/* ── PROFILE ── */
+.pf-hero{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:18px;margin-bottom:10px;
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+}
+.pf-avatar{
+  width:54px;height:54px;border-radius:12px;
+  background:var(--accent);display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;flex-shrink:0;
+}
+.pf-info{flex:1;}
+.pf-name{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.pf-rank{font-size:.75rem;color:var(--text3);margin-bottom:8px;}
+.pf-bar-wrap{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.pf-bar{height:100%;background:var(--accent);transition:width .5s;border-radius:3px;}
+.pf-xp-lbl{font-size:.68rem;color:var(--text3);margin-top:3px;}
+.pf-xp-big{font-size:1.5rem;font-weight:700;color:var(--accent);margin-left:auto;}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+@media(max-width:480px){.pf-grid{grid-template-columns:1fr;}}
+.pf-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.pf-card-title{font-size:.7rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);}
+.stat-row:last-child{border:none;}
+.sk{font-size:.8rem;color:var(--text2);}
+.sv{font-size:.88rem;font-weight:700;color:var(--text);}
+.badges-wrap{display:flex;flex-wrap:wrap;gap:5px;}
+.badge-item{
+  padding:4px 9px;border-radius:6px;font-size:.72rem;font-weight:500;
+  border:1px solid var(--border);color:var(--text3);
+}
+.badge-item.earned{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:#60a5fa;}
+.badge-item.locked{opacity:.3;}
+.act-log{display:flex;flex-direction:column;}
+.act-row{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.78rem;}
+.act-row:last-child{border:none;}
+.act-t{color:var(--text3);flex-shrink:0;min-width:38px;}
+.act-msg{color:var(--text2);}
+.danger-zone{
+  background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);
+  border-radius:10px;padding:14px 16px;margin-top:4px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.dz-text{font-size:.8rem;color:var(--text2);}
+.dz-text strong{color:var(--text);display:block;margin-bottom:2px;font-size:.85rem;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="tb-brand">
+    <div class="tb-logo">CG</div>
+    <span class="tb-name">CyberGuard <span style="color:var(--text3);font-weight:400;font-size:.85rem">5T3C4V78</span></span>
+  </div>
+  <div class="tb-right">
+    <div class="tb-pill pill-green"><div class="dot"></div>Sicuro</div>
+    <div class="tb-pill pill-red"><div class="dot"></div><span id="tb-alert-n">3 alert</span></div>
+    <span id="tb-clock"></span>
+  </div>
+</div>
+
+<div id="content">
+
+  <!-- ═══ HOME ═══ -->
+  <div class="screen active" id="sc-home">
+    <div class="home-hero">
+      <div class="home-greeting">Benvenuto in CyberGuard Italia</div>
+      <div class="home-title">Proteggerti dalle<br><span>truffe digitali</span></div>
+      <div class="home-desc" style="margin-top:8px">Impara a riconoscere le tecniche più usate dai truffatori, testa le tue difese e rimani aggiornato sulle minacce attive.</div>
+    </div>
+
+    <div class="home-alert-bar">
+      <div class="home-alert-ico">⚠️</div>
+      <div class="home-alert-text"><strong>3 nuovi alert attivi</strong> — Campagna phishing BancaIntesa in corso. Vai su Alert per i dettagli.</div>
+    </div>
+
+    <div style="padding:0 20px"><div class="section-title">Cosa vuoi fare?</div></div>
+    <div class="nav-grid">
+      <div class="nav-card" onclick="goTo('database')">
+        <div class="nav-card-ico ico-blue">🗄️</div>
+        <div class="nav-card-title">Database Truffe</div>
+        <div class="nav-card-desc">12 tipologie spiegate con segnali di allarme e consigli pratici</div>
+        <div class="nav-card-arrow">Esplora →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('quiz')">
+        <div class="nav-card-ico ico-purple">🧠</div>
+        <div class="nav-card-title">Quiz</div>
+        <div class="nav-card-desc">3 livelli di difficoltà per testare quanto sei preparato</div>
+        <div class="nav-card-arrow">Inizia →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('simulatori')">
+        <div class="nav-card-ico ico-orange">⚡</div>
+        <div class="nav-card-title">Simulatori</div>
+        <div class="nav-card-desc">Riconosci phishing, smishing e vishing in scenari reali</div>
+        <div class="nav-card-arrow">Prova →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('alerts')">
+        <div class="nav-card-ico ico-red">📡</div>
+        <div class="nav-card-title">Alert Live</div>
+        <div class="nav-card-desc">Minacce attive in Italia aggiornate in tempo reale</div>
+        <div class="nav-card-arrow">Vedi →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DATABASE ═══ -->
+  <div class="screen" id="sc-database">
+    <div class="pg">
+      <div class="page-header">
+        <div class="page-title">Database Truffe</div>
+        <div class="page-sub">Tocca una voce per vedere come funziona e come difenderti</div>
+      </div>
+
+      <div class="section-title">Phishing &amp; Varianti</div>
+
+      <div class="card" id="card-ph1" onclick="toggleCard('ph1')">
+        <div class="card-head">
+          <div class="c-ico ico-red">🎣</div>
+          <div class="c-body">
+            <div class="c-label">Email Fraud</div>
+            <div class="c-title">Phishing Classico</div>
+            <div class="c-desc">Email false che imitano banche e servizi noti per rubare credenziali e dati.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-ph1">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Email identica a quella di banche, PayPal, INPS o Amazon</span></div>
+                <div class="step"><span class="sn">2</span><span>Il link porta a un sito clone quasi perfetto dell'originale</span></div>
+                <div class="step"><span class="sn">3</span><span>Inserisci le credenziali che vanno direttamente ai criminali</span></div>
+                <div class="step"><span class="sn">4</span><span>I dati vengono rivenduti sul dark web o usati immediatamente</span></div>
+              </div>
+              <div class="flags">
+                <div class="flag-title">Segnali di allarme</div>
+                <div class="flag"><span class="flag-dot">●</span>URL sospetto: paypa<strong>1</strong>.com invece di paypal.com</div>
+                <div class="flag"><span class="flag-dot">●</span>Urgenza artificiale: "conto sospeso entro 24h"</div>
+                <div class="flag"><span class="flag-dot">●</span>Richiede dati che la banca non chiede mai via email</div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Non cliccare mai link nelle email. Digita tu l'URL nella barra del browser.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Controlla sempre l'indirizzo email completo del mittente, non solo il nome.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Attiva il 2FA su tutti gli account: anche se rubano la password non basta.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Usa un password manager con password uniche per ogni servizio.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Attiva gli alert SMS per ogni movimento bancario.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-ph2" onclick="toggleCard('ph2')">
+        <div class="card-head">
+          <div class="c-ico ico-red">🎯</div>
+          <div class="c-body">
+            <div class="c-label">Targeted Attack</div>
+            <div class="c-title">Spear Phishing</div>
+            <div class="c-desc">Attacchi personalizzati con informazioni prese dai tuoi profili social.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-ph2">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Raccolgono info da LinkedIn, Facebook, sito aziendale</span></div>
+                <div class="step"><span class="sn">2</span><span>Email personalizzata con il tuo nome, colleghi reali, progetti veri</span></div>
+                <div class="step"><span class="sn">3</span><span>Impersonano il CEO o l'IT con un dominio quasi identico al reale</span></div>
+                <div class="step"><span class="sn">4</span><span>Chiedono bonifici urgenti o accesso a sistemi aziendali</span></div>
+              </div>
+              <div class="flags">
+                <div class="flag-title">Segnali di allarme</div>
+                <div class="flag"><span class="flag-dot">●</span>Email del "CEO" per bonifico urgente fuori dai canali normali</div>
+                <div class="flag"><span class="flag-dot">●</span>Tono urgente + "non dirlo all'ufficio"</div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Limita le informazioni pubbliche sui social (ruolo, colleghi, progetti).</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Per richieste di denaro, verifica sempre per telefono al numero ufficiale.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>In azienda: procedura di doppio controllo per i bonifici sopra soglia.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-ph3" onclick="toggleCard('ph3')">
+        <div class="card-head">
+          <div class="c-ico ico-orange">📱</div>
+          <div class="c-body">
+            <div class="c-label">SMS Fraud</div>
+            <div class="c-title">Smishing</div>
+            <div class="c-desc">Phishing via SMS. Il numero mittente può essere falsificato. +300% dal 2022.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-ph3">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>SMS da "BancaXY" o "DHL" con link urgente</span></div>
+                <div class="step"><span class="sn">2</span><span>Il numero mittente è falsificato, sembra legittimo</span></div>
+                <div class="step"><span class="sn">3</span><span>Può inserirsi nella vera conversazione SMS con la banca</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Non cliccare mai link in SMS non richiesti, anche se il mittente sembra noto.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Controlla le spedizioni dal sito ufficiale del corriere, mai da link SMS.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Attiva il blocco SMS spam con il tuo operatore e il PIN anti-SIM swap.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-ph4" onclick="toggleCard('ph4')">
+        <div class="card-head">
+          <div class="c-ico ico-orange">📞</div>
+          <div class="c-body">
+            <div class="c-label">Voice Fraud</div>
+            <div class="c-title">Vishing</div>
+            <div class="c-desc">Truffe telefoniche. Con AI deepfake vocale possono imitare la voce di chiunque.</div>
+            <div class="c-foot"><span class="badge badge-orange">Rischio Alto</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-ph4">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Chiamata da "Supporto Microsoft" o dalla tua banca</span></div>
+                <div class="step"><span class="sn">2</span><span>Il numero visualizzato è falsificato (caller ID spoofing)</span></div>
+                <div class="step"><span class="sn">3</span><span>Ti convincono a installare AnyDesk o TeamViewer</span></div>
+                <div class="step"><span class="sn">4</span><span>Con l'accesso remoto svuotano il conto in tempo reale</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Non installare mai software di controllo remoto su richiesta di chiamate in entrata.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Riattacca e richiama tu il numero ufficiale sul retro della carta.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Crea una parola d'ordine familiare per le emergenze (efficace anche contro i deepfake).</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Social Engineering</div>
+
+      <div class="card" id="card-se1" onclick="toggleCard('se1')">
+        <div class="card-head">
+          <div class="c-ico ico-purple">💘</div>
+          <div class="c-body">
+            <div class="c-label">Emotional Fraud</div>
+            <div class="c-title">Romance Scam</div>
+            <div class="c-desc">Profili falsi costruiscono relazioni online per settimane, poi chiedono soldi per "emergenze".</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-se1">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Profilo attraente ti contatta su app di incontri o social</span></div>
+                <div class="step"><span class="sn">2</span><span>Spesso: militari USA all'estero, medici o ingegneri in missione</span></div>
+                <div class="step"><span class="sn">3</span><span>Relazione intensa per settimane (love bombing)</span></div>
+                <div class="step"><span class="sn">4</span><span>"Crisi": incidente o malattia → servono soldi urgenti</span></div>
+              </div>
+              <div class="flags">
+                <div class="flag-title">Segnali di allarme</div>
+                <div class="flag"><span class="flag-dot">●</span>Innamoratissimi dopo pochissimi giorni</div>
+                <div class="flag"><span class="flag-dot">●</span>Webcam sempre "rotta", mai videocall</div>
+                <div class="flag"><span class="flag-dot">●</span>Sempre all'estero, impossibilitati a incontrarsi</div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Cerca le foto profilo su Google Immagini (reverse image search).</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Non mandare mai soldi a persone conosciute solo online.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Chiedi una videocall con un oggetto casuale scelto da te per smascherare i deepfake.</span></div>
+              </div>
+              <div class="info-banner" style="margin-top:10px"><strong>Dato reale:</strong> 45.000 vittime in Italia nel 2024. Perdita media €8.500 a persona.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-se2" onclick="toggleCard('se2')">
+        <div class="card-head">
+          <div class="c-ico ico-yellow">👴</div>
+          <div class="c-body">
+            <div class="c-label">Family Fraud</div>
+            <div class="c-title">Truffa del Nipote</div>
+            <div class="c-desc">Finto figlio o nipote in difficoltà chiede denaro urgente. L'AI vocale può imitarne la voce reale.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-se2">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>"Nonna? Sono io!" — la vittima conferma il nome senza saperlo</span></div>
+                <div class="step"><span class="sn">2</span><span>Incidente o arresto → servono soldi subito in contanti</span></div>
+                <div class="step"><span class="sn">3</span><span>Un "avvocato" o "carabiniere" arriva a ritirare i soldi a casa</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Di' "Chi sei?" invece di "Sei Marco?" — non confermare il nome tu.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Riattacca e chiama direttamente il nipote/figlio sul suo numero in rubrica.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Stabilisci una parola segreta di famiglia per le emergenze.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Non aprire mai la porta a chi viene a ritirare denaro — chiama il 112.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-fi1" onclick="toggleCard('fi1')">
+        <div class="card-head">
+          <div class="c-ico ico-yellow">₿</div>
+          <div class="c-body">
+            <div class="c-label">Investment Fraud</div>
+            <div class="c-title">Crypto &amp; Ponzi Scam</div>
+            <div class="c-desc">Piattaforme false con rendimenti "garantiti". Usano deepfake di personaggi noti per la pubblicità.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-fi1">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Video con deepfake di personaggi noti che promuovono la piattaforma</span></div>
+                <div class="step"><span class="sn">2</span><span>La dashboard mostra guadagni falsi per farti investire di più</span></div>
+                <div class="step"><span class="sn">3</span><span>Al prelievo compaiono "commissioni" da pagare prima — poi spariscono con tutto</span></div>
+              </div>
+              <div class="flags">
+                <div class="flag-title">Segnali di allarme</div>
+                <div class="flag"><span class="flag-dot">●</span>Rendimenti garantiti del 30%+ al mese — fisicamente impossibile</div>
+                <div class="flag"><span class="flag-dot">●</span>Piattaforma non registrata su Consob</div>
+                <div class="flag"><span class="flag-dot">●</span>Difficoltà a prelevare i fondi</div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Verifica sempre su consob.it prima di qualsiasi investimento.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Nessun investimento legittimo garantisce il 30% mensile. Mai, senza eccezioni.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Se non riesci a prelevare, segnala subito alla Polizia Postale.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Malware &amp; Minacce Digitali</div>
+
+      <div class="card" id="card-mw1" onclick="toggleCard('mw1')">
+        <div class="card-head">
+          <div class="c-ico ico-red">🔒</div>
+          <div class="c-body">
+            <div class="c-label">Extortion</div>
+            <div class="c-title">Ransomware</div>
+            <div class="c-desc">Virus che cifra tutti i file e chiede un riscatto in Bitcoin. Colpisce privati e aziende.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-mw1">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Entra tramite allegato email malevolo o link di phishing</span></div>
+                <div class="step"><span class="sn">2</span><span>Si diffonde in silenzio per settimane raccogliendo dati</span></div>
+                <div class="step"><span class="sn">3</span><span>Cifra tutti i file con AES-256: documenti, foto, database</span></div>
+                <div class="step"><span class="sn">4</span><span>Richiesta di riscatto: paga o i dati vengono pubblicati online</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Backup 3-2-1: 3 copie, su 2 supporti diversi, 1 completamente offline.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Non aprire mai allegati di email non attese, anche da mittenti noti.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Aggiorna sempre il sistema operativo e le applicazioni.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Se colpito, non pagare. Cerca decryptori gratuiti su nomoreransom.org.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-mw2" onclick="toggleCard('mw2')">
+        <div class="card-head">
+          <div class="c-ico ico-blue">🤖</div>
+          <div class="c-body">
+            <div class="c-label">AI Fraud</div>
+            <div class="c-title">Deepfake Scam</div>
+            <div class="c-desc">Video e audio generati dall'IA imitano volti e voci reali per truffe e manipolazione.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-mw2">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Voce AI clonata da pochi secondi di audio (es. vocali WhatsApp)</span></div>
+                <div class="step"><span class="sn">2</span><span>Videocall deepfake in tempo reale con il "CEO" che ordina bonifici</span></div>
+                <div class="step"><span class="sn">3</span><span>Video con personaggi famosi falsi che promuovono investimenti sui social</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>In videocall sospette chiedi un gesto insolito specifico (es. "tieni un cucchiaio").</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Stabilisci una parola d'ordine segreta in famiglia per richieste urgenti di denaro.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Riduci la quantità di foto e video pubblici del tuo viso sui social.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-mw3" onclick="toggleCard('mw3')">
+        <div class="card-head">
+          <div class="c-ico ico-red">🆘</div>
+          <div class="c-body">
+            <div class="c-label">Extortion</div>
+            <div class="c-title">Sextortion</div>
+            <div class="c-desc">Ricatto con immagini intime reali o generate dall'IA. In forte aumento tra i giovani.</div>
+            <div class="c-foot"><span class="badge badge-red">Rischio Critico</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-mw3">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Un profilo online convince a inviare foto o video intimi</span></div>
+                <div class="step"><span class="sn">2</span><span>Oppure: email "ho hackerato la tua webcam, ho tutto registrato"</span></div>
+                <div class="step"><span class="sn">3</span><span>Minaccia di condividere il materiale con i tuoi contatti se non paghi in Bitcoin</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Non pagare mai: il pagamento non ferma le richieste, le aumenta.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Segnala su commissariatops.it e blocca il ricattatore ovunque.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>L'email "ho la webcam" è quasi sempre un bluff. Copri fisicamente la webcam.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-mw4" onclick="toggleCard('mw4')">
+        <div class="card-head">
+          <div class="c-ico ico-blue">📡</div>
+          <div class="c-body">
+            <div class="c-label">Network Fraud</div>
+            <div class="c-title">WiFi Evil Twin</div>
+            <div class="c-desc">Reti WiFi false nei luoghi pubblici che intercettano tutto il traffico internet.</div>
+            <div class="c-foot"><span class="badge badge-orange">Rischio Alto</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-mw4">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come funziona</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Access point falso con lo stesso nome del WiFi dell'aeroporto o hotel</span></div>
+                <div class="step"><span class="sn">2</span><span>Il dispositivo si connette automaticamente al segnale più forte (quello falso)</span></div>
+                <div class="step"><span class="sn">3</span><span>Tutto il traffico non cifrato viene intercettato in tempo reale</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Come difenderti</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Usa sempre una VPN su reti WiFi pubbliche.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Disabilita la connessione automatica alle reti WiFi note.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Per operazioni bancarie usa solo la connessione dati mobile (4G/5G).</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ QUIZ ═══ -->
+  <div class="screen" id="sc-quiz">
+    <div class="pg">
+      <div class="page-header">
+        <div class="page-title">Quiz</div>
+        <div class="page-sub">Quanto sei preparato contro le truffe digitali?</div>
+      </div>
+      <div class="lvl-cards">
+        <div class="lvl-card active" id="lb1" onclick="setLevel(1)">
+          <div class="lvl-card-icon">🟢</div>
+          <div class="lvl-card-body">
+            <div class="lvl-card-title">Livello 1</div>
+            <div class="lvl-card-sub">Base · 5 domande · +10 XP cad.</div>
+          </div>
+          <div class="lvl-card-check" id="lc1-check"></div>
+        </div>
+        <div class="lvl-card" id="lb2" onclick="setLevel(2)">
+          <div class="lvl-card-icon">🟡</div>
+          <div class="lvl-card-body">
+            <div class="lvl-card-title">Livello 2</div>
+            <div class="lvl-card-sub">Avanzato · 5 domande · +20 XP cad.</div>
+          </div>
+          <div class="lvl-card-check" id="lc2-check"></div>
+        </div>
+        <div class="lvl-card locked" id="lb3" onclick="setLevel(3)">
+          <div class="lvl-card-icon">🔴</div>
+          <div class="lvl-card-body">
+            <div class="lvl-card-title">Livello 3</div>
+            <div class="lvl-card-sub">Expert · 5 domande · +35 XP cad.</div>
+          </div>
+          <div class="lvl-card-check" id="lc3-check">🔒</div>
+        </div>
+      </div>
+      <div class="quiz-progress">
+        <span>Domanda <span class="val" id="q-cur">1</span> di <span id="q-tot">5</span></span>
+        <span>Punteggio <span class="val" id="q-sc">0</span></span>
+        <span>+<span class="val" id="q-xp">0</span> XP</span>
+      </div>
+      <div id="q-area">
+        <div class="q-card">
+          <div class="q-label" id="q-lbl"></div>
+          <div class="q-text" id="q-text"></div>
+          <div class="q-opts" id="q-opts"></div>
+          <div class="q-feedback" id="q-fb"></div>
+          <div class="btn-wrap">
+            <button class="btn btn-primary" id="q-next" onclick="nextQ()" style="display:none">Prossima domanda →</button>
+          </div>
+        </div>
+      </div>
+      <div id="q-final" style="display:none">
+        <div class="q-final">
+          <div class="q-final-score" id="qfs"></div>
+          <div class="q-final-label" id="qfl"></div>
+          <div class="q-final-msg" id="qfm"></div>
+          <div class="q-final-btns">
+            <button class="btn btn-outline" onclick="restartQ()">↺ Riprova</button>
+            <button class="btn btn-primary" onclick="nextLevel()">Livello successivo →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SIMULATORI ═══ -->
+  <div class="screen" id="sc-simulatori">
+    <div class="pg">
+      <div class="page-header">
+        <div class="page-title">Simulatori</div>
+        <div class="page-sub">Situazioni reali — riconosci la truffa prima che sia troppo tardi</div>
+      </div>
+      <div class="sim-cards">
+        <div class="sim-card active" id="sc-btn-phishing" onclick="showSim('phishing',this)">
+          <div class="sim-card-ico">🎣</div>
+          <div class="sim-card-title">Phishing</div>
+          <div class="sim-card-desc">Riconosci una pagina falsa</div>
+        </div>
+        <div class="sim-card" id="sc-btn-smishing" onclick="showSim('smishing',this)">
+          <div class="sim-card-ico">📱</div>
+          <div class="sim-card-title">Smishing</div>
+          <div class="sim-card-desc">SMS truffa o legittimo?</div>
+        </div>
+        <div class="sim-card" id="sc-btn-vishing" onclick="showSim('vishing',this)">
+          <div class="sim-card-ico">📞</div>
+          <div class="sim-card-title">Vishing</div>
+          <div class="sim-card-desc">Come reagisci alla chiamata?</div>
+        </div>
+        <div class="sim-card" id="sc-btn-password" onclick="showSim('password',this)">
+          <div class="sim-card-ico">🔑</div>
+          <div class="sim-card-title">Password</div>
+          <div class="sim-card-desc">Quanto è sicura la tua?</div>
+        </div>
+      </div>
+
+      <div class="sim-scene active" id="sim-phishing">
+        <div class="sim-intro">Stai guardando questa pagina web. È legittima o è phishing? Analizza attentamente l'URL e il contenuto, poi clicca il pulsante per scoprire la risposta.</div>
+        <div class="browser">
+          <div class="b-bar"><div class="bdot bd-r"></div><div class="bdot bd-y"></div><div class="bdot bd-g"></div><div class="b-url">https://paypa1-sicurezza-account.xyz/login</div></div>
+          <div class="b-body">
+            <div class="b-logo">🏦</div>
+            <div class="b-h">Verifica il tuo Account PayPal</div>
+            <div class="b-p">Attività sospetta rilevata sul tuo conto. Inserisci le credenziali per sbloccare immediatamente l'accesso. Il tuo account verrà sospeso entro 24 ore.</div>
+            <input class="b-inp" placeholder="Email o telefono" readonly>
+            <input class="b-inp" type="password" placeholder="Password" readonly>
+            <button class="b-btn" onclick="revealSim('ph')">ACCEDI ORA</button>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="revealSim('ph')">Analizza questa pagina</button>
+        <div class="sim-reveal" id="sr-ph">
+          <div class="sim-reveal-title">⛔ È phishing — 4 segnali trovati</div>
+          <div>① URL: <strong>paypa<u>1</u>.com</strong> — il numero "1" al posto della "L" (typosquatting)</div>
+          <div>② Dominio <strong>.xyz</strong> non ufficiale — PayPal usa solo paypal.com</div>
+          <div>③ <strong>Urgenza artificiale</strong>: "sospeso entro 24h" — tecnica di pressione psicologica</div>
+          <div>④ Le banche <strong>non chiedono mai</strong> credenziali tramite link</div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(34,197,94,.2)">✓ <strong>Cosa fare:</strong> Chiudi la pagina. Vai su paypal.com digitando tu l'URL.</div>
+        </div>
+      </div>
+
+      <div class="sim-scene" id="sim-smishing">
+        <div class="sim-intro">Hai ricevuto questo SMS. Come risponderesti?</div>
+        <div class="sms-wrap">
+          <div class="sms-head">Messaggi — BancaIntesa</div>
+          <div class="sms-body">
+            <div class="sms-ts">Oggi 14:23</div>
+            <div class="sms-bubble">⚠️ BANCA INTESA: Movimento sospetto di €847 rilevato. Blocca subito la transazione:<br><span class="sms-link">http://bancaintesa-sicuro.net/blocca</span></div>
+          </div>
+        </div>
+        <div class="sim-choices">
+          <button class="sim-btn-g" onclick="smishChoice('ok')">✓ Ignoro e apro l'app ufficiale</button>
+          <button class="sim-btn-r" onclick="smishChoice('bad')">✗ Clicco il link</button>
+        </div>
+        <div class="sim-reveal" id="sr-sms"></div>
+      </div>
+
+      <div class="sim-scene" id="sim-vishing">
+        <div class="sim-intro">Stai ricevendo questa chiamata. Il numero visualizzato corrisponde a quello ufficiale della tua banca. Come reagiresti?</div>
+        <div class="call-wrap">
+          <div class="call-ico">📞</div>
+          <div class="call-name">Banca Credito Italia</div>
+          <div class="call-sub">Supporto Antifrode 24h</div>
+          <div class="call-num">+39 02 1234 5678 ✓ (verificato)</div>
+          <div class="call-script">"Salve, sono l'operatore Rossi del supporto antifrode. Abbiamo rilevato un accesso non autorizzato al suo conto. Per bloccare la transazione ho bisogno delle sue credenziali e del codice OTP che riceverà ora via SMS."</div>
+          <div class="call-btns">
+            <button class="call-btn call-end" onclick="vishChoice('bad')" title="Fornisco i dati">❌</button>
+            <button class="call-btn call-ans" onclick="vishChoice('ok')" title="Riaggancio e richiamo">📴</button>
+          </div>
+          <div style="font-size:.7rem;color:var(--text3);margin-top:8px">❌ fornisco i dati &nbsp; 📴 riaggancio e richiamo io</div>
+        </div>
+        <div class="sim-reveal" id="sr-vis"></div>
+      </div>
+
+      <div class="sim-scene" id="sim-password">
+        <div class="sim-intro">Inserisci una password e scopri in tempo reale quanto è sicura e quanto tempo ci vorrebbe per craccarla.</div>
+        <div class="pw-inp-wrap">
+          <input class="pw-inp" id="pw-inp" type="text" placeholder="Scrivi una password da testare..." oninput="checkPw(this.value)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="pw-result" id="pw-res">
+          <div class="pw-score-row">
+            <span class="pw-score-lbl" id="pw-slbl"></span>
+            <span class="pw-crack" id="pw-crack"></span>
+          </div>
+          <div class="pw-bar"><div class="pw-fill" id="pw-fill"></div></div>
+          <div class="pw-checks" id="pw-checks"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ALERTS ═══ -->
+  <div class="screen" id="sc-alerts">
+    <div class="pg">
+      <div class="page-header">
+        <div class="page-title">Alert Live</div>
+        <div class="page-sub">Minacce attive in Italia — aggiornato in tempo reale</div>
+      </div>
+      <div class="filter-bar">
+        <button class="flt active" onclick="filterAlerts('all',this)">Tutti</button>
+        <button class="flt" onclick="filterAlerts('critico',this)">Critico</button>
+        <button class="flt" onclick="filterAlerts('phishing',this)">Phishing</button>
+        <button class="flt" onclick="filterAlerts('malware',this)">Malware</button>
+        <button class="flt" onclick="filterAlerts('crypto',this)">Crypto</button>
+        <button class="flt" onclick="filterAlerts('social',this)">Social</button>
+      </div>
+      <div class="alert-list" id="alert-list"></div>
+    </div>
+  </div>
+
+  <!-- ═══ PROFILO ═══ -->
+  <div class="screen" id="sc-profilo">
+    <div class="pg">
+      <div class="page-header">
+        <div class="page-title">Profilo</div>
+        <div class="page-sub">I tuoi progressi e le tue statistiche</div>
+      </div>
+      <div class="pf-hero">
+        <div class="pf-avatar">👤</div>
+        <div class="pf-info">
+          <div class="pf-name">Agente 001</div>
+          <div class="pf-rank" id="pf-rank">Livello 1 — Principiante</div>
+          <div class="pf-bar-wrap"><div class="pf-bar" id="pf-bar" style="width:0%"></div></div>
+          <div class="pf-xp-lbl" id="pf-xp-lbl">0 / 100 XP</div>
+        </div>
+        <div class="pf-xp-big" id="pf-xp-big">0 XP</div>
+      </div>
+      <div class="pf-grid">
+        <div class="pf-card">
+          <div class="pf-card-title">Statistiche</div>
+          <div class="stat-row"><span class="sk">Quiz completati</span><span class="sv" id="st-quiz">0</span></div>
+          <div class="stat-row"><span class="sk">Risposte corrette</span><span class="sv" id="st-cor">0</span></div>
+          <div class="stat-row"><span class="sk">Simulatori usati</span><span class="sv" id="st-sim">0</span></div>
+          <div class="stat-row"><span class="sk">Schede lette</span><span class="sv" id="st-read">0</span></div>
+          <div class="stat-row"><span class="sk">Accuratezza</span><span class="sv" id="st-acc">—</span></div>
+        </div>
+        <div class="pf-card">
+          <div class="pf-card-title">Badge</div>
+          <div class="badges-wrap" id="badges-wrap"></div>
+        </div>
+      </div>
+      <div class="pf-card" style="margin-bottom:10px">
+        <div class="pf-card-title">Attività recenti</div>
+        <div class="act-log" id="act-log">
+          <div class="act-row"><span class="act-t">—</span><span class="act-msg">Nessuna attività ancora.</span></div>
+        </div>
+      </div>
+      <div class="danger-zone">
+        <div class="dz-text"><strong>Reset profilo</strong>Cancella tutti i progressi e le statistiche.</div>
+        <button class="btn btn-outline" style="border-color:rgba(239,68,68,.3);color:var(--red);font-size:.78rem;flex-shrink:0" onclick="resetProfile()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<div id="tabbar">
+  <button class="tab active" id="tab-home" onclick="goTo('home')"><span class="tab-ico">🏠</span>Home</button>
+  <button class="tab" id="tab-database" onclick="goTo('database')"><span class="tab-ico">🗄️</span>Database</button>
+  <button class="tab" id="tab-quiz" onclick="goTo('quiz')"><span class="tab-ico">🧠</span>Quiz</button>
+  <button class="tab" id="tab-simulatori" onclick="goTo('simulatori')"><span class="tab-ico">⚡</span>Sim</button>
+  <button class="tab" id="tab-alerts" onclick="goTo('alerts')"><span class="tab-ico">📡</span>Alert<span class="tab-badge show" id="alert-badge">3</span></button>
+  <button class="tab" id="tab-profilo" onclick="goTo('profilo')"><span class="tab-ico">👤</span>Profilo</button>
+</div>
+
+<script>
+// ── PROFILE ──
+const LVS=[{n:'Principiante',xp:0},{n:'Intermedio',xp:100},{n:'Esperto',xp:280},{n:'Master',xp:500}];
+const BADGES=['🥇 Primo passo','📚 Studioso','🎯 Preciso','🛡️ Difensore','🔍 Investigatore','⭐ Esperto','🏆 Master'];
+let P=JSON.parse(localStorage.getItem('cg1')||'null')||{xp:0,level:1,quizDone:0,correct:0,simUsed:0,reads:0,badges:['🥇 Primo passo'],log:[]};
+function save(){localStorage.setItem('cg1',JSON.stringify(P));}
+function addXP(n,r){P.xp+=n;logA('+'+n+' XP — '+r);lvlUp();renderPf();save();}
+function logA(m){const t=new Date().toTimeString().slice(0,5);P.log.unshift({t,m});if(P.log.length>15)P.log.pop();}
+function lvlUp(){
+  for(let i=LVS.length-1;i>=1;i--){
+    if(P.xp>=LVS[i].xp&&P.level<i+1){
+      P.level=i+1;
+      const b=BADGES[i];if(!P.badges.includes(b))P.badges.push(b);
+      logA('🏆 Livello '+P.level+' — '+LVS[i].n+' sbloccato!');
+    }
+  }
+  if(P.level>=3){
+    const c=document.getElementById('lb3');
+    c.classList.remove('locked');
+    c.querySelector('.lvl-card-check').textContent='';
+    c.querySelector('.lvl-card-sub').textContent='Expert · 5 domande · +35 XP cad.';
+  }
+}
+function renderPf(){
+  const li=Math.min(P.level-1,LVS.length-1);
+  const ni=Math.min(P.level,LVS.length-1);
+  const c=LVS[li].xp,nx=LVS[ni].xp;
+  const pct=P.level>=LVS.length?100:Math.min(100,Math.round((P.xp-c)/(nx-c)*100));
+  document.getElementById('pf-rank').textContent='Livello '+P.level+' — '+LVS[li].n;
+  document.getElementById('pf-bar').style.width=pct+'%';
+  document.getElementById('pf-xp-lbl').textContent=P.xp+' / '+(P.level>=LVS.length?'∞':nx)+' XP';
+  document.getElementById('pf-xp-big').textContent=P.xp+' XP';
+  document.getElementById('st-quiz').textContent=P.quizDone;
+  document.getElementById('st-cor').textContent=P.correct;
+  document.getElementById('st-sim').textContent=P.simUsed;
+  document.getElementById('st-read').textContent=P.reads;
+  const tot=P.quizDone*5;
+  document.getElementById('st-acc').textContent=tot>0?Math.round(P.correct/tot*100)+'%':'—';
+  document.getElementById('badges-wrap').innerHTML=BADGES.map(b=>`<span class="badge-item ${P.badges.includes(b)?'earned':'locked'}">${b}</span>`).join('');
+  const al=document.getElementById('act-log');
+  al.innerHTML=P.log.length?P.log.slice(0,8).map(l=>`<div class="act-row"><span class="act-t">${l.t}</span><span class="act-msg">${l.m}</span></div>`).join(''):'<div class="act-row"><span class="act-t">—</span><span class="act-msg">Nessuna attività ancora.</span></div>';
+  if(P.level>=3){
+    const c=document.getElementById('lb3');
+    if(c){c.classList.remove('locked');const ck=c.querySelector('.lvl-card-check');if(ck)ck.textContent='';}
+  }
+}
+function resetProfile(){
+  if(!confirm('Sei sicuro di voler resettare il profilo?'))return;
+  P={xp:0,level:1,quizDone:0,correct:0,simUsed:0,reads:0,badges:['🥇 Primo passo'],log:[]};
+  save();renderPf();
+  const c=document.getElementById('lb3');
+  c.classList.add('locked');
+  const ck=c.querySelector('.lvl-card-check');if(ck)ck.textContent='🔒';
+}
+
+// ── CLOCK ──
+function tick(){document.getElementById('tb-clock').textContent=new Date().toTimeString().slice(0,8);}
+setInterval(tick,1000);tick();
+
+// ── NAV ──
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sc-'+id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if(id==='profilo')renderPf();
+  if(id==='alerts'){renderAlerts();clearBadge();}
+}
+
+// ── DATABASE CARDS ──
+function toggleCard(id){
+  const card=document.getElementById('card-'+id);
+  const det=document.getElementById('detail-'+id);
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('open'));
+  document.querySelectorAll('.detail').forEach(d=>d.classList.remove('open'));
+  if(!isOpen){
+    card.classList.add('open');det.classList.add('open');
+    setTimeout(()=>det.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
+    P.reads++;
+    if(!P.badges.includes('📚 Studioso')&&P.reads>=3){P.badges.push('📚 Studioso');logA('Badge: 📚 Studioso');}
+    addXP(5,'Scheda letta');
+  }
+}
+
+// ── QUIZ ──
+const QUIZ={
+  1:[
+    {q:'Ricevi un\'email dalla banca con un link per verificare il conto. Cosa fai?',o:['Clicco il link e inserisco i dati','Vado sul sito digitando io stesso l\'URL nel browser','Rispondo all\'email chiedendo conferma','Chiamo il numero indicato nell\'email'],c:1,xp:10,fb:'Corretto. Le banche non chiedono mai credenziali tramite link email. Digita sempre tu l\'URL ufficiale nel browser.'},
+    {q:'Qual è il segnale più chiaro di phishing nell\'URL "paypa1-account.xyz"?',o:['Il sito usa HTTPS','Il numero "1" al posto della "L" e il dominio .xyz non ufficiale','Il testo è in italiano','L\'email è arrivata di notte'],c:1,xp:10,fb:'Corretto. Il typosquatting (sostituire una lettera nel dominio) è la tecnica più diffusa. PayPal usa esclusivamente paypal.com.'},
+    {q:'Come proteggi al meglio i tuoi account online?',o:['Stessa password sicura per tutti i servizi','Password diverse per ogni sito + 2FA con app authenticator','Password salvata nel browser','Nome e data di nascita come password'],c:1,xp:10,fb:'Corretto. Password uniche per ogni account + autenticazione a due fattori con app è la combinazione più efficace. Usa un password manager.'},
+    {q:'Ricevi un SMS: "Paga €1.99 di dazio: http://brt-consegna.xyz". Cosa fai?',o:['Pago subito, è solo €1.99','Ignoro e verifico direttamente sul sito ufficiale BRT','Clicco per vedere dove è il pacco','Fornisco il numero di carta per sbloccare la consegna'],c:1,xp:10,fb:'Corretto. I corrieri non richiedono mai pagamenti tramite link SMS con domini sospetti. Vai sempre sul sito ufficiale.'},
+    {q:'Sul PC appare un popup: "VIRUS RILEVATO! Chiama il Supporto Microsoft". Cosa fai?',o:['Chiamo subito il numero indicato','Chiudo il browser con Alt+F4 e scansiono con il mio antivirus','Pago la tariffa richiesta per la rimozione','Clicco su "Rimuovi virus"'],c:1,xp:10,fb:'Corretto. Microsoft non mostra mai numeri di telefono nei popup di sicurezza. È sempre una truffa del falso supporto tecnico.'},
+  ],
+  2:[
+    {q:'Un amico dice di guadagnare il 40% al mese con una piattaforma crypto e ti invita a investire.',o:['Investo subito, sembra una buona opportunità','Verifico prima su consob.it se la piattaforma è autorizzata','Investo solo €100 per testare','Ignoro: nessun investimento legittimo garantisce il 40% mensile'],c:3,xp:20,fb:'Corretto. Il 40% mensile equivale a 4800% annuo — fisicamente impossibile. Verifica sempre su consob.it. Il tuo amico potrebbe già essere vittima di uno schema Ponzi.'},
+    {q:'In videocall il CEO ti chiede un bonifico urgente di €50.000. Cosa fai?',o:['Eseguo subito il bonifico','Verifico telefonando al numero ufficiale del CEO prima di procedere','Chiedo conferma via email','Riduco l\'importo a €5.000'],c:1,xp:20,fb:'Corretto. I deepfake video in tempo reale esistono già. Verifica sempre con una telefonata separata al numero che hai in rubrica.'},
+    {q:'Cos\'è lo spear phishing?',o:['Phishing via SMS','Attacco personalizzato che usa informazioni raccolte sul bersaglio specifico','Ransomware su reti aziendali','Phishing tramite telefono'],c:1,xp:20,fb:'Corretto. Lo spear phishing è un attacco su misura che usa dati da LinkedIn e social per creare comunicazioni credibili e difficili da riconoscere.'},
+    {q:'Trovi una chiavetta USB nel parcheggio dell\'ufficio. Cosa fai?',o:['La inserisco nel PC per capire di chi è e restituirla','La consegno all\'IT o la distruggo senza mai inserirla','La uso nel PC di casa, non in quello aziendale','La tengo come storage extra'],c:1,xp:20,fb:'Corretto. Le chiavette "abbandonate" sono un attacco classico: si auto-eseguono all\'inserimento e installano malware in pochi secondi.'},
+    {q:'Quale strategia di backup protegge meglio da un attacco ransomware?',o:['Backup giornaliero sul desktop','Backup su cloud sincronizzato in tempo reale','Regola 3-2-1: 3 copie, 2 supporti diversi, 1 completamente offline','Backup mensile su chiavetta USB'],c:2,xp:20,fb:'Corretto. Il backup offline è fisicamente disconnesso dalla rete: il ransomware non può raggiungerlo né cifrarlo.'},
+  ],
+  3:[
+    {q:'Cos\'è il SIM swapping e qual è la difesa più efficace?',o:['Clonazione dell\'app bancaria — installa un antivirus','Trasferimento fraudolento del numero di telefono a una SIM dei criminali — usa 2FA con app, non SMS','Furto fisico dello smartphone — usa un PIN complesso','Attacco alla rete WiFi — usa una VPN'],c:1,xp:35,fb:'Corretto. Il SIM swap trasferisce il tuo numero ai criminali, bypassando il 2FA via SMS. Usa sempre un\'app authenticator invece degli SMS per il secondo fattore.'},
+    {q:'Come riconosci un deepfake in una videocall sospetta?',o:['È impossibile riconoscerlo con certezza','La qualità video è sempre bassa','Cerca anomalie visive sul viso e chiedi un gesto insolito specifico in tempo reale','Il microfono non funziona correttamente'],c:2,xp:35,fb:'Corretto. I deepfake mostrano spesso anomalie ai bordi del viso e occhi poco naturali. Chiedere un gesto specifico (es. "tieni in mano un cucchiaio") è il metodo di verifica più efficace.'},
+    {q:'Cos\'è il "pig butchering" scam?',o:['Una truffa legata alla vendita di prodotti alimentari online','Un attacco ransomware mirato alle reti aziendali','Schema in cui la vittima viene "ingrassata" con falsi guadagni per mesi, poi derubata di tutto','Furto di dati tramite reti WiFi false'],c:2,xp:35,fb:'Corretto. Il pig butchering è una truffa crypto/investimenti: il criminale costruisce fiducia per mesi mostrando guadagni falsi, poi sparisce con tutto il denaro investito.'},
+    {q:'Quali protocolli email prevengono lo spoofing del dominio aziendale?',o:['Solo HTTPS con certificato SSL valido','DMARC + DKIM + SPF configurati correttamente','SSL/TLS sul server di posta','Una VPN aziendale dedicata'],c:1,xp:35,fb:'Corretto. DMARC, DKIM e SPF insieme verificano l\'autenticità del mittente email. Senza questi protocolli, chiunque può inviare email che sembrano provenire dal tuo dominio.'},
+    {q:'Qual è la difesa più efficace contro il credential stuffing?',o:['Una password lunghissima usata su tutti i servizi','Password manager con password uniche per ogni sito + 2FA attivo','Cambiare password ogni 30 giorni','Avere un antivirus aggiornato'],c:1,xp:35,fb:'Corretto. Il credential stuffing usa liste di password rubate per attaccare migliaia di siti. Con password uniche, anche se una viene compromessa le altre rimangono sicure.'},
+  ],
+};
+let cLvl=1,qIdx=0,qSc=0,qXP=0;
+function setLevel(lv){
+  if(lv===3&&P.level<3){alert('Completa i livelli precedenti per sbloccare il Livello Expert.');return;}
+  cLvl=lv;qIdx=0;qSc=0;qXP=0;
+  document.querySelectorAll('.lvl-card').forEach((c,i)=>c.classList.toggle('active',i+1===lv));
+  document.getElementById('q-final').style.display='none';
+  document.getElementById('q-area').style.display='block';
+  loadQ();
+}
+function loadQ(){
+  const qs=QUIZ[cLvl];
+  if(qIdx>=qs.length){finalQ();return;}
+  const q=qs[qIdx];
+  document.getElementById('q-cur').textContent=qIdx+1;
+  document.getElementById('q-tot').textContent=qs.length;
+  document.getElementById('q-lbl').textContent='Domanda '+(qIdx+1)+' di '+qs.length+' — '+LVS[cLvl-1].n;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-fb').className='q-feedback';
+  document.getElementById('q-next').style.display='none';
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  q.o.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='qopt';
+    b.textContent=String.fromCharCode(65+i)+'.  '+o;
+    b.onclick=()=>ansQ(i,b,q);
+    opts.appendChild(b);
+  });
+}
+function ansQ(ch,btn,q){
+  document.querySelectorAll('.qopt').forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add('correct');else if(i===ch)b.classList.add('wrong');});
+  const fb=document.getElementById('q-fb');
+  if(ch===q.c){qSc++;qXP+=q.xp;fb.textContent='✓ '+q.fb;fb.className='q-feedback show good';}
+  else{fb.textContent='✗ '+q.fb;fb.className='q-feedback show bad';}
+  document.getElementById('q-sc').textContent=qSc;
+  document.getElementById('q-xp').textContent=qXP;
+  document.getElementById('q-next').style.display='inline-flex';
+}
+function nextQ(){qIdx++;loadQ();}
+function finalQ(){
+  const tot=QUIZ[cLvl].length,pct=Math.round(qSc/tot*100);
+  document.getElementById('q-area').style.display='none';
+  document.getElementById('q-final').style.display='block';
+  document.getElementById('qfs').textContent=qSc+'/'+tot;
+  document.getElementById('qfl').textContent=pct===100?'Risultato perfetto!':pct>=60?'Buon risultato':'Da migliorare';
+  let msg=pct===100?'Hai risposto correttamente a tutte le domande.':pct>=60?'Rivedi le risposte sbagliate nella sezione Database.':'Studia il Database e riprova — alcune truffe ti colgono ancora impreparato.';
+  msg+='\n\n+'+qXP+' XP guadagnati.';
+  document.getElementById('qfm').textContent=msg;
+  P.quizDone++;P.correct+=qSc;
+  if(pct>=80&&!P.badges.includes('🎯 Preciso')){P.badges.push('🎯 Preciso');logA('Badge: 🎯 Preciso');}
+  addXP(qXP,'Quiz Livello '+cLvl+' completato');
+}
+function restartQ(){setLevel(cLvl);}
+function nextLevel(){setLevel(Math.min(cLvl+1,3));}
+setLevel(1);
+
+// ── SIMULATORI ──
+function showSim(id,btn){
+  document.querySelectorAll('.sim-scene').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sim-card').forEach(c=>c.classList.remove('active'));
+  document.getElementById('sim-'+id).classList.add('active');
+  document.getElementById('sc-btn-'+id).classList.add('active');
+  P.simUsed++;
+  if(!P.badges.includes('🛡️ Difensore')&&P.simUsed>=3){P.badges.push('🛡️ Difensore');logA('Badge: 🛡️ Difensore');}
+  addXP(8,'Simulatore usato: '+id);
+}
+function revealSim(id){document.getElementById('sr-'+id).classList.add('show','good');addXP(15,'Analisi phishing completata');}
+function smishChoice(t){
+  const el=document.getElementById('sr-sms');el.classList.add('show');
+  if(t==='ok'){el.classList.add('good');el.innerHTML='<div class="sim-reveal-title">✓ Risposta corretta</div>Hai ignorato il link. Il dominio "bancaintesa-sicuro.net" è falso — Banca Intesa usa intesasanpaolo.com. Il numero mittente era falsificato. Vai sempre sull\'app ufficiale.';addXP(15,'Smishing identificato correttamente');}
+  else{el.classList.add('bad');el.innerHTML='<div class="sim-reveal-title">⛔ Risposta errata</div>Cliccando il link avresti consegnato le credenziali ai truffatori o installato malware. Le banche non inviano mai link SMS per bloccare transazioni.';}
+}
+function vishChoice(t){
+  const el=document.getElementById('sr-vis');el.classList.add('show');
+  if(t==='ok'){el.classList.add('good');el.innerHTML='<div class="sim-reveal-title">✓ Risposta corretta — hai riagganciato</div>Il numero visualizzato può essere falsificato. La banca non chiede mai credenziali o OTP al telefono. Riaggancia sempre e richiama tu il numero ufficiale sul retro della carta.';addXP(15,'Vishing sventato');}
+  else{el.classList.add('bad');el.innerHTML='<div class="sim-reveal-title">⛔ Risposta errata</div>Con credenziali e OTP il truffatore avrebbe avuto accesso completo al conto. Il numero era falsificato. Riattacca sempre e richiama tu il numero ufficiale.';}
+}
+function checkPw(pw){
+  const r=document.getElementById('pw-res');
+  if(!pw){r.classList.remove('show');return;}
+  r.classList.add('show');
+  const checks=[
+    {ok:pw.length>=12,label:'12+ caratteri'},
+    {ok:/[A-Z]/.test(pw),label:'Lettere maiuscole'},
+    {ok:/[a-z]/.test(pw),label:'Lettere minuscole'},
+    {ok:/[0-9]/.test(pw),label:'Numeri'},
+    {ok:/[^A-Za-z0-9]/.test(pw),label:'Simboli speciali'},
+    {ok:pw.length>=16,label:'16+ caratteri'},
+    {ok:!/(password|123|qwerty|admin|ciao|abc)/i.test(pw),label:'Nessuna parola comune'},
+  ];
+  const sc=checks.filter(c=>c.ok).length;
+  const cols=['#ef4444','#ef4444','#f97316','#f97316','#f59e0b','#22c55e','#22c55e'];
+  const lbls=['Pessima','Molto debole','Debole','Media','Discreta','Buona','Ottima'];
+  const tms=['< 1 secondo','pochi secondi','qualche minuto','ore','giorni','anni','secoli'];
+  const sl=document.getElementById('pw-slbl'),fill=document.getElementById('pw-fill');
+  sl.textContent='Sicurezza: '+lbls[sc];sl.style.color=cols[sc];
+  fill.style.width=Math.round(sc/7*100)+'%';fill.style.background=cols[sc];
+  document.getElementById('pw-crack').textContent='Crack stimato: '+tms[sc];
+  document.getElementById('pw-checks').innerHTML=checks.map(c=>`<div class="pw-check ${c.ok?'ok':'no'}">${c.ok?'✓':'○'} ${c.label}</div>`).join('');
+}
+
+// ── ALERTS ──
+let aData=[
+  {ico:'🚨',title:'Campagna phishing BancaIntesa attiva',text:'Email massive che imitano comunicazioni ufficiali. Oggetto: "Verifica urgente conto". Link verso bancaintesasanpaolo-sicuro.xyz.',tags:['critico','phishing'],time:'2 min fa',isNew:true},
+  {ico:'⚠️',title:'Ransomware LockBit 4.0 — nuova variante',text:'Distribuzione via allegati .xlsm. Cifratura RSA-4096 + AES-256. Colpisce PMI del settore manifatturiero.',tags:['critico','malware'],time:'18 min fa',isNew:true},
+  {ico:'🔴',title:'2,3 milioni di credenziali italiane sul dark web',text:'Database in vendita su forum underground. Include email, hash delle password e dati bancari parziali.',tags:['critico','social'],time:'1 ora fa',isNew:true},
+  {ico:'📱',title:'Smishing PosteInfo attivo in 12 regioni',text:'SMS: "Il tuo pacco è bloccato. Paga €1.49: http://posteinfo-consegna.cc". Mittente falsificato.',tags:['phishing'],time:'2 ore fa',isNew:false},
+  {ico:'🤖',title:'Deepfake vocale CEO colpisce 3 aziende lombarde',text:'AI clona la voce del CEO da video YouTube. Richieste di bonifici urgenti tra €15.000 e €80.000. Tutte le aziende hanno subito perdite.',tags:['critico','social'],time:'4 ore fa',isNew:false},
+  {ico:'₿',title:'"BitProfit.eu" — piattaforma truffa',text:'Aggiunta alla lista nera Consob. Rendimenti promessi: 25% mensile. Usa deepfake di personaggi noti in video su YouTube.',tags:['critico','crypto'],time:'6 ore fa',isNew:false},
+  {ico:'📡',title:'Evil Twin WiFi rilevato in 8 aeroporti italiani',text:'Access point fasulli con nomi identici alle reti ufficiali degli aeroporti. Intercettano credenziali e sessioni bancarie.',tags:['malware'],time:'8 ore fa',isNew:false},
+  {ico:'🎭',title:'Rete romance scam smantellata',text:'14 arresti. 340 vittime accertate in Italia. Danno totale: €2,9 milioni. Le vittime erano state contattate su Facebook.',tags:['social'],time:'ieri',isNew:false},
+];
+const liveA=[
+  {ico:'📧',title:'Nuova campagna smishing in corso',text:'SMS falsi che imitano Poste Italiane. Link a dominio .tk registrato 2 giorni fa.',tags:['phishing'],time:'adesso',isNew:true},
+  {ico:'💸',title:'CryptoEarn.pro — piattaforma truffa',text:'Non registrata Consob. Rendimenti promessi: 50% mensile. Usa deepfake di personaggi noti.',tags:['critico','crypto'],time:'adesso',isNew:true},
+  {ico:'🔐',title:'Credential stuffing massivo su Gmail',text:'Attacco con lista da violazione del 2023. Cambia la password e attiva il 2FA ora.',tags:['malware'],time:'adesso',isNew:true},
+  {ico:'📞',title:'Vishing deepfake UniCredit',text:'Nuova ondata di chiamate con voce AI che impersona operatori bancari UniCredit.',tags:['critico','social'],time:'adesso',isNew:true},
+];
+let liveIdx=0,unread=3,aFilter='all';
+const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
+function renderAlerts(){
+  const data=aFilter==='all'?aData:aData.filter(a=>a.tags.includes(aFilter));
+  document.getElementById('alert-list').innerHTML=data.map(a=>`
+    <div class="alert-card ${a.isNew?'new':''}">
+      <div class="a-ico">${a.ico}</div>
+      <div class="a-body">
+        <div class="a-head"><div class="a-title">${a.title}</div><div class="a-time">${a.time}</div></div>
+        <div class="a-text">${a.text}</div>
+        <div class="a-tags">${a.tags.map(t=>`<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+function filterAlerts(f,btn){
+  aFilter=f;
+  document.querySelectorAll('.flt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderAlerts();
+}
+function clearBadge(){
+  unread=0;aData.forEach(a=>a.isNew=false);
+  document.getElementById('alert-badge').classList.remove('show');
+  document.getElementById('tb-alert-n').textContent='0 alert';
+  renderAlerts();
+}
+setInterval(()=>{
+  const a={...liveA[liveIdx%liveA.length],id:Date.now()};liveIdx++;
+  aData.unshift(a);if(aData.length>20)aData.pop();
+  unread++;
+  document.getElementById('alert-badge').textContent=Math.min(unread,9)+'+';
+  document.getElementById('alert-badge').classList.add('show');
+  document.getElementById('tb-alert-n').textContent=unread+' alert';
+  if(document.getElementById('sc-alerts').classList.contains('active'))renderAlerts();
+},22000);
+
+// ── INIT ──
+renderPf();
+renderAlerts();
+</script>
+</body>
+</html>
