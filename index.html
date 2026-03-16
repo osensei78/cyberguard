@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>CyberGuard Italia — 5T3C4V78</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CyberGuard">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="description" content="Impara a riconoscere e difenderti dalle truffe digitali più diffuse in Italia.">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -1454,6 +1464,41 @@ setInterval(()=>{
 // ── INIT ──
 renderPf();
 renderAlerts();
+
+// ── PWA SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+// ── PWA INSTALL BANNER ──
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.getElementById('install-banner');
+  if(banner) banner.style.display = 'flex';
+});
+document.getElementById('install-btn')?.addEventListener('click', async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('install-banner').style.display = 'none';
+});
+document.getElementById('install-dismiss')?.addEventListener('click', () => {
+  document.getElementById('install-banner').style.display = 'none';
+});
 </script>
+<!-- PWA INSTALL BANNER -->
+<div id="install-banner" style="display:none;position:fixed;bottom:80px;left:12px;right:12px;background:#1a1d27;border:1px solid #2a2d3e;border-radius:14px;padding:14px 16px;z-index:8000;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);">
+  <div style="font-size:1.8rem;flex-shrink:0;">📲</div>
+  <div style="flex:1;">
+    <div style="font-size:.88rem;font-weight:600;color:#f1f5f9;margin-bottom:2px;">Installa CyberGuard</div>
+    <div style="font-size:.75rem;color:#64748b;">Aggiungila alla schermata home per accesso rapido</div>
+  </div>
+  <button id="install-btn" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;">Installa</button>
+  <button id="install-dismiss" style="background:none;border:none;color:#64748b;font-size:1.2rem;cursor:pointer;padding:0 2px;">✕</button>
+</div>
+
 </body>
 </html>
