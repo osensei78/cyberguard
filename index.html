@@ -4,16 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>CyberGuard Italia — 5T3C4V78</title>
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f1117">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="CyberGuard">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="description" content="Impara a riconoscere e difenderti dalle truffe digitali più diffuse in Italia.">
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -1410,95 +1400,188 @@ function checkPw(pw){
 }
 
 // ── ALERTS ──
+// Dati di fallback (mostrati mentre carica o se offline)
 let aData=[
-  {ico:'🚨',title:'Campagna phishing BancaIntesa attiva',text:'Email massive che imitano comunicazioni ufficiali. Oggetto: "Verifica urgente conto". Link verso bancaintesasanpaolo-sicuro.xyz.',tags:['critico','phishing'],time:'2 min fa',isNew:true},
-  {ico:'⚠️',title:'Ransomware LockBit 4.0 — nuova variante',text:'Distribuzione via allegati .xlsm. Cifratura RSA-4096 + AES-256. Colpisce PMI del settore manifatturiero.',tags:['critico','malware'],time:'18 min fa',isNew:true},
-  {ico:'🔴',title:'2,3 milioni di credenziali italiane sul dark web',text:'Database in vendita su forum underground. Include email, hash delle password e dati bancari parziali.',tags:['critico','social'],time:'1 ora fa',isNew:true},
-  {ico:'📱',title:'Smishing PosteInfo attivo in 12 regioni',text:'SMS: "Il tuo pacco è bloccato. Paga €1.49: http://posteinfo-consegna.cc". Mittente falsificato.',tags:['phishing'],time:'2 ore fa',isNew:false},
-  {ico:'🤖',title:'Deepfake vocale CEO colpisce 3 aziende lombarde',text:'AI clona la voce del CEO da video YouTube. Richieste di bonifici urgenti tra €15.000 e €80.000. Tutte le aziende hanno subito perdite.',tags:['critico','social'],time:'4 ore fa',isNew:false},
-  {ico:'₿',title:'"BitProfit.eu" — piattaforma truffa',text:'Aggiunta alla lista nera Consob. Rendimenti promessi: 25% mensile. Usa deepfake di personaggi noti in video su YouTube.',tags:['critico','crypto'],time:'6 ore fa',isNew:false},
-  {ico:'📡',title:'Evil Twin WiFi rilevato in 8 aeroporti italiani',text:'Access point fasulli con nomi identici alle reti ufficiali degli aeroporti. Intercettano credenziali e sessioni bancarie.',tags:['malware'],time:'8 ore fa',isNew:false},
-  {ico:'🎭',title:'Rete romance scam smantellata',text:'14 arresti. 340 vittime accertate in Italia. Danno totale: €2,9 milioni. Le vittime erano state contattate su Facebook.',tags:['social'],time:'ieri',isNew:false},
+  {ico:'🔄',title:'Caricamento alert in corso...',text:'Connessione ai feed ufficiali di sicurezza: CERT-AGID, SecurityAffairs, Cybersecurity360.',tags:['phishing'],time:'ora',isNew:false},
 ];
-const liveA=[
-  {ico:'📧',title:'Nuova campagna smishing in corso',text:'SMS falsi che imitano Poste Italiane. Link a dominio .tk registrato 2 giorni fa.',tags:['phishing'],time:'adesso',isNew:true},
-  {ico:'💸',title:'CryptoEarn.pro — piattaforma truffa',text:'Non registrata Consob. Rendimenti promessi: 50% mensile. Usa deepfake di personaggi noti.',tags:['critico','crypto'],time:'adesso',isNew:true},
-  {ico:'🔐',title:'Credential stuffing massivo su Gmail',text:'Attacco con lista da violazione del 2023. Cambia la password e attiva il 2FA ora.',tags:['malware'],time:'adesso',isNew:true},
-  {ico:'📞',title:'Vishing deepfake UniCredit',text:'Nuova ondata di chiamate con voce AI che impersona operatori bancari UniCredit.',tags:['critico','social'],time:'adesso',isNew:true},
-];
-let liveIdx=0,unread=3,aFilter='all';
+let unread=0,aFilter='all';
 const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
+
+// Feed RSS reali — convertiti in JSON tramite rss2json.com (gratuito, no auth)
+const RSS_FEEDS = [
+  {
+    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fcert-agid.gov.it%2Ffeed%2F',
+    source: 'CERT-AGID',
+    ico: '🇮🇹',
+    defaultTags: ['critico']
+  },
+  {
+    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fsecurityaffairs.com%2Ffeed',
+    source: 'Security Affairs',
+    ico: '🔐',
+    defaultTags: ['malware']
+  },
+  {
+    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.cybersecurity360.it%2Ffeed%2F',
+    source: 'Cybersecurity360',
+    ico: '🛡️',
+    defaultTags: ['phishing']
+  }
+];
+
+// Classifica le notizie per categoria in base alle parole chiave nel titolo
+function classifyTags(title) {
+  const t = title.toLowerCase();
+  const tags = [];
+  if(/phishing|smishing|vishing|email truffa|fake|falso/i.test(t)) tags.push('phishing');
+  if(/ransomware|malware|virus|trojan|spyware|backdoor|exploit|vulnerability|vulnerabilità/i.test(t)) tags.push('malware');
+  if(/crypto|bitcoin|truffa|scam|ponzi|investimento|frode/i.test(t)) tags.push('crypto');
+  if(/social|data breach|credenziali|password|leak|databreach/i.test(t)) tags.push('social');
+  if(/critico|critical|urgente|zero.day|attacco|attack/i.test(t)) tags.push('critico');
+  return tags.length > 0 ? tags : ['malware'];
+}
+
+// Formatta la data in modo leggibile
+function timeAgo(dateStr) {
+  const now = new Date();
+  const pub = new Date(dateStr);
+  if(isNaN(pub)) return 'recente';
+  const diff = Math.floor((now - pub) / 60000); // minuti
+  if(diff < 1) return 'adesso';
+  if(diff < 60) return diff + ' min fa';
+  const h = Math.floor(diff / 60);
+  if(h < 24) return h + (h === 1 ? ' ora fa' : ' ore fa');
+  const d = Math.floor(h / 24);
+  if(d === 1) return 'ieri';
+  if(d < 7) return d + ' giorni fa';
+  return pub.toLocaleDateString('it-IT', {day:'numeric', month:'short'});
+}
+
+// Carica tutti i feed RSS
+async function loadRSSFeeds() {
+  const results = [];
+
+  await Promise.allSettled(
+    RSS_FEEDS.map(async feed => {
+      try {
+        const res = await fetch(feed.url, { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if(data.status !== 'ok' || !data.items?.length) throw new Error('No items');
+
+        data.items.slice(0, 6).forEach(item => {
+          // Rimuovi tag HTML dalla descrizione
+          const desc = (item.description || item.content || '')
+            .replace(/<[^>]+>/g, '')
+            .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+            .replace(/&quot;/g,'"').replace(/&#039;/g,"'")
+            .trim()
+            .slice(0, 180);
+
+          results.push({
+            ico: feed.ico,
+            title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
+            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 180 ? '...' : ''),
+            tags: classifyTags(item.title || ''),
+            time: timeAgo(item.pubDate),
+            pubDate: new Date(item.pubDate || Date.now()),
+            source: feed.source,
+            link: item.link || '#',
+            isNew: (new Date() - new Date(item.pubDate)) < 3600000 // nuovi se < 1 ora
+          });
+        });
+      } catch(e) {
+        console.warn('Feed non disponibile:', feed.source, e.message);
+      }
+    })
+  );
+
+  return results;
+}
+
+// Aggiorna gli alert con i dati reali
+async function refreshAlerts() {
+  const items = await loadRSSFeeds();
+
+  if(items.length === 0) {
+    // Nessun feed disponibile — mostra messaggio offline
+    aData = [{
+      ico:'⚠️',
+      title:'Feed non raggiungibili',
+      text:'Controlla la connessione internet. I feed verranno ricaricati al prossimo aggiornamento.',
+      tags:['critico'],
+      time:'ora',
+      isNew:false
+    }];
+  } else {
+    // Ordina per data più recente
+    items.sort((a, b) => b.pubDate - a.pubDate);
+    aData = items;
+
+    // Conta i nuovi alert
+    const newCount = items.filter(i => i.isNew).length;
+    if(newCount > 0) {
+      unread = newCount;
+      document.getElementById('alert-badge').textContent = Math.min(unread, 9) + '+';
+      document.getElementById('alert-badge').classList.add('show');
+      document.getElementById('tb-alert-n').textContent = unread + ' alert';
+    }
+  }
+
+  // Aggiorna la UI se la schermata alert è aperta
+  if(document.getElementById('sc-alerts').classList.contains('active')) {
+    renderAlerts();
+  }
+}
+
 function renderAlerts(){
-  const data=aFilter==='all'?aData:aData.filter(a=>a.tags.includes(aFilter));
-  document.getElementById('alert-list').innerHTML=data.map(a=>`
-    <div class="alert-card ${a.isNew?'new':''}">
+  const data = aFilter === 'all' ? aData : aData.filter(a => a.tags.includes(aFilter));
+
+  if(data.length === 0) {
+    document.getElementById('alert-list').innerHTML =
+      '<div style="padding:24px;text-align:center;color:var(--text3);font-size:.85rem">Nessun alert per questa categoria.</div>';
+    return;
+  }
+
+  document.getElementById('alert-list').innerHTML = data.map(a => `
+    <div class="alert-card ${a.isNew ? 'new' : ''}" ${a.link && a.link !== '#' ? `onclick="window.open('${a.link}','_blank')" style="cursor:pointer"` : ''}>
       <div class="a-ico">${a.ico}</div>
       <div class="a-body">
-        <div class="a-head"><div class="a-title">${a.title}</div><div class="a-time">${a.time}</div></div>
+        <div class="a-head">
+          <div class="a-title">${a.title}</div>
+          <div class="a-time">${a.time}</div>
+        </div>
         <div class="a-text">${a.text}</div>
-        <div class="a-tags">${a.tags.map(t=>`<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}</div>
+        <div class="a-tags">
+          ${a.tags.map(t => `<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}
+          ${a.source ? `<span class="a-tag" style="background:rgba(148,163,184,.08);color:#94a3b8;border-color:#94a3b8">${a.source}</span>` : ''}
+        </div>
       </div>
     </div>`).join('');
 }
-function filterAlerts(f,btn){
-  aFilter=f;
-  document.querySelectorAll('.flt').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');renderAlerts();
-}
-function clearBadge(){
-  unread=0;aData.forEach(a=>a.isNew=false);
-  document.getElementById('alert-badge').classList.remove('show');
-  document.getElementById('tb-alert-n').textContent='0 alert';
+
+function filterAlerts(f, btn){
+  aFilter = f;
+  document.querySelectorAll('.flt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   renderAlerts();
 }
-setInterval(()=>{
-  const a={...liveA[liveIdx%liveA.length],id:Date.now()};liveIdx++;
-  aData.unshift(a);if(aData.length>20)aData.pop();
-  unread++;
-  document.getElementById('alert-badge').textContent=Math.min(unread,9)+'+';
-  document.getElementById('alert-badge').classList.add('show');
-  document.getElementById('tb-alert-n').textContent=unread+' alert';
-  if(document.getElementById('sc-alerts').classList.contains('active'))renderAlerts();
-},22000);
+
+function clearBadge(){
+  unread = 0;
+  aData.forEach(a => a.isNew = false);
+  document.getElementById('alert-badge').classList.remove('show');
+  document.getElementById('tb-alert-n').textContent = '0 alert';
+  renderAlerts();
+}
+
+// Carica subito e poi ogni 5 minuti
+refreshAlerts();
+setInterval(refreshAlerts, 5 * 60 * 1000);
 
 // ── INIT ──
 renderPf();
 renderAlerts();
-
-// ── PWA SERVICE WORKER ──
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-
-// ── PWA INSTALL BANNER ──
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const banner = document.getElementById('install-banner');
-  if(banner) banner.style.display = 'flex';
-});
-document.getElementById('install-btn')?.addEventListener('click', async () => {
-  if(!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  document.getElementById('install-banner').style.display = 'none';
-});
-document.getElementById('install-dismiss')?.addEventListener('click', () => {
-  document.getElementById('install-banner').style.display = 'none';
-});
 </script>
-<!-- PWA INSTALL BANNER -->
-<div id="install-banner" style="display:none;position:fixed;bottom:80px;left:12px;right:12px;background:#1a1d27;border:1px solid #2a2d3e;border-radius:14px;padding:14px 16px;z-index:8000;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);">
-  <div style="font-size:1.8rem;flex-shrink:0;">📲</div>
-  <div style="flex:1;">
-    <div style="font-size:.88rem;font-weight:600;color:#f1f5f9;margin-bottom:2px;">Installa CyberGuard</div>
-    <div style="font-size:.75rem;color:#64748b;">Aggiungila alla schermata home per accesso rapido</div>
-  </div>
-  <button id="install-btn" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;">Installa</button>
-  <button id="install-dismiss" style="background:none;border:none;color:#64748b;font-size:1.2rem;cursor:pointer;padding:0 2px;">✕</button>
-</div>
-
 </body>
 </html>
