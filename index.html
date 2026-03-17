@@ -1561,11 +1561,11 @@ async function loadRSSFeeds() {
             .replace(/<[^>]+>/g, '')
             .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
             .replace(/&quot;/g,'"').replace(/&#039;/g,"'")
-            .trim().slice(0, 600);
+            .trim().slice(0, 1200);
           results.push({
             ico: feed.ico,
             title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
-            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 600 ? '...' : ''),
+            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 1200 ? '...' : ''),
             tags: classifyTags(item.title || ''),
             time: timeAgo(item.pubDate),
             pubDate: new Date(item.pubDate || Date.now()),
