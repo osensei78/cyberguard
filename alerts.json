@@ -1,11 +1,11 @@
 [
   {
-    "id": "alert-001",
-    "ico": "📢",
-    "title": "Tentativo di intrusione segnalato da utente",
-    "text": "Svariati tentativi di accesso non autorizzato ad account gmail. Cambiate la password nel minor tempo possibile",
-    "tags": ["critico"],
-    "date": "2026-03-17T10:00:00",
-    "time": "adesso"
+    "id": "alert-002",
+    "ico": "🚨",
+    "title": "Campagna smishing attiva — Finti SMS Agenzia delle Entrate",
+    "text": "È in corso una massiccia campagna di smishing che sfrutta il nome dell'Agenzia delle Entrate. Gli utenti ricevono SMS con testo simile a: 'Gentile contribuente, risulta un rimborso fiscale di €287,40 a suo favore. Acceda subito: http://agenziaentrate-rimborso.xyz'. Il link porta a una pagina clone del sito ufficiale che richiede codice fiscale, IBAN e dati della carta di credito.\n\nCome difenderti:\n— L'Agenzia delle Entrate NON invia mai SMS con link per rimborsi\n— I rimborsi fiscali arrivano solo tramite accredito IBAN già registrato o assegno postale\n— Non cliccare MAI su link ricevuti via SMS, anche se il mittente sembra ufficiale\n— Se hai già inserito i tuoi dati, contatta immediatamente la tua banca e segnala alla Polizia Postale su commissariatops.it",
+    "tags": ["critico", "phishing"],
+    "date": "2026-03-17T12:00:00",
+    "time": "oggi"
   }
 ]
