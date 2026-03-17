@@ -1561,7 +1561,7 @@ async function loadRSSFeeds() {
             .replace(/<[^>]+>/g, '')
             .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
             .replace(/&quot;/g,'"').replace(/&#039;/g,"'")
-            .trim().slice(0, 180);
+            .trim().slice(0, 600);
           results.push({
             ico: feed.ico,
             title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
