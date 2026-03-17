@@ -1565,7 +1565,7 @@ async function loadRSSFeeds() {
           results.push({
             ico: feed.ico,
             title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
-            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 180 ? '...' : ''),
+            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 600 ? '...' : ''),
             tags: classifyTags(item.title || ''),
             time: timeAgo(item.pubDate),
             pubDate: new Date(item.pubDate || Date.now()),
