@@ -480,11 +480,15 @@ input{font-family:var(--sans);}
 .alert-list{display:flex;flex-direction:column;gap:8px;}
 .alert-card{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:12px;padding:14px 16px;
-  display:flex;gap:12px;align-items:flex-start;
+  border-radius:12px;overflow:hidden;
   animation:fadeUp .25s ease;
+  transition:border-color .15s;
+  cursor:pointer;
 }
+.alert-card:hover{border-color:var(--border2);}
 .alert-card.new{border-left:3px solid var(--red);}
+.alert-card.expanded{border-color:var(--accent);}
+.a-summary{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;}
 .a-ico{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
 .a-body{flex:1;min-width:0;}
 .a-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
@@ -492,14 +496,27 @@ input{font-family:var(--sans);}
 .a-time{font-size:.68rem;color:var(--text3);white-space:nowrap;}
 .a-text{font-size:.78rem;color:var(--text2);line-height:1.5;margin-bottom:6px;}
 .a-tags{display:flex;gap:4px;flex-wrap:wrap;}
-.a-tag{
-  font-size:.63rem;font-weight:600;padding:2px 7px;
-  border-radius:4px;letter-spacing:.03em;
-}
+.a-tag{font-size:.63rem;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:.03em;}
 .at-red{background:rgba(239,68,68,.12);color:#f87171;}
 .at-yellow{background:rgba(245,158,11,.12);color:#fbbf24;}
 .at-blue{background:rgba(59,130,246,.12);color:#60a5fa;}
 .at-green{background:rgba(34,197,94,.12);color:#4ade80;}
+.a-chevron{font-size:.7rem;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-top:2px;}
+.alert-card.expanded .a-chevron{transform:rotate(180deg);color:var(--accent);}
+.a-detail{
+  display:none;
+  padding:14px 16px 16px;
+  border-top:1px solid var(--border);
+  background:var(--bg);
+}
+.alert-card.expanded .a-detail{display:block;animation:fadeUp .2s ease;}
+.a-detail-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4;}
+.a-detail-body{font-size:.82rem;color:var(--text2);line-height:1.75;margin-bottom:12px;white-space:pre-wrap;}
+.a-detail-meta{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding-top:10px;border-top:1px solid var(--border);
+  font-size:.72rem;color:var(--text3);
+}
 
 /* ── PROFILE ── */
 .pf-hero{
@@ -1584,6 +1601,17 @@ async function refreshAlerts() {
   if(document.getElementById('sc-alerts').classList.contains('active')) renderAlerts();
 }
 
+function toggleAlert(idx) {
+  const card = document.querySelector(`.alert-card[data-idx="${idx}"]`);
+  if(!card) return;
+  const isOpen = card.classList.contains('expanded');
+  document.querySelectorAll('.alert-card.expanded').forEach(c => c.classList.remove('expanded'));
+  if(!isOpen) {
+    card.classList.add('expanded');
+    setTimeout(() => card.scrollIntoView({ behavior:'smooth', block:'nearest' }), 100);
+  }
+}
+
 function renderAlerts(){
   const data = aFilter === 'all' ? aData : aData.filter(a => a.tags.includes(aFilter));
   if(data.length === 0) {
@@ -1591,15 +1619,30 @@ function renderAlerts(){
       '<div style="padding:24px;text-align:center;color:var(--text3);font-size:.85rem">Nessun alert per questa categoria.</div>';
     return;
   }
-  document.getElementById('alert-list').innerHTML = data.map(a => `
-    <div class="alert-card ${a.isNew ? 'new' : ''}" ${a.link && a.link !== '#' ? `onclick="window.open('${a.link}','_blank')" style="cursor:pointer"` : ''}>
-      <div class="a-ico">${a.ico}</div>
-      <div class="a-body">
-        <div class="a-head"><div class="a-title">${a.title}</div><div class="a-time">${a.time}</div></div>
-        <div class="a-text">${a.text}</div>
-        <div class="a-tags">
-          ${a.tags.map(t=>`<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}
-          ${a.source?`<span class="a-tag" style="background:rgba(148,163,184,.08);color:#94a3b8;border-color:#94a3b8">${a.source}</span>`:''}
+  document.getElementById('alert-list').innerHTML = data.map((a, idx) => `
+    <div class="alert-card ${a.isNew ? 'new' : ''}" data-idx="${idx}" onclick="toggleAlert(${idx})">
+      <div class="a-summary">
+        <div class="a-ico">${a.ico}</div>
+        <div class="a-body">
+          <div class="a-head">
+            <div class="a-title">${a.title}</div>
+            <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
+              <div class="a-time">${a.time}</div>
+              <div class="a-chevron">▼</div>
+            </div>
+          </div>
+          <div class="a-text">${a.preview || a.text || ''}</div>
+          <div class="a-tags">
+            ${a.tags.map(t=>`<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}
+            ${a.source?`<span class="a-tag" style="background:rgba(148,163,184,.08);color:#94a3b8;border-color:rgba(148,163,184,.2)">${a.source}</span>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="a-detail">
+        <div class="a-detail-title">${a.title}</div>
+        <div class="a-detail-body">${a.detail || a.text || 'Contenuto non disponibile.'}</div>
+        <div class="a-detail-meta">
+          <span>📰 ${a.source || 'CyberGuard'} &nbsp;·&nbsp; ${a.time}</span>
         </div>
       </div>
     </div>`).join('');
