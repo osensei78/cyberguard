@@ -2,8 +2,8 @@
   {
     "id": "alert-001",
     "ico": "📢",
-    "title": "Benvenuti su CyberGuard Italia",
-    "text": "Questo è il canale ufficiale di CyberGuard Italia. Qui riceverete avvisi diretti su nuove campagne di truffa attive in Italia, segnalazioni urgenti e aggiornamenti importanti dalla community. Attivate le notifiche push dal vostro Profilo per non perdere nessun alert.",
+    "title": "Tentativo di intrusione segnalato da utente",
+    "text": "Svariati tentativi di accesso non autorizzato ad account gmail. Cambiate la password nel minor tempo possibile",
     "tags": ["critico"],
     "date": "2026-03-17T10:00:00",
     "time": "adesso"
