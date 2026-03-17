@@ -1290,7 +1290,36 @@ input{font-family:var(--sans);}
 </div>
 
 <script>
-// ── PROFILE ──
+  // ─── SEZIONE PER LE TUE NOTIZIE ───
+        // Aggiungi qui i tuoi alert personalizzati seguendo questo formato:
+        const MIE_NOTIZIE = [
+            {
+                title: "Nuova Campagna Phishing Posta",
+                source: "Segnalazione Utente",
+                time: "Oggi, 10:30",
+                text: "Rilevato nuovo portale fake che imita la pagina di login delle poste.",
+                detailTitle: "Falso avviso di pacco in giacenza",
+                detailBody: "La truffa arriva via SMS (Smishing) chiedendo di pagare 2€ per sbloccare un pacco. Il link punta a un sito malevolo.",
+                tags: ["critico", "smishing"], // 'critico' attiva la notifica visiva
+                isNew: true
+            }
+        ];
+
+        // ─── FUNZIONE PER CARICARE LE NOTIZIE ───
+        function caricaNotizie() {
+            // Unisce le notizie ufficiali (se presenti) con le tue personalizzate
+            const tutteLeNotizie = [...MIE_NOTIZIE, ...alertData];
+            
+            // Richiama la funzione di rendering originale per mostrarle nella lista
+            renderAlertList(tutteLeNotizie);
+            
+            // Attiva il sistema di notifiche integrato nel tuo file per i nuovi alert
+            checkAndNotify(tutteLeNotizie);
+        }
+
+        // Avvia il caricamento all'apertura
+        window.onload = caricaNotizie;
+  // ── PROFILE ──
 const LVS=[{n:'Principiante',xp:0},{n:'Intermedio',xp:100},{n:'Esperto',xp:280},{n:'Master',xp:500}];
 const BADGES=['🥇 Primo passo','📚 Studioso','🎯 Preciso','🛡️ Difensore','🔍 Investigatore','⭐ Esperto','🏆 Master'];
 let P=JSON.parse(localStorage.getItem('cg1')||'null')||{xp:0,level:1,quizDone:0,correct:0,simUsed:0,reads:0,badges:['🥇 Primo passo'],log:[]};
@@ -1561,7 +1590,7 @@ async function loadRSSFeeds() {
             .replace(/<[^>]+>/g, '')
             .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
             .replace(/&quot;/g,'"').replace(/&#039;/g,"'")
-            .trim().slice(0, 1200);
+            .trim().slice(0, 300);
           results.push({
             ico: feed.ico,
             title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
