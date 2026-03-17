@@ -1511,19 +1511,66 @@ let unread=0,aFilter='all';
 const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
 
 const RSS_FEEDS = [
-  {
-    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fcert-agid.gov.it%2Ffeed%2F',
-    source: 'CERT-AGID',
-    ico: '🇮🇹',
-    defaultTags: ['critico']
-  },
-  {
-    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.cybersecurity360.it%2Ffeed%2F',
-    source: 'Cybersecurity360',
-    ico: '🛡️',
-    defaultTags: ['phishing']
-  }
+  { rssUrl: 'https://cert-agid.gov.it/feed/', source: 'CERT-AGID', ico: '🇮🇹' },
+  { rssUrl: 'https://www.cybersecurity360.it/feed/', source: 'Cybersecurity360', ico: '🛡️' }
 ];
+
+const CORS_PROXIES = [
+  url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
+
+async function fetchWithProxy(url) {
+  for(const proxy of CORS_PROXIES) {
+    try {
+      const res = await fetch(proxy(url), { cache:'no-store', signal:AbortSignal.timeout(8000) });
+      if(res.ok) { const t = await res.text(); if(t && t.length > 100) return t; }
+    } catch(e) {}
+  }
+  throw new Error('Tutti i proxy falliti');
+}
+
+function cleanText(raw) {
+  return (raw || '')
+    .replace(/<[^>]+>/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<')
+    .replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#039;/g,"'")
+    .replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+}
+
+function parseRSS(xmlText, feed) {
+  const results = [];
+  try {
+    const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+    Array.from(doc.querySelectorAll('item')).slice(0,8).forEach(item => {
+      const title   = cleanText(item.querySelector('title')?.textContent) || 'Nessun titolo';
+      const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
+      const rawFull = item.querySelector('content\\:encoded')?.textContent
+                   || item.querySelector('description')?.textContent || '';
+      const full = cleanText(rawFull);
+
+      // PREVIEW: massimo 80 caratteri — solo un assaggio
+      const preview = full.length > 80
+        ? full.slice(0, 80) + '…'
+        : (full.length > 0 ? full : 'Tocca per leggere il dettaglio.');
+
+      // DETAIL: tutto il testo disponibile fino a 1500 caratteri
+      const detail = full.length > 1500
+        ? full.slice(0, 1500) + '…'
+        : (full.length > 0 ? full : 'Testo completo non disponibile nel feed.');
+
+      results.push({
+        ico: feed.ico, title, preview, detail,
+        tags: classifyTags(title),
+        time: timeAgo(pubDate),
+        pubDate: pubDate ? new Date(pubDate) : new Date(),
+        source: feed.source,
+        isNew: pubDate ? (Date.now() - new Date(pubDate).getTime()) < 7200000 : false
+      });
+    });
+  } catch(e) { console.warn('Errore parsing RSS:', e.message); }
+  return results;
+}
 
 function classifyTags(title) {
   const t = title.toLowerCase();
@@ -1537,52 +1584,25 @@ function classifyTags(title) {
 }
 
 function timeAgo(dateStr) {
-  const now = new Date();
-  const pub = new Date(dateStr);
+  const now = new Date(), pub = new Date(dateStr);
   if(isNaN(pub)) return 'recente';
   const diff = Math.floor((now - pub) / 60000);
-  if(diff < 1) return 'adesso';
-  if(diff < 60) return diff + ' min fa';
-  const h = Math.floor(diff / 60);
-  if(h < 24) return h + (h === 1 ? ' ora fa' : ' ore fa');
-  const d = Math.floor(h / 24);
-  if(d === 1) return 'ieri';
-  if(d < 7) return d + ' giorni fa';
-  return pub.toLocaleDateString('it-IT', {day:'numeric', month:'short'});
+  if(diff < 1) return 'adesso'; if(diff < 60) return diff + ' min fa';
+  const h = Math.floor(diff/60);
+  if(h < 24) return h + (h===1?' ora fa':' ore fa');
+  const d = Math.floor(h/24);
+  if(d===1) return 'ieri'; if(d<7) return d+' giorni fa';
+  return pub.toLocaleDateString('it-IT',{day:'numeric',month:'short'});
 }
 
 async function loadRSSFeeds() {
   const results = [];
-  await Promise.allSettled(
-    RSS_FEEDS.map(async feed => {
-      try {
-        const res = await fetch(feed.url, { cache: 'no-store' });
-        if(!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        if(data.status !== 'ok' || !data.items?.length) throw new Error('No items');
-        data.items.slice(0, 6).forEach(item => {
-          const desc = (item.description || item.content || '')
-            .replace(/<[^>]+>/g, '')
-            .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
-            .replace(/&quot;/g,'"').replace(/&#039;/g,"'")
-            .trim().slice(0, 180);
-          results.push({
-            ico: feed.ico,
-            title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
-            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 180 ? '...' : ''),
-            tags: classifyTags(item.title || ''),
-            time: timeAgo(item.pubDate),
-            pubDate: new Date(item.pubDate || Date.now()),
-            source: feed.source,
-            link: item.link || '#',
-            isNew: (new Date() - new Date(item.pubDate)) < 3600000
-          });
-        });
-      } catch(e) {
-        console.warn('Feed non disponibile:', feed.source, e.message);
-      }
-    })
-  );
+  await Promise.allSettled(RSS_FEEDS.map(async feed => {
+    try {
+      const xml = await fetchWithProxy(feed.rssUrl);
+      results.push(...parseRSS(xml, feed));
+    } catch(e) { console.warn('Feed non disponibile:', feed.source); }
+  }));
   return results;
 }
 
@@ -1776,7 +1796,7 @@ async function loadAdminAlerts() {
     return data.map(a => ({
       ico: a.ico || '📢',
       title: a.title || 'Comunicazione CyberGuard',
-      preview: (a.text||'').slice(0,110) + ((a.text||'').length>110?'...':''),
+      preview: (a.text||'').length > 80 ? (a.text||'').slice(0,80) + '…' : (a.text||'Tocca per leggere il dettaglio.'),
       detail: a.text || '',
       tags: a.tags || ['critico'],
       time: a.time || 'adesso',
