@@ -84,26 +84,26 @@ input{font-family:var(--sans);}
 }
 .tab{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;padding:8px 4px 6px;
+  gap:5px;padding:14px 4px 12px;
   background:none;border:none;color:var(--text3);
-  font-size:.62rem;font-weight:500;letter-spacing:.02em;
+  font-size:.72rem;font-weight:500;letter-spacing:.02em;
   cursor:pointer;transition:color .15s;position:relative;
   -webkit-tap-highlight-color:transparent;
 }
-.tab-ico{font-size:1.3rem;line-height:1;}
+.tab-ico{font-size:1.75rem;line-height:1;}
 .tab::after{
   content:'';position:absolute;top:0;left:20%;right:20%;
-  height:2px;background:var(--accent);
+  height:3px;background:var(--accent);
   transform:scaleX(0);transition:transform .2s;
-  border-radius:0 0 2px 2px;
+  border-radius:0 0 3px 3px;
 }
 .tab.active{color:var(--accent);}
 .tab.active::after{transform:scaleX(1);}
 .tab-badge{
-  position:absolute;top:5px;right:calc(50% - 18px);
+  position:absolute;top:8px;right:calc(50% - 20px);
   background:var(--red);color:#fff;
-  font-size:.5rem;min-width:14px;height:14px;
-  border-radius:7px;display:none;align-items:center;justify-content:center;padding:0 3px;
+  font-size:.55rem;min-width:16px;height:16px;
+  border-radius:8px;display:none;align-items:center;justify-content:center;padding:0 4px;
 }
 .tab-badge.show{display:flex;}
 
@@ -217,7 +217,57 @@ input{font-family:var(--sans);}
 
 /* ── HOME ── */
 .home-hero{
-  padding:28px 20px 20px;
+  padding:24px 20px 16px;
+}
+.home-banner{
+  margin:0 20px 20px;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  position:relative;
+  background:linear-gradient(135deg,#0f1628 0%,#1a1d40 50%,#0f2030 100%);
+  min-height:160px;
+  display:flex;align-items:center;
+  padding:20px 24px;
+  gap:16px;
+}
+.home-banner::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 80% 50%, rgba(59,130,246,.15) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(34,197,94,.08) 0%, transparent 50%);
+  pointer-events:none;
+}
+.home-banner-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(59,130,246,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,.06) 1px, transparent 1px);
+  background-size:32px 32px;
+  pointer-events:none;
+}
+.home-banner-text{position:relative;z-index:1;flex:1;}
+.home-banner-label{
+  font-size:.65rem;font-weight:600;color:var(--accent);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+.home-banner-label::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 8px var(--accent);
+  animation:pd 1.5s infinite;
+}
+.home-banner-title{
+  font-size:1.4rem;font-weight:700;color:#fff;
+  letter-spacing:-.02em;line-height:1.25;margin-bottom:6px;
+}
+.home-banner-title span{color:var(--accent);}
+.home-banner-desc{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.55;}
+.home-banner-ico{
+  position:relative;z-index:1;
+  font-size:3.8rem;flex-shrink:0;
+  filter:drop-shadow(0 0 20px rgba(59,130,246,.4));
 }
 .home-greeting{font-size:.8rem;font-weight:500;color:var(--text3);margin-bottom:6px;}
 .home-title{font-size:1.8rem;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1.2;margin-bottom:6px;}
@@ -430,15 +480,11 @@ input{font-family:var(--sans);}
 .alert-list{display:flex;flex-direction:column;gap:8px;}
 .alert-card{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:12px;overflow:hidden;
+  border-radius:12px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
   animation:fadeUp .25s ease;
-  transition:border-color .15s;
-  cursor:pointer;
 }
-.alert-card:hover{border-color:var(--border2);}
 .alert-card.new{border-left:3px solid var(--red);}
-.alert-card.expanded{border-color:var(--accent);}
-.a-summary{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;}
 .a-ico{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
 .a-body{flex:1;min-width:0;}
 .a-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
@@ -454,23 +500,6 @@ input{font-family:var(--sans);}
 .at-yellow{background:rgba(245,158,11,.12);color:#fbbf24;}
 .at-blue{background:rgba(59,130,246,.12);color:#60a5fa;}
 .at-green{background:rgba(34,197,94,.12);color:#4ade80;}
-.a-chevron{font-size:.7rem;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-top:2px;}
-.alert-card.expanded .a-chevron{transform:rotate(180deg);color:var(--accent);}
-.a-detail{
-  display:none;
-  padding:14px 16px 16px;
-  border-top:1px solid var(--border);
-  background:var(--bg);
-}
-.alert-card.expanded .a-detail{display:block;animation:fadeUp .2s ease;}
-.a-detail-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4;}
-.a-detail-body{font-size:.82rem;color:var(--text2);line-height:1.75;margin-bottom:12px;white-space:pre-wrap;}
-.a-detail-meta{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:8px;
-  padding-top:10px;border-top:1px solid var(--border);
-  font-size:.72rem;color:var(--text3);
-}
 
 /* ── PROFILE ── */
 .pf-hero{
@@ -542,6 +571,17 @@ input{font-family:var(--sans);}
       <div class="home-greeting">Benvenuto in CyberGuard Italia by 5T3C4V78</div>
       <div class="home-title">Proteggetevi dalle<br><span>truffe digitali</span></div>
       <div class="home-desc" style="margin-top:8px">Impara a riconoscere le tecniche più usate dai truffatori, testa le tue difese e rimani aggiornato sulle minacce attive.</div>
+    </div>
+
+    <!-- BANNER VISIVO -->
+    <div class="home-banner">
+      <div class="home-banner-grid"></div>
+      <div class="home-banner-text">
+        <div class="home-banner-label">Sistema attivo</div>
+        <div class="home-banner-title">Difesa digitale<br><span>in tempo reale</span></div>
+        <div class="home-banner-desc">Alert ufficiali da CERT-AGID e fonti italiane specializzate, aggiornati ogni 5 minuti.</div>
+      </div>
+      <div class="home-banner-ico">🛡️</div>
     </div>
 <div style="padding:0 20px"><div class="section-title">Cosa vuoi fare?</div></div>
     <div class="nav-grid">
@@ -1455,75 +1495,19 @@ let unread=0,aFilter='all';
 const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
 
 const RSS_FEEDS = [
-  { rssUrl: 'https://cert-agid.gov.it/feed/', source: 'CERT-AGID', ico: '🇮🇹' },
-  { rssUrl: 'https://www.cybersecurity360.it/feed/', source: 'Cybersecurity360', ico: '🛡️' }
-];
-
-const CORS_PROXIES = [
-  url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-];
-
-async function fetchWithProxy(url) {
-  for(const proxy of CORS_PROXIES) {
-    try {
-      const res = await fetch(proxy(url), { cache:'no-store', signal:AbortSignal.timeout(8000) });
-      if(res.ok) {
-        const text = await res.text();
-        if(text && text.length > 100) return text;
-      }
-    } catch(e) { /* prova il prossimo */ }
+  {
+    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fcert-agid.gov.it%2Ffeed%2F',
+    source: 'CERT-AGID',
+    ico: '🇮🇹',
+    defaultTags: ['critico']
+  },
+  {
+    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.cybersecurity360.it%2Ffeed%2F',
+    source: 'Cybersecurity360',
+    ico: '🛡️',
+    defaultTags: ['phishing']
   }
-  throw new Error('Tutti i proxy non disponibili');
-}
-
-function cleanText(raw) {
-  return (raw || '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
-    .replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&nbsp;/g,' ')
-    .replace(/\s+/g,' ').trim();
-}
-
-function parseRSS(xmlText, feed) {
-  const results = [];
-  try {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xmlText, 'text/xml');
-    const items = Array.from(doc.querySelectorAll('item')).slice(0, 8);
-    items.forEach(item => {
-      const title   = cleanText(item.querySelector('title')?.textContent) || 'Nessun titolo';
-      const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-      const link    = item.querySelector('link')?.textContent?.trim() || '#';
-
-      // Prendi il testo più lungo disponibile nel feed
-      const rawFull = item.querySelector('content\\:encoded')?.textContent
-                   || item.querySelector('description')?.textContent
-                   || '';
-      const fullText = cleanText(rawFull);
-
-      // Anteprima breve per la card chiusa
-      const preview = fullText.slice(0, 120) + (fullText.length > 120 ? '...' : '');
-
-      // Testo completo per l'accordion (fino a 1200 caratteri — tutto quello che il feed fornisce)
-      const detail = fullText.slice(0, 1200) + (fullText.length > 1200 ? '...' : '');
-
-      results.push({
-        ico: feed.ico,
-        title,
-        preview: preview || 'Tocca per leggere i dettagli.',
-        detail: detail || 'Testo non disponibile nel feed. Questo è un alert pubblicato da ' + feed.source + '.',
-        tags: classifyTags(title),
-        time: timeAgo(pubDate),
-        pubDate: pubDate ? new Date(pubDate) : new Date(),
-        source: feed.source,
-        isNew: pubDate ? (Date.now() - new Date(pubDate).getTime()) < 3600000 : false
-      });
-    });
-  } catch(e) { console.warn('Errore parsing RSS:', e.message); }
-  return results;
-}
+];
 
 function classifyTags(title) {
   const t = title.toLowerCase();
@@ -1556,8 +1540,28 @@ async function loadRSSFeeds() {
   await Promise.allSettled(
     RSS_FEEDS.map(async feed => {
       try {
-        const xml = await fetchWithProxy(feed.rssUrl);
-        results.push(...parseRSS(xml, feed));
+        const res = await fetch(feed.url, { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if(data.status !== 'ok' || !data.items?.length) throw new Error('No items');
+        data.items.slice(0, 6).forEach(item => {
+          const desc = (item.description || item.content || '')
+            .replace(/<[^>]+>/g, '')
+            .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+            .replace(/&quot;/g,'"').replace(/&#039;/g,"'")
+            .trim().slice(0, 180);
+          results.push({
+            ico: feed.ico,
+            title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
+            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 180 ? '...' : ''),
+            tags: classifyTags(item.title || ''),
+            time: timeAgo(item.pubDate),
+            pubDate: new Date(item.pubDate || Date.now()),
+            source: feed.source,
+            link: item.link || '#',
+            isNew: (new Date() - new Date(item.pubDate)) < 3600000
+          });
+        });
       } catch(e) {
         console.warn('Feed non disponibile:', feed.source, e.message);
       }
@@ -1585,17 +1589,6 @@ async function refreshAlerts() {
   if(document.getElementById('sc-alerts').classList.contains('active')) renderAlerts();
 }
 
-function toggleAlert(idx) {
-  const card = document.querySelector(`.alert-card[data-idx="${idx}"]`);
-  if(!card) return;
-  const isOpen = card.classList.contains('expanded');
-  document.querySelectorAll('.alert-card.expanded').forEach(c => c.classList.remove('expanded'));
-  if(!isOpen) {
-    card.classList.add('expanded');
-    setTimeout(() => card.scrollIntoView({ behavior:'smooth', block:'nearest' }), 100);
-  }
-}
-
 function renderAlerts(){
   const data = aFilter === 'all' ? aData : aData.filter(a => a.tags.includes(aFilter));
   if(data.length === 0) {
@@ -1603,30 +1596,15 @@ function renderAlerts(){
       '<div style="padding:24px;text-align:center;color:var(--text3);font-size:.85rem">Nessun alert per questa categoria.</div>';
     return;
   }
-  document.getElementById('alert-list').innerHTML = data.map((a, idx) => `
-    <div class="alert-card ${a.isNew ? 'new' : ''}" data-idx="${idx}" onclick="toggleAlert(${idx})">
-      <div class="a-summary">
-        <div class="a-ico">${a.ico}</div>
-        <div class="a-body">
-          <div class="a-head">
-            <div class="a-title">${a.title}</div>
-            <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
-              <div class="a-time">${a.time}</div>
-              <div class="a-chevron">▼</div>
-            </div>
-          </div>
-          <div class="a-text">${a.preview || a.text || ''}</div>
-          <div class="a-tags">
-            ${a.tags.map(t=>`<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}
-            ${a.source?`<span class="a-tag" style="background:rgba(148,163,184,.08);color:#94a3b8;border-color:rgba(148,163,184,.2)">${a.source}</span>`:''}
-          </div>
-        </div>
-      </div>
-      <div class="a-detail">
-        <div class="a-detail-title">${a.title}</div>
-        <div class="a-detail-body">${a.detail || a.text || 'Contenuto non disponibile.'}</div>
-        <div class="a-detail-meta">
-          <span>📰 ${a.source || 'CyberGuard'} &nbsp;·&nbsp; ${a.time}</span>
+  document.getElementById('alert-list').innerHTML = data.map(a => `
+    <div class="alert-card ${a.isNew ? 'new' : ''}" ${a.link && a.link !== '#' ? `onclick="window.open('${a.link}','_blank')" style="cursor:pointer"` : ''}>
+      <div class="a-ico">${a.ico}</div>
+      <div class="a-body">
+        <div class="a-head"><div class="a-title">${a.title}</div><div class="a-time">${a.time}</div></div>
+        <div class="a-text">${a.text}</div>
+        <div class="a-tags">
+          ${a.tags.map(t=>`<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}
+          ${a.source?`<span class="a-tag" style="background:rgba(148,163,184,.08);color:#94a3b8;border-color:#94a3b8">${a.source}</span>`:''}
         </div>
       </div>
     </div>`).join('');
