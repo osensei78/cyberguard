@@ -480,15 +480,11 @@ input{font-family:var(--sans);}
 .alert-list{display:flex;flex-direction:column;gap:8px;}
 .alert-card{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:12px;overflow:hidden;
+  border-radius:12px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
   animation:fadeUp .25s ease;
-  transition:border-color .15s;
-  cursor:pointer;
 }
-.alert-card:hover{border-color:var(--border2);}
 .alert-card.new{border-left:3px solid var(--red);}
-.alert-card.expanded{border-color:var(--accent);}
-.a-summary{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;}
 .a-ico{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
 .a-body{flex:1;min-width:0;}
 .a-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
@@ -496,27 +492,14 @@ input{font-family:var(--sans);}
 .a-time{font-size:.68rem;color:var(--text3);white-space:nowrap;}
 .a-text{font-size:.78rem;color:var(--text2);line-height:1.5;margin-bottom:6px;}
 .a-tags{display:flex;gap:4px;flex-wrap:wrap;}
-.a-tag{font-size:.63rem;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:.03em;}
+.a-tag{
+  font-size:.63rem;font-weight:600;padding:2px 7px;
+  border-radius:4px;letter-spacing:.03em;
+}
 .at-red{background:rgba(239,68,68,.12);color:#f87171;}
 .at-yellow{background:rgba(245,158,11,.12);color:#fbbf24;}
 .at-blue{background:rgba(59,130,246,.12);color:#60a5fa;}
 .at-green{background:rgba(34,197,94,.12);color:#4ade80;}
-.a-chevron{font-size:.7rem;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-top:2px;}
-.alert-card.expanded .a-chevron{transform:rotate(180deg);color:var(--accent);}
-.a-detail{
-  display:none;
-  padding:14px 16px 16px;
-  border-top:1px solid var(--border);
-  background:var(--bg);
-}
-.alert-card.expanded .a-detail{display:block;animation:fadeUp .2s ease;}
-.a-detail-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4;}
-.a-detail-body{font-size:.82rem;color:var(--text2);line-height:1.75;margin-bottom:12px;white-space:pre-wrap;}
-.a-detail-meta{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-  padding-top:10px;border-top:1px solid var(--border);
-  font-size:.72rem;color:var(--text3);
-}
 
 /* ── PROFILE ── */
 .pf-hero{
@@ -1290,7 +1273,7 @@ input{font-family:var(--sans);}
 </div>
 
 <script>
-  // ── PROFILE ──
+// ── PROFILE ──
 const LVS=[{n:'Principiante',xp:0},{n:'Intermedio',xp:100},{n:'Esperto',xp:280},{n:'Master',xp:500}];
 const BADGES=['🥇 Primo passo','📚 Studioso','🎯 Preciso','🛡️ Difensore','🔍 Investigatore','⭐ Esperto','🏆 Master'];
 let P=JSON.parse(localStorage.getItem('cg1')||'null')||{xp:0,level:1,quizDone:0,correct:0,simUsed:0,reads:0,badges:['🥇 Primo passo'],log:[]};
@@ -1500,26 +1483,64 @@ function checkPw(pw){
 }
 
 // ── ALERTS ──
-let aData=[
-  {ico:'🔄',title:'Caricamento alert in corso...',text:'Connessione ai feed ufficiali di sicurezza: CERT-AGID, Cybersecurity360.',tags:['phishing'],time:'ora',isNew:false},
+let aData = [{ico:'🔄',title:'Caricamento alert in corso...',preview:'Connessione ai feed ufficiali...',detail:'Connessione ai feed ufficiali di sicurezza: CERT-AGID, Cybersecurity360.',tags:['phishing'],time:'ora',isNew:false}];
+let unread = 0, aFilter = 'all';
+const tagMap = {critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
+
+// ── PROXY CORS MULTIPLI ──
+const CORS_PROXIES = [
+  url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
 ];
-let unread=0,aFilter='all';
-const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
 
 const RSS_FEEDS = [
-  {
-    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fcert-agid.gov.it%2Ffeed%2F',
-    source: 'CERT-AGID',
-    ico: '🇮🇹',
-    defaultTags: ['critico']
-  },
-  {
-    url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.cybersecurity360.it%2Ffeed%2F',
-    source: 'Cybersecurity360',
-    ico: '🛡️',
-    defaultTags: ['phishing']
-  }
+  { rssUrl: 'https://cert-agid.gov.it/feed/', source: 'CERT-AGID', ico: '🇮🇹' },
+  { rssUrl: 'https://www.cybersecurity360.it/feed/', source: 'Cybersecurity360', ico: '🛡️' }
 ];
+
+async function fetchWithProxy(url) {
+  for(const proxy of CORS_PROXIES) {
+    try {
+      const res = await fetch(proxy(url), { cache:'no-store', signal:AbortSignal.timeout(8000) });
+      if(res.ok) { const t = await res.text(); if(t && t.length > 100) return t; }
+    } catch(e) { /* prossimo proxy */ }
+  }
+  throw new Error('Tutti i proxy falliti');
+}
+
+function cleanText(raw) {
+  return (raw || '')
+    .replace(/<[^>]+>/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<')
+    .replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#039;/g,"'")
+    .replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+}
+
+function parseRSS(xmlText, feed) {
+  const results = [];
+  try {
+    const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+    Array.from(doc.querySelectorAll('item')).slice(0,8).forEach(item => {
+      const title = cleanText(item.querySelector('title')?.textContent) || 'Nessun titolo';
+      const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
+      const rawFull = item.querySelector('content\\:encoded')?.textContent
+                   || item.querySelector('description')?.textContent || '';
+      const full = cleanText(rawFull);
+      // PREVIEW corta per la card chiusa, DETAIL lungo per l'accordion
+      const preview = full.length > 0 ? full.slice(0,110) + (full.length>110?'...':'') : 'Tocca per leggere i dettagli.';
+      const detail  = full.length > 0 ? full.slice(0,1200) + (full.length>1200?'...':'') : 'Testo non disponibile nel feed RSS.';
+      results.push({
+        ico: feed.ico, title, preview, detail,
+        tags: classifyTags(title),
+        time: timeAgo(pubDate),
+        pubDate: pubDate ? new Date(pubDate) : new Date(),
+        source: feed.source,
+        isNew: pubDate ? (Date.now() - new Date(pubDate).getTime()) < 7200000 : false
+      });
+    });
+  } catch(e) { console.warn('Errore parsing RSS:', e.message); }
+  return results;
+}
 
 function classifyTags(title) {
   const t = title.toLowerCase();
@@ -1533,70 +1554,82 @@ function classifyTags(title) {
 }
 
 function timeAgo(dateStr) {
-  const now = new Date();
-  const pub = new Date(dateStr);
+  const now = new Date(), pub = new Date(dateStr);
   if(isNaN(pub)) return 'recente';
   const diff = Math.floor((now - pub) / 60000);
-  if(diff < 1) return 'adesso';
-  if(diff < 60) return diff + ' min fa';
-  const h = Math.floor(diff / 60);
-  if(h < 24) return h + (h === 1 ? ' ora fa' : ' ore fa');
-  const d = Math.floor(h / 24);
-  if(d === 1) return 'ieri';
-  if(d < 7) return d + ' giorni fa';
-  return pub.toLocaleDateString('it-IT', {day:'numeric', month:'short'});
+  if(diff < 1) return 'adesso'; if(diff < 60) return diff + ' min fa';
+  const h = Math.floor(diff/60);
+  if(h < 24) return h + (h===1?' ora fa':' ore fa');
+  const d = Math.floor(h/24);
+  if(d===1) return 'ieri'; if(d<7) return d+' giorni fa';
+  return pub.toLocaleDateString('it-IT',{day:'numeric',month:'short'});
 }
 
 async function loadRSSFeeds() {
   const results = [];
-  await Promise.allSettled(
-    RSS_FEEDS.map(async feed => {
-      try {
-        const res = await fetch(feed.url, { cache: 'no-store' });
-        if(!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        if(data.status !== 'ok' || !data.items?.length) throw new Error('No items');
-        data.items.slice(0, 6).forEach(item => {
-          const desc = (item.description || item.content || '')
-            .replace(/<[^>]+>/g, '')
-            .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
-            .replace(/&quot;/g,'"').replace(/&#039;/g,"'")
-            .trim().slice(0, 1200);
-          results.push({
-            ico: feed.ico,
-            title: (item.title || 'Nessun titolo').replace(/<[^>]+>/g,'').trim(),
-            text: (desc || 'Leggi l\'articolo completo sulla fonte originale.') + (desc.length >= 100 ? '...' : ''),
-            tags: classifyTags(item.title || ''),
-            time: timeAgo(item.pubDate),
-            pubDate: new Date(item.pubDate || Date.now()),
-            source: feed.source,
-            link: item.link || '#',
-            isNew: (new Date() - new Date(item.pubDate)) < 3600000
-          });
-        });
-      } catch(e) {
-        console.warn('Feed non disponibile:', feed.source, e.message);
-      }
-    })
-  );
+  await Promise.allSettled(RSS_FEEDS.map(async feed => {
+    try {
+      const xml = await fetchWithProxy(feed.rssUrl);
+      results.push(...parseRSS(xml, feed));
+    } catch(e) { console.warn('Feed non disponibile:', feed.source); }
+  }));
   return results;
 }
 
+// ── NOTIZIE ADMIN (tu scrivi alerts.json su GitHub, tutti ricevono notifica) ──
+const ADMIN_URL = 'https://osensei78.github.io/cyberguard/alerts.json';
+let lastAdminId = localStorage.getItem('cg_last_admin') || '';
+
+async function loadAdminAlerts() {
+  try {
+    const res = await fetch(ADMIN_URL + '?t=' + Date.now(), { cache:'no-store' });
+    if(!res.ok) return [];
+    const data = await res.json();
+    if(!Array.isArray(data)) return [];
+    return data.map(a => ({
+      ico: a.ico || '📢',
+      title: a.title || 'Comunicazione CyberGuard',
+      preview: (a.text||'').slice(0,110) + ((a.text||'').length>110?'...':''),
+      detail: a.text || '',
+      tags: a.tags || ['critico'],
+      time: a.time || 'adesso',
+      pubDate: new Date(a.date || Date.now()),
+      source: '📢 Admin',
+      isAdmin: true,
+      adminId: a.id,
+      isNew: a.id && a.id !== lastAdminId
+    }));
+  } catch(e) { return []; }
+}
+
 async function refreshAlerts() {
-  const items = await loadRSSFeeds();
-  if(items.length === 0) {
-    aData = [{ico:'⚠️',title:'Feed non raggiungibili',text:'Controlla la connessione internet. I feed verranno ricaricati al prossimo aggiornamento.',tags:['critico'],time:'ora',isNew:false}];
+  const [rssItems, adminItems] = await Promise.all([loadRSSFeeds(), loadAdminAlerts()]);
+
+  // Gestione notifiche admin
+  const newAdmin = adminItems.filter(a => a.isNew);
+  if(newAdmin.length > 0) {
+    const top = newAdmin[0];
+    lastAdminId = top.adminId;
+    localStorage.setItem('cg_last_admin', lastAdminId);
+    sendLocalNotif('📢 CyberGuard — ' + top.title, top.detail.slice(0,80) || top.preview, 'admin-' + top.adminId);
+  }
+
+  // Unisci admin (in cima) + RSS
+  const all = [...adminItems, ...rssItems];
+  if(all.length === 0) {
+    aData = [{ico:'⚠️',title:'Feed non raggiungibili',preview:'Controlla la connessione internet.',detail:'Controlla la connessione internet. I feed verranno ricaricati al prossimo aggiornamento.',tags:['critico'],time:'ora',isNew:false}];
   } else {
-    items.sort((a, b) => b.pubDate - a.pubDate);
-    aData = items;
-    const newCount = items.filter(i => i.isNew).length;
+    all.sort((a,b) => b.pubDate - a.pubDate);
+    aData = all;
+    const newCount = all.filter(i => i.isNew).length;
     if(newCount > 0) {
       unread = newCount;
       document.getElementById('alert-badge').textContent = Math.min(unread,9)+'+';
       document.getElementById('alert-badge').classList.add('show');
       document.getElementById('tb-alert-n').textContent = unread + ' alert';
     }
-    checkAndNotify(items);
+    // Notifica RSS critici nuovi
+    checkAndNotifyRSS(rssItems);
   }
   if(document.getElementById('sc-alerts').classList.contains('active')) renderAlerts();
 }
@@ -1608,19 +1641,18 @@ function toggleAlert(idx) {
   document.querySelectorAll('.alert-card.expanded').forEach(c => c.classList.remove('expanded'));
   if(!isOpen) {
     card.classList.add('expanded');
-    setTimeout(() => card.scrollIntoView({ behavior:'smooth', block:'nearest' }), 100);
+    setTimeout(() => card.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
   }
 }
 
 function renderAlerts(){
-  const data = aFilter === 'all' ? aData : aData.filter(a => a.tags.includes(aFilter));
+  const data = aFilter==='all' ? aData : aData.filter(a => a.tags.includes(aFilter));
   if(data.length === 0) {
-    document.getElementById('alert-list').innerHTML =
-      '<div style="padding:24px;text-align:center;color:var(--text3);font-size:.85rem">Nessun alert per questa categoria.</div>';
+    document.getElementById('alert-list').innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);font-size:.85rem">Nessun alert per questa categoria.</div>';
     return;
   }
-  document.getElementById('alert-list').innerHTML = data.map((a, idx) => `
-    <div class="alert-card ${a.isNew ? 'new' : ''}" data-idx="${idx}" onclick="toggleAlert(${idx})">
+  document.getElementById('alert-list').innerHTML = data.map((a,idx) => `
+    <div class="alert-card ${a.isNew?'new':''} ${a.isAdmin?'admin-alert':''}" data-idx="${idx}" onclick="toggleAlert(${idx})">
       <div class="a-summary">
         <div class="a-ico">${a.ico}</div>
         <div class="a-body">
@@ -1631,18 +1663,18 @@ function renderAlerts(){
               <div class="a-chevron">▼</div>
             </div>
           </div>
-          <div class="a-text">${a.preview || a.text || ''}</div>
+          <div class="a-text">${a.preview}</div>
           <div class="a-tags">
             ${a.tags.map(t=>`<span class="a-tag ${tagMap[t]||'at-green'}">${t.charAt(0).toUpperCase()+t.slice(1)}</span>`).join('')}
-            ${a.source?`<span class="a-tag" style="background:rgba(148,163,184,.08);color:#94a3b8;border-color:rgba(148,163,184,.2)">${a.source}</span>`:''}
+            <span class="a-tag" style="background:rgba(148,163,184,.08);color:#94a3b8;border-color:rgba(148,163,184,.2)">${a.source}</span>
           </div>
         </div>
       </div>
       <div class="a-detail">
         <div class="a-detail-title">${a.title}</div>
-        <div class="a-detail-body">${a.detail || a.text || 'Contenuto non disponibile.'}</div>
+        <div class="a-detail-body">${a.detail}</div>
         <div class="a-detail-meta">
-          <span>📰 ${a.source || 'CyberGuard'} &nbsp;·&nbsp; ${a.time}</span>
+          <span>${a.source} &nbsp;·&nbsp; ${a.time}</span>
         </div>
       </div>
     </div>`).join('');
@@ -1667,40 +1699,26 @@ function clearBadge(){
 let notifEnabled = localStorage.getItem('cg_notif') === 'true';
 
 async function requestNotifPermission() {
-  if(!('Notification' in window)) {
-    alert('Il tuo browser non supporta le notifiche push.');
-    return;
-  }
+  if(!('Notification' in window)) { alert('Il tuo browser non supporta le notifiche push.'); return; }
   if(Notification.permission === 'granted') {
-    notifEnabled = true;
-    localStorage.setItem('cg_notif', 'true');
-    updateNotifBtn();
-    showNotifToast('✅ Notifiche attivate! Riceverai alert per le minacce critiche.');
+    notifEnabled = true; localStorage.setItem('cg_notif','true');
+    updateNotifBtn(); showNotifToast('✅ Notifiche attivate!');
     return;
   }
-  if(Notification.permission === 'denied') {
-    alert('Le notifiche sono bloccate. Abilitale nelle impostazioni del browser, poi riprova.');
-    return;
-  }
+  if(Notification.permission === 'denied') { alert('Notifiche bloccate. Abilitale nelle impostazioni del browser.'); return; }
   const result = await Notification.requestPermission();
   if(result === 'granted') {
-    notifEnabled = true;
-    localStorage.setItem('cg_notif', 'true');
-    updateNotifBtn();
-    showNotifToast('✅ Notifiche attivate! Riceverai alert per le minacce critiche.');
-    setTimeout(() => {
-      sendLocalNotif('🛡️ CyberGuard attivo', 'Riceverai notifiche per ogni nuova minaccia critica rilevata in Italia.');
-    }, 1000);
+    notifEnabled = true; localStorage.setItem('cg_notif','true');
+    updateNotifBtn(); showNotifToast('✅ Notifiche attivate!');
+    setTimeout(() => sendLocalNotif('🛡️ CyberGuard attivo', 'Riceverai notifiche per ogni nuova minaccia critica rilevata in Italia.'), 1000);
   } else {
-    showNotifToast('⚠️ Permesso negato. Puoi riattivare dalle impostazioni del browser.');
+    showNotifToast('⚠️ Permesso negato.');
   }
 }
 
 function disableNotif() {
-  notifEnabled = false;
-  localStorage.setItem('cg_notif', 'false');
-  updateNotifBtn();
-  showNotifToast('🔕 Notifiche disattivate.');
+  notifEnabled = false; localStorage.setItem('cg_notif','false');
+  updateNotifBtn(); showNotifToast('🔕 Notifiche disattivate.');
 }
 
 function updateNotifBtn() {
@@ -1708,76 +1726,45 @@ function updateNotifBtn() {
   if(!btn) return;
   if(notifEnabled && Notification.permission === 'granted') {
     btn.textContent = '🔔 Notifiche attive';
-    btn.style.background = 'rgba(34,197,94,.12)';
-    btn.style.borderColor = 'rgba(34,197,94,.3)';
-    btn.style.color = '#4ade80';
+    btn.style.cssText += ';background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#4ade80';
     btn.onclick = disableNotif;
   } else {
     btn.textContent = '🔔 Attiva notifiche';
-    btn.style.background = 'rgba(59,130,246,.1)';
-    btn.style.borderColor = 'rgba(59,130,246,.3)';
-    btn.style.color = '#60a5fa';
+    btn.style.cssText += ';background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:#60a5fa';
     btn.onclick = requestNotifPermission;
   }
 }
 
-function sendLocalNotif(title, body, tag = 'cyberguard-alert') {
+function sendLocalNotif(title, body, tag='cg-alert') {
   if(!notifEnabled || Notification.permission !== 'granted') return;
   if('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({ type: 'SHOW_NOTIF', title, body, tag });
+    navigator.serviceWorker.controller.postMessage({type:'SHOW_NOTIF', title, body, tag});
   } else {
-    new Notification(title, { body, icon: 'icon-192.png', badge: 'icon-192.png', tag, renotify: false });
+    new Notification(title, {body, icon:'icon-192.png', tag, renotify:false});
   }
 }
 
 function showNotifToast(msg) {
-  let toast = document.getElementById('notif-toast');
-  if(!toast) {
-    toast = document.createElement('div');
-    toast.id = 'notif-toast';
-    toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1d27;border:1px solid #2a2d3e;border-radius:10px;padding:10px 18px;font-size:.82rem;color:#f1f5f9;z-index:9000;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:opacity .3s;';
-    document.body.appendChild(toast);
+  let t = document.getElementById('notif-toast');
+  if(!t) {
+    t = document.createElement('div'); t.id = 'notif-toast';
+    t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1d27;border:1px solid #2a2d3e;border-radius:10px;padding:10px 18px;font-size:.82rem;color:#f1f5f9;z-index:9000;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:opacity .3s;';
+    document.body.appendChild(t);
   }
-  toast.textContent = msg;
-  toast.style.opacity = '1';
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => toast.style.opacity = '0', 3000);
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(t._t); t._t = setTimeout(() => t.style.opacity='0', 3500);
 }
 
-let notifiedTitles = JSON.parse(localStorage.getItem('cg_notified') || '[]');
-function checkAndNotify(items) {
+let notifiedRSS = JSON.parse(localStorage.getItem('cg_notified') || '[]');
+function checkAndNotifyRSS(items) {
   if(!notifEnabled || Notification.permission !== 'granted') return;
-  const critici = items.filter(i => i.tags.includes('critico') && i.isNew && !notifiedTitles.includes(i.title));
-  if(critici.length === 0) return;
-  const top = critici[0];
-  sendLocalNotif('⚠️ Nuovo alert critico — ' + top.source, top.title, 'cg-' + top.title.slice(0,30));
-  notifiedTitles = [...notifiedTitles, ...critici.map(i => i.title)].slice(-50);
-  localStorage.setItem('cg_notified', JSON.stringify(notifiedTitles));
+  const nuovi = items.filter(i => i.tags.includes('critico') && i.isNew && !notifiedRSS.includes(i.title));
+  if(nuovi.length === 0) return;
+  sendLocalNotif('⚠️ Nuovo alert — ' + nuovi[0].source, nuovi[0].title, 'rss-' + nuovi[0].title.slice(0,30));
+  notifiedRSS = [...notifiedRSS, ...nuovi.map(i=>i.title)].slice(-50);
+  localStorage.setItem('cg_notified', JSON.stringify(notifiedRSS));
 }
 
-// ── PWA SERVICE WORKER ──
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-
-// ── PWA INSTALL BANNER ──
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const banner = document.getElementById('install-banner');
-  if(banner) banner.style.display = 'flex';
-});
-document.getElementById('install-btn')?.addEventListener('click', async () => {
-  if(!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  document.getElementById('install-banner').style.display = 'none';
-});
-document.getElementById('install-dismiss')?.addEventListener('click', () => {
-  document.getElementById('install-banner').style.display = 'none';
-});
 
 // ── INIT ──
 renderPf();
