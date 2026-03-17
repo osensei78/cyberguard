@@ -1434,57 +1434,61 @@ let unread=0,aFilter='all';
 const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
 
 const RSS_FEEDS = [
-  {
-    rssUrl: 'https://cert-agid.gov.it/feed/',
-    source: 'CERT-AGID',
-    ico: '🇮🇹',
-    defaultTags: ['critico']
-  },
-  {
-    rssUrl: 'https://www.cybersecurity360.it/feed/',
-    source: 'Cybersecurity360',
-    ico: '🛡️',
-    defaultTags: ['phishing']
-  }
+  { rssUrl: 'https://cert-agid.gov.it/feed/', source: 'CERT-AGID', ico: '🇮🇹' },
+  { rssUrl: 'https://www.cybersecurity360.it/feed/', source: 'Cybersecurity360', ico: '🛡️' }
 ];
 
-// Proxy CORS gratuito — nessuna API key richiesta
-function proxyUrl(rssUrl) {
-  return 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
+// Lista di proxy CORS in ordine di preferenza — se uno fallisce prova il successivo
+const CORS_PROXIES = [
+  url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
+
+async function fetchWithProxy(url) {
+  for(const proxy of CORS_PROXIES) {
+    try {
+      const res = await fetch(proxy(url), { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+      if(res.ok) {
+        const text = await res.text();
+        if(text && text.length > 100) return text;
+      }
+    } catch(e) { /* prova il proxy successivo */ }
+  }
+  throw new Error('Tutti i proxy non disponibili');
 }
 
-// Parsing XML RSS manuale
 function parseRSS(xmlText, feed) {
   const results = [];
   try {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xmlText, 'text/xml');
-    const items = doc.querySelectorAll('item');
-    items.forEach((item, i) => {
-      if(i >= 6) return;
+    const items = Array.from(doc.querySelectorAll('item')).slice(0, 6);
+    items.forEach(item => {
       const title = item.querySelector('title')?.textContent?.trim() || 'Nessun titolo';
-      const link  = item.querySelector('link')?.textContent?.trim() || '#';
+      const link  = item.querySelector('link')?.textContent?.trim() ||
+                    item.querySelector('link')?.getAttribute('href') || '#';
       const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-      const desc = (item.querySelector('description')?.textContent || '')
-        .replace(/<[^>]+>/g, '')
+      const rawDesc = item.querySelector('description')?.textContent ||
+                      item.querySelector('content\\:encoded')?.textContent || '';
+      const desc = rawDesc
+        .replace(/<[^>]+>/g, ' ')
         .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>')
-        .replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/\s+/g,' ')
-        .trim().slice(0, 200);
+        .replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&nbsp;/g,' ')
+        .replace(/\s+/g,' ').trim().slice(0, 220);
       results.push({
         ico: feed.ico,
-        title,
+        title: title.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').trim(),
         text: desc || 'Leggi l\'articolo completo sulla fonte originale.',
         tags: classifyTags(title),
         time: timeAgo(pubDate),
-        pubDate: new Date(pubDate || Date.now()),
+        pubDate: pubDate ? new Date(pubDate) : new Date(),
         source: feed.source,
         link,
-        isNew: pubDate ? (new Date() - new Date(pubDate)) < 3600000 : false
+        isNew: pubDate ? (Date.now() - new Date(pubDate).getTime()) < 3600000 : false
       });
     });
-  } catch(e) {
-    console.warn('Errore parsing RSS:', feed.source, e.message);
-  }
+  } catch(e) { console.warn('Errore parsing RSS:', e.message); }
   return results;
 }
 
@@ -1519,11 +1523,8 @@ async function loadRSSFeeds() {
   await Promise.allSettled(
     RSS_FEEDS.map(async feed => {
       try {
-        const res = await fetch(proxyUrl(feed.rssUrl), { cache: 'no-store' });
-        if(!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        if(!data.contents) throw new Error('Nessun contenuto dal proxy');
-        const items = parseRSS(data.contents, feed);
+        const xml = await fetchWithProxy(feed.rssUrl);
+        const items = parseRSS(xml, feed);
         results.push(...items);
       } catch(e) {
         console.warn('Feed non disponibile:', feed.source, e.message);
