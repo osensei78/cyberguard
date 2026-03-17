@@ -1614,7 +1614,7 @@ async function refreshAlerts() {
     sendLocalNotif('📢 CyberGuard — ' + top.title, top.detail.slice(0,80) || top.preview, 'admin-' + top.adminId);
   }
 
-  // Unisci admin (in cima) + RSS
+  // Unisci admin + RSS e ordina per data (più recenti prima)
   const all = [...adminItems, ...rssItems];
   if(all.length === 0) {
     aData = [{ico:'⚠️',title:'Feed non raggiungibili',preview:'Controlla la connessione internet.',detail:'Controlla la connessione internet. I feed verranno ricaricati al prossimo aggiornamento.',tags:['critico'],time:'ora',isNew:false}];
