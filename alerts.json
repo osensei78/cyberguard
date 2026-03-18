@@ -1,11 +1,20 @@
 [
   {
+    "id": "alert-003",
+    "ico": "🎙️",
+    "title": "Truffa vocale AI su WhatsApp — clonano la voce dei tuoi familiari",
+    "text": "Nuova ondata in Italia di truffe che utilizzano intelligenza artificiale per clonare voci reali. I truffatori estraggono audio dai messaggi vocali WhatsApp pubblici o dai video sui social, creano una copia della voce in pochi secondi e chiamano i familiari fingendo di essere la persona clonata.\n\nLo schema tipico:\n— Ricevi una chiamata da un numero sconosciuto con la voce di tuo figlio, tua sorella o un amico\n— Ti dice di essere in difficoltà: incidente, furto, arresto, ospedale\n— Chiede un bonifico urgente o di consegnare contanti a qualcuno\n— Riattacca prima che tu possa fare domande\n\nCome difenderti:\n— Stabilisci subito una PAROLA D'ORDINE segreta con i tuoi familiari da usare in caso di emergenza\n— Se ricevi una chiamata sospetta, riaggancia e richiama tu il numero salvato in rubrica\n— Non mandare mai denaro prima di aver verificato di persona o con una videochiamata\n— Riduci i messaggi vocali pubblici sui social e imposta la privacy di WhatsApp su 'Solo contatti'\n— Segnala tentativi di truffa alla Polizia Postale: commissariatops.it",
+    "tags": ["critico", "social"],
+    "date": "2026-03-18T09:00:00",
+    "time": "oggi"
+  },
+  {
     "id": "alert-002",
     "ico": "🚨",
     "title": "Campagna smishing attiva — Finti SMS Agenzia delle Entrate",
     "text": "È in corso una massiccia campagna di smishing che sfrutta il nome dell'Agenzia delle Entrate. Gli utenti ricevono SMS con testo simile a: 'Gentile contribuente, risulta un rimborso fiscale di €287,40 a suo favore. Acceda subito: http://agenziaentrate-rimborso.xyz'. Il link porta a una pagina clone del sito ufficiale che richiede codice fiscale, IBAN e dati della carta di credito.\n\nCome difenderti:\n— L'Agenzia delle Entrate NON invia mai SMS con link per rimborsi\n— I rimborsi fiscali arrivano solo tramite accredito IBAN già registrato o assegno postale\n— Non cliccare MAI su link ricevuti via SMS, anche se il mittente sembra ufficiale\n— Se hai già inserito i tuoi dati, contatta immediatamente la tua banca e segnala alla Polizia Postale su commissariatops.it",
     "tags": ["critico", "phishing"],
-    "date": "2026-03-19T12:00:00",
-    "time": "oggi"
+    "date": "2026-03-17T12:00:00",
+    "time": "ieri"
   }
 ]
