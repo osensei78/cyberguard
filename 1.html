@@ -7,620 +7,302 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0d0d;
-    --surface: #161616;
-    --card: #1e1e1e;
-    --border: #2a2a2a;
-    --accent: #f5c400;
-    --accent2: #e84040;
-    --green: #3dd68c;
-    --text: #e8e8e8;
-    --muted: #666;
-    --benzina: #f5c400;
-    --gasolio: #4da6ff;
-    --gpl: #3dd68c;
-    --metano: #ff8c42;
+    --bg:#0d0d0d;--surface:#161616;--card:#1e1e1e;--border:#2a2a2a;
+    --accent:#f5c400;--accent2:#e84040;--green:#3dd68c;
+    --text:#e8e8e8;--muted:#666;
+    --benzina:#f5c400;--gasolio:#4da6ff;--gpl:#3dd68c;--metano:#ff8c42;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'IBM Plex Sans', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* HEADER */
-  header {
-    background: var(--surface);
-    border-bottom: 2px solid var(--accent);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .logo span { color: var(--text); }
-
-  .live-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--green);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-
-  .live-dot {
-    width: 7px; height: 7px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 1.4s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-  }
-
-  /* CONTROLS */
-  .controls {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .city-tabs {
-    display: flex;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-
-  .city-tab {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    padding: 0.35rem 0.8rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.15s;
-    border-radius: 2px;
-  }
-
-  .city-tab:hover { border-color: var(--accent); color: var(--accent); }
-  .city-tab.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #000;
-    font-weight: 600;
-  }
-
-  .fuel-pills {
-    display: flex;
-    gap: 0.4rem;
-    margin-left: auto;
-  }
-
-  .fuel-pill {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    padding: 0.35rem 0.75rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    transition: all 0.15s;
-    border-radius: 2px;
-  }
-
-  .fuel-pill[data-fuel="benzina"].active { background: var(--benzina); border-color: var(--benzina); color: #000; }
-  .fuel-pill[data-fuel="gasolio"].active { background: var(--gasolio); border-color: var(--gasolio); color: #000; }
-  .fuel-pill[data-fuel="gpl"].active { background: var(--gpl); border-color: var(--gpl); color: #000; }
-  .fuel-pill[data-fuel="metano"].active { background: var(--metano); border-color: var(--metano); color: #000; }
-  .fuel-pill:not(.active):hover { border-color: var(--text); color: var(--text); }
-
-  /* STATS BAR */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .stat-item {
-    padding: 1rem 2rem;
-    border-right: 1px solid var(--border);
-    position: relative;
-  }
-
-  .stat-item:last-child { border-right: none; }
-
-  .stat-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 0.25rem;
-  }
-
-  .stat-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    letter-spacing: 0.04em;
-    color: var(--text);
-    line-height: 1;
-  }
-
-  .stat-value.min { color: var(--green); }
-  .stat-value.max { color: var(--accent2); }
-
-  .stat-sub {
-    font-size: 0.68rem;
-    color: var(--muted);
-    margin-top: 0.2rem;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
-  /* MAIN CONTENT */
-  main {
-    padding: 1.5rem 2rem;
-  }
-
-  .section-title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* TABLE */
-  .table-wrap {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-  }
-
-  thead tr {
-    background: var(--surface);
-    border-bottom: 2px solid var(--border);
-  }
-
-  th {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    padding: 0.6rem 1rem;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
-
-  tbody tr:hover { background: var(--card); }
-
-  td {
-    padding: 0.75rem 1rem;
-    font-size: 0.84rem;
-    vertical-align: middle;
-  }
-
-  td.rank {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    color: var(--muted);
-    width: 40px;
-    text-align: center;
-  }
-
-  tbody tr:first-child td.rank { color: var(--accent); }
-  tbody tr:nth-child(2) td.rank { color: var(--text); }
-  tbody tr:nth-child(3) td.rank { color: #8a8a8a; }
-
-  .station-name {
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.2;
-  }
-
-  .station-address {
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: 0.15rem;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
-  .brand-tag {
-    display: inline-block;
-    background: var(--card);
-    border: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    padding: 0.15rem 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    border-radius: 2px;
-  }
-
-  .price-cell {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    letter-spacing: 0.04em;
-  }
-
-  .price-cell .unit {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    vertical-align: middle;
-    margin-left: 2px;
-  }
-
-  .self-badge, .servito-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.6rem;
-    padding: 0.1rem 0.35rem;
-    border-radius: 2px;
-    text-transform: uppercase;
-  }
-
-  .self-badge { background: rgba(61,214,140,0.15); color: var(--green); }
-  .servito-badge { background: rgba(245,196,0,0.1); color: var(--accent); }
-
-  .price-row { margin-bottom: 2px; }
-
-  /* LOADER */
-  .loader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 200px;
-    gap: 1rem;
-    color: var(--muted);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.8rem;
-  }
-
-  .spinner {
-    width: 32px; height: 32px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .error-msg {
-    display: none;
-    text-align: center;
-    padding: 3rem;
-    color: var(--accent2);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.8rem;
-    line-height: 1.8;
-  }
-
-  .timestamp {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    text-align: right;
-    padding: 0.5rem 0 0;
-  }
-
-  .refresh-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    padding: 0.25rem 0.6rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-left: 0.5rem;
-    border-radius: 2px;
-  }
-
-  .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  @media (max-width: 700px) {
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
-    header { padding: 0 1rem; }
-    .controls { padding: 0.75rem 1rem; }
-    main { padding: 1rem; }
-  }
-
-  .distance-cell {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  .best-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--green);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh}
+  header{background:var(--surface);border-bottom:2px solid var(--accent);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.08em;color:var(--accent)}
+  .logo span{color:var(--text)}
+  .live-badge{display:flex;align-items:center;gap:.4rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--green);text-transform:uppercase;letter-spacing:.12em}
+  .live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+  .controls{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+  .city-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+  .city-tab{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.75rem;padding:.35rem .8rem;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:all .15s;border-radius:2px}
+  .city-tab:hover{border-color:var(--accent);color:var(--accent)}
+  .city-tab.active{background:var(--accent);border-color:var(--accent);color:#000;font-weight:600}
+  .fuel-pills{display:flex;gap:.4rem;margin-left:auto}
+  .fuel-pill{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.72rem;padding:.35rem .75rem;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:all .15s;border-radius:2px}
+  .fuel-pill[data-fuel="Benzina"].active{background:var(--benzina);border-color:var(--benzina);color:#000}
+  .fuel-pill[data-fuel="Gasolio"].active{background:var(--gasolio);border-color:var(--gasolio);color:#000}
+  .fuel-pill[data-fuel="GPL"].active{background:var(--gpl);border-color:var(--gpl);color:#000}
+  .fuel-pill[data-fuel="Metano"].active{background:var(--metano);border-color:var(--metano);color:#000}
+  .fuel-pill:not(.active):hover{border-color:var(--text);color:var(--text)}
+  .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);background:var(--surface)}
+  .stat-item{padding:1rem 2rem;border-right:1px solid var(--border)}
+  .stat-item:last-child{border-right:none}
+  .stat-label{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.25rem}
+  .stat-value{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.04em;color:var(--text);line-height:1}
+  .stat-value.min{color:var(--green)}.stat-value.max{color:var(--accent2)}
+  .stat-sub{font-size:.68rem;color:var(--muted);margin-top:.2rem;font-family:'IBM Plex Mono',monospace}
+  main{padding:1.5rem 2rem}
+  .section-title{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.16em;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  thead tr{background:var(--surface);border-bottom:2px solid var(--border)}
+  th{font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:.6rem 1rem;text-align:left;white-space:nowrap}
+  tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+  tbody tr:hover{background:var(--card)}
+  td{padding:.75rem 1rem;font-size:.84rem;vertical-align:middle}
+  .station-name{font-weight:600;color:var(--text);line-height:1.2}
+  .station-address{font-size:.72rem;color:var(--muted);margin-top:.15rem;font-family:'IBM Plex Mono',monospace}
+  .brand-tag{display:inline-block;background:var(--card);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:.65rem;padding:.15rem .5rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-radius:2px}
+  .price-cell{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.04em}
+  .price-cell .unit{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--muted);vertical-align:middle;margin-left:2px}
+  .self-badge,.servito-badge{font-family:'IBM Plex Mono',monospace;font-size:.6rem;padding:.1rem .35rem;border-radius:2px;text-transform:uppercase}
+  .self-badge{background:rgba(61,214,140,.15);color:var(--green)}
+  .servito-badge{background:rgba(245,196,0,.1);color:var(--accent)}
+  .price-row{margin-bottom:2px}
+  .best-label{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--green);text-transform:uppercase;letter-spacing:.1em}
+  .loader{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:1rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.8rem}
+  .spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loader-msg{color:var(--muted);font-size:.75rem;max-width:380px;text-align:center;line-height:1.8}
+  .error-msg{display:none;text-align:center;padding:3rem;color:var(--accent2);font-family:'IBM Plex Mono',monospace;font-size:.8rem;line-height:2}
+  .timestamp{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--muted);text-align:right;padding:.5rem 0 0}
+  .refresh-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.65rem;padding:.25rem .6rem;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.08em;margin-left:.5rem;border-radius:2px}
+  .refresh-btn:hover{border-color:var(--accent);color:var(--accent)}
+  @media(max-width:700px){.stats-bar{grid-template-columns:repeat(2,1fr)};header,.controls,main{padding-left:1rem;padding-right:1rem}}
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">⛽ CARB<span>ROMAGNA</span></div>
-  <div class="live-badge">
-    <div class="live-dot"></div>
-    Aggiornamento automatico · Dati MIMIT
-  </div>
+  <div class="live-badge"><div class="live-dot"></div>Dati MIMIT ufficiali</div>
 </header>
 
 <div class="controls">
   <div class="city-tabs" id="cityTabs">
-    <button class="city-tab active" data-lat="44.1391" data-lng="12.2429" data-name="Rimini">Rimini</button>
-    <button class="city-tab" data-lat="44.2227" data-lng="12.0391" data-name="Forlì">Forlì</button>
-    <button class="city-tab" data-lat="44.1396" data-lng="12.2354" data-name="Cesena">Cesena</button>
-    <button class="city-tab" data-lat="44.0564" data-lng="12.5680" data-name="Pesaro">Pesaro</button>
-    <button class="city-tab" data-lat="43.9128" data-lng="12.8641" data-name="Fano">Fano</button>
-    <button class="city-tab" data-lat="44.2835" data-lng="12.1954" data-name="Faenza">Faenza</button>
-    <button class="city-tab" data-lat="44.0607" data-lng="12.5894" data-name="Cattolica">Cattolica</button>
-    <button class="city-tab" data-lat="44.0701" data-lng="12.3980" data-name="Riccione">Riccione</button>
+    <button class="city-tab active" data-prov="RN" data-name="Rimini">Rimini (RN)</button>
+    <button class="city-tab" data-prov="FC" data-name="Forlì-Cesena">Forlì-Cesena (FC)</button>
+    <button class="city-tab" data-prov="RA" data-name="Ravenna">Ravenna (RA)</button>
+    <button class="city-tab" data-prov="PU" data-name="Pesaro-Urbino">Pesaro-Urbino (PU)</button>
   </div>
   <div class="fuel-pills">
-    <button class="fuel-pill active" data-fuel="benzina">Benzina</button>
-    <button class="fuel-pill" data-fuel="gasolio">Gasolio</button>
-    <button class="fuel-pill" data-fuel="gpl">GPL</button>
-    <button class="fuel-pill" data-fuel="metano">Metano</button>
+    <button class="fuel-pill active" data-fuel="Benzina">Benzina</button>
+    <button class="fuel-pill" data-fuel="Gasolio">Gasolio</button>
+    <button class="fuel-pill" data-fuel="GPL">GPL</button>
+    <button class="fuel-pill" data-fuel="Metano">Metano</button>
   </div>
 </div>
 
-<div class="stats-bar" id="statsBar">
-  <div class="stat-item">
-    <div class="stat-label">Minimo self</div>
-    <div class="stat-value min" id="statMin">—</div>
-    <div class="stat-sub" id="statMinStation">—</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-label">Media self</div>
-    <div class="stat-value" id="statAvg">—</div>
-    <div class="stat-sub" id="statCount">—</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-label">Massimo self</div>
-    <div class="stat-value max" id="statMax">—</div>
-    <div class="stat-sub" id="statMaxStation">—</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-label">Raggio ricerca</div>
-    <div class="stat-value">15<span style="font-size:1rem;color:var(--muted)">km</span></div>
-    <div class="stat-sub" id="statCity">—</div>
-  </div>
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-label">Minimo self</div><div class="stat-value min" id="statMin">—</div><div class="stat-sub" id="statMinS">—</div></div>
+  <div class="stat-item"><div class="stat-label">Media self</div><div class="stat-value" id="statAvg">—</div><div class="stat-sub" id="statCount">—</div></div>
+  <div class="stat-item"><div class="stat-label">Massimo self</div><div class="stat-value max" id="statMax">—</div><div class="stat-sub" id="statMaxS">—</div></div>
+  <div class="stat-item"><div class="stat-label">Provincia</div><div class="stat-value" style="font-size:1.4rem" id="statProv">RN</div><div class="stat-sub" id="statUpd">—</div></div>
 </div>
 
 <main>
-  <div class="section-title">Distributori per prezzo crescente</div>
-
+  <div class="section-title">Distributori ordinati per prezzo self crescente</div>
   <div id="loader" class="loader">
     <div class="spinner"></div>
-    <span>Caricamento dati distributori...</span>
+    <div class="loader-msg" id="loaderMsg">Scarico i dati dal Ministero delle Imprese (MIMIT)…<br><small style="opacity:.5">Prima apertura: ~15 secondi. Poi i dati restano in cache.</small></div>
   </div>
-
-  <div id="errorMsg" class="error-msg">
-    ⚠ Impossibile caricare i dati.<br>
-    L'API potrebbe essere temporaneamente non disponibile.<br>
-    <button class="refresh-btn" onclick="loadData()" style="margin-top:1rem">↻ Riprova</button>
-  </div>
-
-  <div class="table-wrap" id="tableWrap" style="display:none">
-    <table id="resultsTable">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Stazione</th>
-          <th>Marchio</th>
-          <th>Self-service</th>
-          <th>Servito</th>
-          <th>Distanza</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
+  <div id="errorMsg" class="error-msg"></div>
+  <div id="tableWrap" style="display:none">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Gestore</th><th>Marchio</th><th>Indirizzo / Comune</th><th>Self-service</th><th>Servito</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
     <div class="timestamp" id="timestamp"></div>
   </div>
 </main>
 
 <script>
-  const API_BASE = 'https://prezzi-carburante.onrender.com/api/distributori';
+// Proxy CORS per accedere ai CSV del MIMIT dal browser
+const PROXY = 'https://api.allorigins.win/raw?url=';
+const ANAG_URL  = 'https://www.mimit.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv';
+const PREZZI_URL = 'https://www.mimit.gov.it/images/exportCSV/prezzo_alle_8.csv';
 
-  let currentCity = { lat: 44.1391, lng: 12.2429, name: 'Rimini' };
-  let currentFuel = 'benzina';
+let anagCache = null, prezziCache = null, cacheTs = null;
+let currentProv = 'RN', currentFuel = 'Benzina';
+const fuelColors = {Benzina:'#f5c400',Gasolio:'#4da6ff',GPL:'#3dd68c',Metano:'#ff8c42'};
 
-  const fuelColors = {
-    benzina: '#f5c400',
-    gasolio: '#4da6ff',
-    gpl: '#3dd68c',
-    metano: '#ff8c42'
-  };
+function setLoader(msg) {
+  document.getElementById('loaderMsg').innerHTML = msg;
+  document.getElementById('loader').style.display = 'flex';
+  document.getElementById('tableWrap').style.display = 'none';
+  document.getElementById('errorMsg').style.display = 'none';
+}
+function setError(msg) {
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('errorMsg').style.display = 'block';
+  document.getElementById('errorMsg').innerHTML = msg;
+  document.getElementById('tableWrap').style.display = 'none';
+}
 
-  async function loadData() {
-    document.getElementById('loader').style.display = 'flex';
-    document.getElementById('tableWrap').style.display = 'none';
-    document.getElementById('errorMsg').style.display = 'none';
-    clearStats();
-
-    const url = `${API_BASE}?latitude=${currentCity.lat}&longitude=${currentCity.lng}&distance=15&fuel=${currentFuel}&results=30`;
-
+async function getCSV(url) {
+  // Prova diretta, poi con proxy CORS
+  for (const u of [url, PROXY + encodeURIComponent(url)]) {
     try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-
-      document.getElementById('loader').style.display = 'none';
-
-      if (!data || data.length === 0) {
-        document.getElementById('errorMsg').style.display = 'block';
-        document.getElementById('errorMsg').innerHTML = `⚠ Nessun distributore trovato per <strong>${currentFuel}</strong> vicino a <strong>${currentCity.name}</strong>.<br><button class="refresh-btn" onclick="loadData()" style="margin-top:1rem">↻ Riprova</button>`;
-        return;
-      }
-
-      renderTable(data);
-      renderStats(data);
-      document.getElementById('tableWrap').style.display = 'block';
-      document.getElementById('timestamp').innerHTML = `Ultimo aggiornamento: ${new Date().toLocaleTimeString('it-IT')} &nbsp;<button class="refresh-btn" onclick="loadData()">↻ Aggiorna</button>`;
-
-    } catch (e) {
-      document.getElementById('loader').style.display = 'none';
-      document.getElementById('errorMsg').style.display = 'block';
-    }
+      const r = await fetch(u, {cache:'no-store'});
+      if (r.ok) { const t = await r.text(); if (t && t.length > 100) return t; }
+    } catch(_) {}
   }
+  return null;
+}
 
-  function renderTable(data) {
+function parseAnag(csv) {
+  // Dal 10/02/2026 separatore è pipe |
+  // Formato: idImpianto|gestore|Bandiera|Indirizzo|comune|Provincia|Latitudine|Longitudine
+  const lines = csv.split('\n');
+  const map = {};
+  // Prova a rilevare separatore dalla prima riga dati
+  const sep = lines[1]?.includes('|') ? '|' : ',';
+  for (let i = 1; i < lines.length; i++) {
+    const l = lines[i].trim(); if (!l) continue;
+    const p = l.split(sep);
+    if (p.length < 6) continue;
+    const id = p[0].trim();
+    map[id] = {
+      gestore: (p[1]||'').trim(),
+      bandiera: (p[2]||'').trim(),
+      indirizzo: (p[3]||'').trim(),
+      comune: (p[4]||'').trim(),
+      provincia: (p[5]||'').trim().toUpperCase()
+    };
+  }
+  return map;
+}
+
+function parsePrezzi(csv) {
+  // Formato: idImpianto|descCarburante|prezzo|isSelf|dtComu
+  const lines = csv.split('\n');
+  const sep = lines[1]?.includes('|') ? '|' : ',';
+  const map = {};
+  for (let i = 1; i < lines.length; i++) {
+    const l = lines[i].trim(); if (!l) continue;
+    const p = l.split(sep);
+    if (p.length < 4) continue;
+    const id = p[0].trim();
+    const carb = (p[1]||'').trim();
+    const prezzo = parseFloat((p[2]||'').replace(',','.'));
+    const isSelf = (p[3]||'').trim() === '1';
+    if (!id || !carb || isNaN(prezzo) || prezzo < 0.3 || prezzo > 10) continue;
+    if (!map[id]) map[id] = {};
+    if (!map[id][carb]) map[id][carb] = {self:null,servito:null};
+    if (isSelf) map[id][carb].self = prezzo;
+    else map[id][carb].servito = prezzo;
+  }
+  return map;
+}
+
+async function loadData() {
+  const now = Date.now();
+  if (!anagCache || !prezziCache || !cacheTs || (now - cacheTs) > 15*60*1000) {
+    setLoader('Scarico anagrafica impianti da MIMIT…<br><small style="opacity:.5">~15 secondi, poi i dati restano in cache per 15 minuti</small>');
+    const anagText = await getCSV(ANAG_URL);
+    if (!anagText) {
+      setError('⚠ Impossibile scaricare i dati MIMIT.<br>Possibili cause: connessione, CORS, server MIMIT temporaneamente non disponibile.<br><br><button class="refresh-btn" onclick="loadData()">↻ Riprova</button>');
+      return;
+    }
+    setLoader('Elaboro anagrafica…');
+    anagCache = parseAnag(anagText);
+
+    setLoader('Scarico prezzi carburanti…');
+    const prezziText = await getCSV(PREZZI_URL);
+    if (!prezziText) {
+      setError('⚠ Impossibile scaricare i prezzi MIMIT.<br><button class="refresh-btn" onclick="loadData()">↻ Riprova</button>');
+      return;
+    }
+    setLoader('Elaboro prezzi…');
+    prezziCache = parsePrezzi(prezziText);
+    cacheTs = now;
+  }
+  renderResults();
+}
+
+function renderResults() {
+  setLoader('Filtro i distributori in provincia ' + currentProv + '…');
+  setTimeout(() => { // lascia aggiornare il DOM
+    const results = [];
+    for (const id in anagCache) {
+      const imp = anagCache[id];
+      if (imp.provincia !== currentProv) continue;
+      const cd = prezziCache[id]?.[currentFuel];
+      if (!cd || (!cd.self && !cd.servito)) continue;
+      results.push({...imp, self:cd.self, servito:cd.servito});
+    }
+    results.sort((a,b)=>(a.self??a.servito??999)-(b.self??b.servito??999));
+
+    if (results.length === 0) {
+      setError(`⚠ Nessun dato per <strong>${currentFuel}</strong> in provincia <strong>${currentProv}</strong>.<br><button class="refresh-btn" onclick="renderResults()" style="margin-top:.5rem">↻ Riprova</button>`);
+      return;
+    }
+
+    // Stats
+    const sp = results.filter(r=>r.self).map(r=>r.self);
+    if (sp.length) {
+      const mn=Math.min(...sp), mx=Math.max(...sp), av=sp.reduce((a,b)=>a+b,0)/sp.length;
+      document.getElementById('statMin').textContent = mn.toFixed(3)+' €';
+      document.getElementById('statAvg').textContent = av.toFixed(3)+' €';
+      document.getElementById('statMax').textContent = mx.toFixed(3)+' €';
+      const mns=results.find(r=>r.self===mn), mxs=results.find(r=>r.self===mx);
+      document.getElementById('statMinS').textContent = mns?(mns.bandiera||'')+' · '+(mns.comune||''):'';
+      document.getElementById('statMaxS').textContent = mxs?(mxs.bandiera||'')+' · '+(mxs.comune||''):'';
+      document.getElementById('statCount').textContent = `${sp.length} impianti self trovati`;
+    }
+    document.getElementById('statProv').textContent = currentProv;
+    document.getElementById('statUpd').textContent = 'Agg. '+new Date().toLocaleTimeString('it-IT');
+
+    const color = fuelColors[currentFuel];
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = '';
-    const color = fuelColors[currentFuel];
-
-    data.forEach((item, i) => {
-      const selfPrice = item.prezzo_self ? parseFloat(item.prezzo_self) : null;
-      const servitoPrice = item.prezzo_servito ? parseFloat(item.prezzo_servito) : null;
-      const distanceKm = item.distanza ? (parseFloat(item.distanza) / 1000).toFixed(1) : '?';
-
-      const selfHtml = selfPrice
-        ? `<div class="price-row"><span class="self-badge">self</span> <span class="price-cell" style="color:${color}">${selfPrice.toFixed(3)}<span class="unit">€/L</span></span></div>`
-        : '<span style="color:#444;font-family:IBM Plex Mono,monospace;font-size:0.72rem">—</span>';
-
-      const servitoHtml = servitoPrice
-        ? `<div class="price-row"><span class="servito-badge">servito</span> <span class="price-cell" style="font-size:1.2rem;color:#aaa">${servitoPrice.toFixed(3)}<span class="unit">€/L</span></span></div>`
-        : '<span style="color:#444;font-family:IBM Plex Mono,monospace;font-size:0.72rem">—</span>';
-
-      const rankLabel = i === 0 ? `<div class="best-label">TOP</div><div class="rank" style="color:var(--green)">1</div>` : `<div class="rank">${i+1}</div>`;
-
+    results.slice(0,60).forEach((item,i) => {
+      const rank = i===0
+        ? `<div class="best-label">TOP</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--green)">1</div>`
+        : `<div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--muted)">${i+1}</div>`;
+      const sh = item.self
+        ? `<span class="self-badge">self</span> <span class="price-cell" style="color:${color}">${item.self.toFixed(3)}<span class="unit">€/L</span></span>`
+        : `<span style="color:#333;font-size:.7rem">—</span>`;
+      const sv = item.servito
+        ? `<span class="servito-badge">srv</span> <span class="price-cell" style="font-size:1.1rem;color:#aaa">${item.servito.toFixed(3)}<span class="unit">€/L</span></span>`
+        : `<span style="color:#333;font-size:.7rem">—</span>`;
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="text-align:center">${rankLabel}</td>
-        <td>
-          <div class="station-name">${esc(item.gestore || item.nome || 'Stazione')}</div>
-          <div class="station-address">${esc(item.indirizzo || '')}${item.comune ? ', ' + esc(item.comune) : ''}</div>
-        </td>
-        <td><span class="brand-tag">${esc(item.bandiera || item.brand || 'N/D')}</span></td>
-        <td>${selfHtml}</td>
-        <td>${servitoHtml}</td>
-        <td class="distance-cell">${distanceKm} km</td>
+        <td style="text-align:center;width:50px">${rank}</td>
+        <td><div class="station-name">${esc(item.gestore)}</div></td>
+        <td><span class="brand-tag">${esc(item.bandiera||'N/D')}</span></td>
+        <td><div class="station-address">${esc(item.indirizzo)}<br>${esc(item.comune)}</div></td>
+        <td>${sh}</td>
+        <td>${sv}</td>
       `;
       tbody.appendChild(tr);
     });
-  }
 
-  function renderStats(data) {
-    const selfPrices = data
-      .map(d => d.prezzo_self ? parseFloat(d.prezzo_self) : null)
-      .filter(p => p && p > 0.5 && p < 5);
+    document.getElementById('loader').style.display='none';
+    document.getElementById('tableWrap').style.display='block';
+    document.getElementById('timestamp').innerHTML =
+      `I prezzi MIMIT vengono comunicati dai gestori e pubblicati ogni giorno alle 8:00 &nbsp;|&nbsp; ${results.length} impianti trovati`+
+      ` &nbsp;<button class="refresh-btn" onclick="forceReload()">↻ Ricarica</button>`;
+  }, 30);
+}
 
-    if (selfPrices.length === 0) return;
-    const min = Math.min(...selfPrices);
-    const max = Math.max(...selfPrices);
-    const avg = selfPrices.reduce((a, b) => a + b, 0) / selfPrices.length;
+function forceReload() { anagCache=null; prezziCache=null; cacheTs=null; loadData(); }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-    const minStation = data.find(d => d.prezzo_self && Math.abs(parseFloat(d.prezzo_self) - min) < 0.001);
-    const maxStation = data.find(d => d.prezzo_self && Math.abs(parseFloat(d.prezzo_self) - max) < 0.001);
-
-    document.getElementById('statMin').textContent = min.toFixed(3) + ' €';
-    document.getElementById('statAvg').textContent = avg.toFixed(3) + ' €';
-    document.getElementById('statMax').textContent = max.toFixed(3) + ' €';
-    document.getElementById('statCount').textContent = `${selfPrices.length} distributori trovati`;
-    document.getElementById('statCity').textContent = `Centro: ${currentCity.name}`;
-    document.getElementById('statMinStation').textContent = minStation ? (minStation.bandiera || minStation.brand || '') + ' · ' + (minStation.comune || '') : '';
-    document.getElementById('statMaxStation').textContent = maxStation ? (maxStation.bandiera || maxStation.brand || '') + ' · ' + (maxStation.comune || '') : '';
-  }
-
-  function clearStats() {
-    ['statMin','statAvg','statMax','statMinStation','statMaxStation','statCount'].forEach(id => {
-      document.getElementById(id).textContent = '—';
-    });
-    document.getElementById('statCity').textContent = currentCity.name;
-  }
-
-  function esc(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  // City tabs
-  document.getElementById('cityTabs').addEventListener('click', e => {
-    const tab = e.target.closest('.city-tab');
-    if (!tab) return;
-    document.querySelectorAll('.city-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    currentCity = { lat: tab.dataset.lat, lng: tab.dataset.lng, name: tab.dataset.name };
-    loadData();
+document.getElementById('cityTabs').addEventListener('click', e=>{
+  const t=e.target.closest('.city-tab'); if(!t) return;
+  document.querySelectorAll('.city-tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); currentProv=t.dataset.prov; renderResults();
+});
+document.querySelectorAll('.fuel-pill').forEach(p=>{
+  p.addEventListener('click',()=>{
+    document.querySelectorAll('.fuel-pill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active'); currentFuel=p.dataset.fuel; renderResults();
   });
+});
 
-  // Fuel pills
-  document.querySelectorAll('.fuel-pill').forEach(pill => {
-    pill.addEventListener('click', () => {
-      document.querySelectorAll('.fuel-pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      currentFuel = pill.dataset.fuel;
-      loadData();
-    });
-  });
-
-  // Auto-refresh ogni 5 minuti
-  setInterval(loadData, 5 * 60 * 1000);
-
-  loadData();
+loadData();
 </script>
-
 </body>
 </html>
