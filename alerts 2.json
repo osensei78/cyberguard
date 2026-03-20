@@ -1,0 +1,38 @@
+[
+  {
+    "id": "alert-005",
+    "ico": "📱",
+    "title": "Truffa lavoro su WhatsApp — finti recruiter INPS e grandi aziende",
+    "text": "Nuova campagna di truffe lavorative che sfrutta WhatsApp e Telegram in Italia. I truffatori contattano le vittime fingendosi recruiter di INPS, Amazon, Lidl o grandi società di consulenza, offrendo lavori da casa con guadagni da €300 a €1.500 al giorno svolgendo semplici task online.\n\nCome funziona la truffa:\n— Ricevi un messaggio su WhatsApp da un numero sconosciuto con offerta di lavoro non richiesta\n— Ti chiedono di entrare in un gruppo Telegram dove 'colleghi' mostrano guadagni falsi\n— Per iniziare a lavorare devi versare una 'cauzione' o acquistare prodotti da recensire\n— Dopo il versamento spariscono oppure chiedono ulteriori pagamenti per sbloccare i guadagni\n\nSegnali di allarme:\n— Nessuna azienda seria assume tramite WhatsApp senza colloquio\n— Guadagni sproporzionati per attività semplici sono sempre una truffa\n— Ti chiedono soldi PRIMA di iniziare a lavorare\n— Il numero mittente è straniero o sconosciuto\n\nCome difenderti:\n— Non rispondere a offerte di lavoro non richieste su WhatsApp o Telegram\n— Non versare mai denaro per accedere a un lavoro: nessun datore di lavoro legittimo lo chiede\n— Verifica l'azienda sul sito ufficiale e cerca il nome + 'truffa' su Google\n— Segnala il numero alla Polizia Postale su commissariatops.it",
+    "tags": ["critico", "social"],
+    "date": "2026-03-20T09:00:00",
+    "time": "oggi"
+  },
+  {
+    "id": "alert-004",
+    "ico": "💸",
+    "title": "Piattaforme crypto false — deepfake di VIP italiani su Instagram e TikTok",
+    "text": "Segnalati numerosi casi in Italia di video deepfake che circolano su Instagram, TikTok e YouTube con volti e voci di personaggi noti — conduttori TV, imprenditori, calciatori — che promuovono piattaforme di investimento crypto con rendimenti garantiti del 20-40% mensile.\n\nCome funziona la truffa:\n— Vedi un video convincente di un VIP che dice di aver guadagnato migliaia di euro in pochi giorni\n— Clicchi sul link in bio o nei commenti e arrivi su una piattaforma dall'aspetto professionale\n— Investi una piccola cifra (€250) e la dashboard mostra subito guadagni falsi per convincerti ad aumentare\n— Quando provi a prelevare compaiono 'commissioni' da pagare, poi il sito sparisce\n\nCome difenderti:\n— Nessuna piattaforma legittima garantisce rendimenti fissi: è sempre una truffa\n— Verifica su consob.it se la piattaforma è autorizzata in Italia prima di qualsiasi versamento\n— Cerca il nome della piattaforma + 'truffa' o 'scam' su Google\n— I VIP non promuovono mai investimenti nei commenti o nelle bio dei social\n— Se sei già stato truffato, segnala subito alla Polizia Postale su commissariatops.it e alla tua banca",
+    "tags": ["critico", "crypto"],
+    "date": "2026-03-19T09:00:00",
+    "time": "ieri"
+  },
+  {
+    "id": "alert-003",
+    "ico": "🎙️",
+    "title": "Truffa vocale AI su WhatsApp — clonano la voce dei tuoi familiari",
+    "text": "Nuova ondata in Italia di truffe che utilizzano intelligenza artificiale per clonare voci reali. I truffatori estraggono audio dai messaggi vocali WhatsApp pubblici o dai video sui social, creano una copia della voce in pochi secondi e chiamano i familiari fingendo di essere la persona clonata.\n\nLo schema tipico:\n— Ricevi una chiamata da un numero sconosciuto con la voce di tuo figlio, tua sorella o un amico\n— Ti dice di essere in difficoltà: incidente, furto, arresto, ospedale\n— Chiede un bonifico urgente o di consegnare contanti a qualcuno\n— Riattacca prima che tu possa fare domande\n\nCome difenderti:\n— Stabilisci subito una PAROLA D'ORDINE segreta con i tuoi familiari da usare in caso di emergenza\n— Se ricevi una chiamata sospetta, riaggancia e richiama tu il numero salvato in rubrica\n— Non mandare mai denaro prima di aver verificato di persona o con una videochiamata\n— Riduci i messaggi vocali pubblici sui social e imposta la privacy di WhatsApp su 'Solo contatti'\n— Segnala tentativi di truffa alla Polizia Postale: commissariatops.it",
+    "tags": ["critico", "social"],
+    "date": "2026-03-18T09:00:00",
+    "time": "2 giorni fa"
+  },
+  {
+    "id": "alert-002",
+    "ico": "🚨",
+    "title": "Campagna smishing attiva — Finti SMS Agenzia delle Entrate",
+    "text": "È in corso una massiccia campagna di smishing che sfrutta il nome dell'Agenzia delle Entrate. Gli utenti ricevono SMS con testo simile a: 'Gentile contribuente, risulta un rimborso fiscale di €287,40 a suo favore. Acceda subito: http://agenziaentrate-rimborso.xyz'. Il link porta a una pagina clone del sito ufficiale che richiede codice fiscale, IBAN e dati della carta di credito.\n\nCome difenderti:\n— L'Agenzia delle Entrate NON invia mai SMS con link per rimborsi\n— I rimborsi fiscali arrivano solo tramite accredito IBAN già registrato o assegno postale\n— Non cliccare MAI su link ricevuti via SMS, anche se il mittente sembra ufficiale\n— Se hai già inserito i tuoi dati, contatta immediatamente la tua banca e segnala alla Polizia Postale su commissariatops.it",
+    "tags": ["critico", "phishing"],
+    "date": "2026-03-17T12:00:00",
+    "time": "3 giorni fa"
+  }
+]
