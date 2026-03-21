@@ -1,5 +1,5 @@
 // CyberGuard Service Worker — Network First + Push Notifications
-const VERSION = 'cg-v3';
+const VERSION = 'cg-v4';
 const BASE = 'https://osensei78.github.io/cyberguard/';
 
 self.addEventListener('install', event => {
