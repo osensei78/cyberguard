@@ -44,7 +44,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 @keyframes neon-flicker{0%,19%,21%,23%,25%,54%,56%,100%{text-shadow:0 0 4px var(--accent),0 0 12px var(--accent),0 0 24px var(--accent2);}20%,24%,55%{text-shadow:none;}}
 
 /* TOPBAR */
-#topbar{flex-shrink:0;height:52px;background:var(--surface);border-bottom:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:space-between;padding:0 16px;padding-top:env(safe-area-inset-top,0);height:calc(52px + env(safe-area-inset-top,0));position:relative;z-index:100;box-shadow:0 0 20px rgba(0,255,65,.05);}
+#topbar{flex-shrink:0;height:52px;background:var(--surface);border-bottom:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:relative;z-index:100;box-shadow:0 0 20px rgba(0,255,65,.05);}
 #topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.3;}
 .tb-brand{display:flex;align-items:center;gap:10px;}
 .tb-logo{width:32px;height:32px;background:transparent;border:1px solid var(--accent);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:.7rem;font-weight:700;color:var(--accent);flex-shrink:0;box-shadow:0 0 8px rgba(0,255,65,.3),inset 0 0 8px rgba(0,255,65,.05);animation:pulse-border 3s infinite;}
@@ -138,7 +138,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .info-banner strong{color:var(--yellow);}
 
 /* HOME */
-.home-banner{margin:14px;margin-top:16px;border-radius:0;overflow:hidden;border:1px solid var(--border2);border-left:3px solid var(--accent);position:relative;background:linear-gradient(135deg,#000a00 0%,#001400 60%,#000800 100%);min-height:145px;display:flex;align-items:center;padding:18px 18px;gap:14px;box-shadow:0 0 30px rgba(0,255,65,.08),inset 0 0 30px rgba(0,255,65,.03);}
+.home-banner{margin:14px;border-radius:0;overflow:hidden;border:1px solid var(--border2);border-left:3px solid var(--accent);position:relative;background:linear-gradient(135deg,#000a00 0%,#001400 60%,#000800 100%);min-height:145px;display:flex;align-items:center;padding:18px 18px;gap:14px;box-shadow:0 0 30px rgba(0,255,65,.08),inset 0 0 30px rgba(0,255,65,.03);}
 .home-banner::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,255,65,.05),transparent);animation:scanline 5s linear infinite;transform:skewX(-15deg);}
 .home-banner-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,.04) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;}
 .home-banner-text{position:relative;z-index:1;flex:1;}
@@ -362,6 +362,15 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div class="home-banner-label">Sistema attivo</div>
         <div class="home-banner-title">DIFESA<br><span>DIGITALE</span></div>
         <div class="home-banner-desc">alert ufficiali CERT-AGID aggiornati ogni 5 minuti</div>
+        <!-- BOTTONI DENTRO IL BANNER -->
+        <div style="display:flex;gap:6px;margin-top:12px;">
+          <button onclick="document.getElementById('share-modal').style.display='flex'" style="display:flex;align-items:center;gap:5px;background:rgba(0,255,65,.12);border:1px solid rgba(0,255,65,.4);padding:6px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:#00ff41;letter-spacing:.05em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;">
+            📤 CONDIVIDI
+          </button>
+          <button onclick="triggerInstall()" style="display:flex;align-items:center;gap:5px;background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.35);padding:6px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:#00f5ff;letter-spacing:.05em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;">
+            📲 INSTALLA
+          </button>
+        </div>
       </div>
       <div class="home-banner-ico">🛡️</div>
     </div>
@@ -403,15 +412,6 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div class="nav-card-desc">Minacce attive in Italia in tempo reale</div>
         <div class="nav-card-arrow">Vedi →</div>
       </div>
-    </div>
-    <!-- BOTTONI CONDIVIDI + INSTALLA -->
-    <div style="display:flex;gap:8px;padding:0 14px 20px;">
-      <button onclick="document.getElementById('share-modal').style.display='flex'" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);border-left:2px solid #00ff41;padding:11px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;color:#00ff41;letter-spacing:.05em;text-transform:uppercase;transition:.15s;" onmouseover="this.style.background='rgba(0,255,65,.12)'" onmouseout="this.style.background='rgba(0,255,65,.06)'">
-        <span>📤</span> CONDIVIDI
-      </button>
-      <button id="install-trigger" onclick="triggerInstall()" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.2);border-left:2px solid #00f5ff;padding:11px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;color:#00f5ff;letter-spacing:.05em;text-transform:uppercase;transition:.15s;" onmouseover="this.style.background='rgba(0,245,255,.1)'" onmouseout="this.style.background='rgba(0,245,255,.05)'">
-        <span>📲</span> INSTALLA
-      </button>
     </div>
 
   <!-- ═══ DATABASE ═══ -->
