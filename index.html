@@ -42,6 +42,14 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 @keyframes matrix-drop{0%{opacity:0;transform:translateY(-8px);}100%{opacity:1;transform:none;}}
 @keyframes pd{0%,100%{opacity:1;}50%{opacity:.2;}}
 @keyframes neon-flicker{0%,19%,21%,23%,25%,54%,56%,100%{text-shadow:0 0 4px var(--accent),0 0 12px var(--accent),0 0 24px var(--accent2);}20%,24%,55%{text-shadow:none;}}
+@keyframes share-pulse{
+  0%,100%{opacity:1;box-shadow:0 0 10px rgba(0,255,65,.5),0 0 20px rgba(0,255,65,.2);border-color:#00ff41;color:#00ff41;}
+  50%{opacity:.55;box-shadow:0 0 4px rgba(0,255,65,.1);border-color:rgba(0,255,65,.3);color:rgba(0,255,65,.5);}
+}
+@keyframes install-pulse{
+  0%,100%{opacity:1;box-shadow:0 0 10px rgba(0,245,255,.6),0 0 22px rgba(0,245,255,.2);border-color:#00f5ff;color:#00f5ff;}
+  50%{opacity:.5;box-shadow:0 0 4px rgba(0,245,255,.1);border-color:rgba(0,245,255,.25);color:rgba(0,245,255,.45);}
+}
 
 /* TOPBAR */
 #topbar{flex-shrink:0;height:52px;background:var(--surface);border-bottom:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:relative;box-shadow:0 0 20px rgba(0,255,65,.05);}
@@ -364,7 +372,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div class="home-banner-desc">alert ufficiali CERT-AGID aggiornati ogni 5 minuti</div>
         <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;">
           <button onclick="document.getElementById('share-modal').style.display='flex'" style="display:flex;align-items:center;gap:5px;background:rgba(0,255,65,.12);border:1px solid rgba(0,255,65,.4);padding:5px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:#00ff41;letter-spacing:.04em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;">📤 CONDIVIDI</button>
-          <button onclick="triggerInstall()" style="display:flex;align-items:center;gap:5px;background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.35);padding:5px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:#00f5ff;letter-spacing:.04em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;">📲 INSTALLA</button>
+          <button onclick="triggerInstall()" style="display:flex;align-items:center;gap:6px;background:rgba(0,245,255,.15);border:2px solid #00f5ff;padding:6px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;color:#00f5ff;letter-spacing:.06em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;animation:install-pulse 1.4s ease-in-out infinite;">📲 INSTALLA APP</button>
         </div>
       </div>
       <div class="home-banner-ico">🛡️</div>
