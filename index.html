@@ -44,7 +44,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 @keyframes neon-flicker{0%,19%,21%,23%,25%,54%,56%,100%{text-shadow:0 0 4px var(--accent),0 0 12px var(--accent),0 0 24px var(--accent2);}20%,24%,55%{text-shadow:none;}}
 
 /* TOPBAR */
-#topbar{flex-shrink:0;height:52px;background:var(--surface);border-bottom:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:relative;box-shadow:0 0 20px rgba(0,255,65,.05);}
+#topbar{flex-shrink:0;height:52px;background:var(--surface);border-bottom:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:space-between;padding:0 16px;padding-top:env(safe-area-inset-top,0);height:calc(52px + env(safe-area-inset-top,0));position:relative;z-index:100;box-shadow:0 0 20px rgba(0,255,65,.05);}
 #topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.3;}
 .tb-brand{display:flex;align-items:center;gap:10px;}
 .tb-logo{width:32px;height:32px;background:transparent;border:1px solid var(--accent);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:.7rem;font-weight:700;color:var(--accent);flex-shrink:0;box-shadow:0 0 8px rgba(0,255,65,.3),inset 0 0 8px rgba(0,255,65,.05);animation:pulse-border 3s infinite;}
@@ -138,7 +138,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .info-banner strong{color:var(--yellow);}
 
 /* HOME */
-.home-banner{margin:14px;border-radius:0;overflow:hidden;border:1px solid var(--border2);border-left:3px solid var(--accent);position:relative;background:linear-gradient(135deg,#000a00 0%,#001400 60%,#000800 100%);min-height:145px;display:flex;align-items:center;padding:18px 18px;gap:14px;box-shadow:0 0 30px rgba(0,255,65,.08),inset 0 0 30px rgba(0,255,65,.03);}
+.home-banner{margin:14px;margin-top:16px;border-radius:0;overflow:hidden;border:1px solid var(--border2);border-left:3px solid var(--accent);position:relative;background:linear-gradient(135deg,#000a00 0%,#001400 60%,#000800 100%);min-height:145px;display:flex;align-items:center;padding:18px 18px;gap:14px;box-shadow:0 0 30px rgba(0,255,65,.08),inset 0 0 30px rgba(0,255,65,.03);}
 .home-banner::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,255,65,.05),transparent);animation:scanline 5s linear infinite;transform:skewX(-15deg);}
 .home-banner-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,65,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,.04) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;}
 .home-banner-text{position:relative;z-index:1;flex:1;}
@@ -149,7 +149,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .home-banner-desc{font-size:.67rem;color:var(--text2);line-height:1.6;font-family:var(--mono);}
 .home-banner-desc::before{content:'$ ';color:var(--accent-dim);}
 .home-banner-ico{position:relative;z-index:1;font-size:3.2rem;flex-shrink:0;filter:drop-shadow(0 0 16px rgba(0,255,65,.6)) drop-shadow(0 0 32px rgba(0,255,65,.2));animation:glitch 7s infinite;}
-.nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0 14px 18px;}
+.nav-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:0 14px 18px;}
 .nav-card{background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--accent-dim);border-radius:0;padding:14px 12px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;gap:7px;-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;}
 .nav-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:.15s;}
 .nav-card:hover,.nav-card:active{border-left-color:var(--accent);background:rgba(0,255,65,.04);box-shadow:0 0 10px rgba(0,255,65,.07);}
@@ -370,25 +370,37 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
       <div class="nav-card" onclick="goTo('database')">
         <div class="nav-card-ico ico-blue">🗄️</div>
         <div class="nav-card-title">Database Truffe</div>
-        <div class="nav-card-desc">12 tipologie spiegate con segnali di allarme e consigli pratici</div>
+        <div class="nav-card-desc">12 tipologie con segnali di allarme e difese</div>
         <div class="nav-card-arrow">Esplora →</div>
       </div>
       <div class="nav-card" onclick="goTo('casireali')">
         <div class="nav-card-ico ico-red">🔴</div>
         <div class="nav-card-title">Casi Reali</div>
-        <div class="nav-card-desc">Storie vere di truffe italiane — analizza cosa è andato storto</div>
+        <div class="nav-card-desc">Storie vere 2024–2026 — analizza cosa è andato storto</div>
         <div class="nav-card-arrow">Leggi →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('quiz')">
+        <div class="nav-card-ico ico-purple">🧠</div>
+        <div class="nav-card-title">Quiz</div>
+        <div class="nav-card-desc">3 livelli per testare le tue difese digitali</div>
+        <div class="nav-card-arrow">Inizia →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('simulatori')">
+        <div class="nav-card-ico ico-orange">⚡</div>
+        <div class="nav-card-title">Simulatori</div>
+        <div class="nav-card-desc">Phishing, smishing, vishing — riconosci la truffa</div>
+        <div class="nav-card-arrow">Prova →</div>
       </div>
       <div class="nav-card" onclick="goTo('laboratorio')">
         <div class="nav-card-ico ico-green">🧪</div>
         <div class="nav-card-title">Laboratorio</div>
-        <div class="nav-card-desc">Verifica link sospetti, email violate e sicurezza password</div>
+        <div class="nav-card-desc">Verifica link, email violate, numeri sospetti</div>
         <div class="nav-card-arrow">Testa →</div>
       </div>
       <div class="nav-card" onclick="goTo('alerts')">
         <div class="nav-card-ico ico-red">📡</div>
         <div class="nav-card-title">Alert Live</div>
-        <div class="nav-card-desc">Minacce attive in Italia aggiornate in tempo reale</div>
+        <div class="nav-card-desc">Minacce attive in Italia in tempo reale</div>
         <div class="nav-card-arrow">Vedi →</div>
       </div>
     </div>
@@ -1465,8 +1477,8 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 <div id="tabbar">
   <button class="tab active" id="tab-home" onclick="goTo('home')"><span class="tab-ico">🏠</span>Home</button>
   <button class="tab" id="tab-database" onclick="goTo('database')"><span class="tab-ico">🗄️</span>DB</button>
-  <button class="tab" id="tab-casireali" onclick="goTo('casireali')"><span class="tab-ico">🔴</span>Casi</button>
-  <button class="tab" id="tab-laboratorio" onclick="goTo('laboratorio')"><span class="tab-ico">🧪</span>Lab</button>
+  <button class="tab" id="tab-quiz" onclick="goTo('quiz')"><span class="tab-ico">🧠</span>Quiz</button>
+  <button class="tab" id="tab-simulatori" onclick="goTo('simulatori')"><span class="tab-ico">⚡</span>Sim</button>
   <button class="tab" id="tab-alerts" onclick="goTo('alerts')"><span class="tab-ico">📡</span>Alert<span class="tab-badge show" id="alert-badge">3</span></button>
   <button class="tab" id="tab-profilo" onclick="goTo('profilo')"><span class="tab-ico">👤</span>Profilo</button>
 </div>
@@ -1534,8 +1546,10 @@ setInterval(tick,1000);tick();
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('sc-'+id).classList.add('active');
-  document.getElementById('tab-'+id).classList.add('active');
+  const sc = document.getElementById('sc-'+id);
+  if(sc) sc.classList.add('active');
+  const tb = document.getElementById('tab-'+id);
+  if(tb) tb.classList.add('active');
   if(id==='profilo')renderPf();
   if(id==='alerts'){renderAlerts();clearBadge();}
   if(id==='casireali' && casiData.length === 0) loadCasiReali();
