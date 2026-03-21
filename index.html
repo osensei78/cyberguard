@@ -392,7 +392,15 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div class="nav-card-arrow">Vedi →</div>
       </div>
     </div>
-  </div>
+    <!-- BOTTONI CONDIVIDI + INSTALLA -->
+    <div style="display:flex;gap:8px;padding:0 14px 20px;">
+      <button onclick="document.getElementById('share-modal').style.display='flex'" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);border-left:2px solid #00ff41;padding:11px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;color:#00ff41;letter-spacing:.05em;text-transform:uppercase;transition:.15s;" onmouseover="this.style.background='rgba(0,255,65,.12)'" onmouseout="this.style.background='rgba(0,255,65,.06)'">
+        <span>📤</span> CONDIVIDI
+      </button>
+      <button id="install-trigger" onclick="triggerInstall()" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.2);border-left:2px solid #00f5ff;padding:11px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;color:#00f5ff;letter-spacing:.05em;text-transform:uppercase;transition:.15s;" onmouseover="this.style.background='rgba(0,245,255,.1)'" onmouseout="this.style.background='rgba(0,245,255,.05)'">
+        <span>📲</span> INSTALLA
+      </button>
+    </div>
 
   <!-- ═══ DATABASE ═══ -->
   <div class="screen" id="sc-database">
@@ -1358,15 +1366,100 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 
 </div><!-- /content -->
 
-<!-- PWA INSTALL BANNER -->
-<div id="install-banner" style="display:none;position:fixed;bottom:80px;left:12px;right:12px;background:#1a1d27;border:1px solid #2a2d3e;border-radius:14px;padding:14px 16px;z-index:8000;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);">
-  <div style="font-size:1.8rem;flex-shrink:0;">📲</div>
-  <div style="flex:1;">
-    <div style="font-size:.88rem;font-weight:600;color:#f1f5f9;margin-bottom:2px;">Installa CyberGuard</div>
-    <div style="font-size:.75rem;color:#64748b;">Aggiungila alla schermata home per accesso rapido</div>
+<!-- ── iOS INSTALL GUIDE MODAL ── -->
+<div id="ios-guide" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.85);align-items:flex-end;justify-content:center;">
+  <div style="background:#050f05;border:1px solid #1a5c1a;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:24px 20px 36px;position:relative;">
+    <!-- Indicatore swipe -->
+    <div style="width:36px;height:3px;background:#2d5c2d;border-radius:2px;margin:0 auto 20px;"></div>
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:44px;height:44px;border:1px solid #00ff41;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 0 10px rgba(0,255,65,.3);">🛡️</div>
+      <div>
+        <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#00ff41;letter-spacing:.06em;">INSTALLA CYBERGUARD</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;">// segui i passaggi per iPhone</div>
+      </div>
+      <button onclick="document.getElementById('ios-guide').style.display='none'" style="margin-left:auto;background:none;border:none;color:#2d5c2d;font-size:1.4rem;cursor:pointer;padding:4px;">✕</button>
+    </div>
+    <!-- Step 1 -->
+    <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;margin-bottom:8px;">
+      <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:#00ff41;min-width:24px;text-shadow:0 0 8px rgba(0,255,65,.5);">1</div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#b0ffb0;font-weight:700;margin-bottom:3px;">Tocca il tasto Condividi</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;line-height:1.5;">In Safari, tocca <span style="color:#00f5ff;font-size:.85rem;">⬆</span> in basso al centro dello schermo</div>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;margin-bottom:8px;">
+      <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:#00ff41;min-width:24px;text-shadow:0 0 8px rgba(0,255,65,.5);">2</div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#b0ffb0;font-weight:700;margin-bottom:3px;">Scorri e tocca "Aggiungi a Home"</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;line-height:1.5;">Nel menu che appare, scorri verso il basso e cerca <span style="color:#00ff41">＋ Aggiungi a schermata Home</span></div>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;margin-bottom:20px;">
+      <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:#00ff41;min-width:24px;text-shadow:0 0 8px rgba(0,255,65,.5);">3</div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#b0ffb0;font-weight:700;margin-bottom:3px;">Tocca "Aggiungi" in alto a destra</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;line-height:1.5;">L'icona CyberGuard apparirà sulla tua schermata Home — poi attiva le notifiche dal Profilo</div>
+      </div>
+    </div>
+    <!-- Nota -->
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#2d5c2d;text-align:center;line-height:1.6;">
+      ⚠ Funziona solo da <span style="color:#5a9a5a">Safari</span> — non da Chrome o altri browser<br>
+      iOS 16.4 o superiore richiesto per le notifiche push
+    </div>
   </div>
-  <button id="install-btn" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;">Installa</button>
-  <button id="install-dismiss" style="background:none;border:none;color:#64748b;font-size:1.2rem;cursor:pointer;padding:0 2px;">✕</button>
+</div>
+
+<!-- ── ANDROID INSTALL BANNER ── -->
+<div id="android-banner" style="display:none;position:fixed;bottom:80px;left:10px;right:10px;background:#050f05;border:1px solid #1a5c1a;border-left:3px solid #00ff41;padding:14px 16px;z-index:8000;align-items:center;gap:12px;box-shadow:0 0 24px rgba(0,255,65,.1);">
+  <div style="font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(0,255,65,.4));">🛡️</div>
+  <div style="flex:1;">
+    <div style="font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#00ff41;margin-bottom:2px;letter-spacing:.04em;">INSTALLA CYBERGUARD</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.67rem;color:#5a9a5a;">Aggiungi alla schermata Home per accesso rapido e notifiche</div>
+  </div>
+  <button id="android-install-btn" style="background:rgba(0,255,65,.1);border:1px solid #00ff41;color:#00ff41;border-radius:2px;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.04em;box-shadow:0 0 8px rgba(0,255,65,.2);">INSTALLA</button>
+  <button id="android-dismiss" style="background:none;border:none;color:#2d5c2d;font-size:1.1rem;cursor:pointer;flex-shrink:0;">✕</button>
+</div>
+
+<!-- ── SHARE MODAL ── -->
+<div id="share-modal" style="display:none;position:fixed;inset:0;z-index:9400;background:rgba(0,0,0,.8);align-items:flex-end;justify-content:center;">
+  <div style="background:#050f05;border:1px solid #1a5c1a;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:20px 20px 36px;">
+    <div style="width:36px;height:3px;background:#2d5c2d;border-radius:2px;margin:0 auto 18px;"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;color:#00ff41;letter-spacing:.06em;">CONDIVIDI CYBERGUARD</div>
+      <button onclick="document.getElementById('share-modal').style.display='none'" style="background:none;border:none;color:#2d5c2d;font-size:1.3rem;cursor:pointer;">✕</button>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;margin-bottom:16px;">// aiuta i tuoi contatti a difendersi dalle truffe digitali</div>
+    <!-- Bottoni condivisione -->
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button onclick="shareWA()" style="display:flex;align-items:center;gap:14px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.3);border-left:3px solid #25d366;padding:14px 16px;cursor:pointer;width:100%;text-align:left;transition:.15s;" onmouseover="this.style.background='rgba(37,211,102,.15)'" onmouseout="this.style.background='rgba(37,211,102,.08)'">
+        <span style="font-size:1.5rem;">💬</span>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:#25d366;">WhatsApp</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;">Invia ai tuoi contatti o gruppi</div>
+        </div>
+        <span style="margin-left:auto;color:#25d366;font-size:.8rem;">→</span>
+      </button>
+      <button onclick="shareTelegram()" style="display:flex;align-items:center;gap:14px;background:rgba(0,136,204,.08);border:1px solid rgba(0,136,204,.3);border-left:3px solid #0088cc;padding:14px 16px;cursor:pointer;width:100%;text-align:left;transition:.15s;" onmouseover="this.style.background='rgba(0,136,204,.15)'" onmouseout="this.style.background='rgba(0,136,204,.08)'">
+        <span style="font-size:1.5rem;">✈️</span>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:#0088cc;">Telegram</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;">Condividi su chat o canali</div>
+        </div>
+        <span style="margin-left:auto;color:#0088cc;font-size:.8rem;">→</span>
+      </button>
+      <button onclick="copyLink()" id="copy-link-btn" style="display:flex;align-items:center;gap:14px;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);border-left:3px solid #00ff41;padding:14px 16px;cursor:pointer;width:100%;text-align:left;transition:.15s;" onmouseover="this.style.background='rgba(0,255,65,.12)'" onmouseout="this.style.background='rgba(0,255,65,.06)'">
+        <span style="font-size:1.5rem;">🔗</span>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:#00ff41;">Copia link</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;">Incollalo dove vuoi — SMS, email, Instagram...</div>
+        </div>
+        <span style="margin-left:auto;color:#00ff41;font-size:.8rem;" id="copy-icon">→</span>
+      </button>
+    </div>
+  </div>
 </div>
 
 <div id="tabbar">
@@ -1918,29 +2011,109 @@ function checkAndNotifyRSS(items) {
   localStorage.setItem('cg_notified', JSON.stringify(notifiedRSS));
 }
 
-// ── PWA SERVICE WORKER ──
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
+// ── PWA INSTALL + SHARE ──
+const APP_URL = 'https://osensei78.github.io/cyberguard/';
+const SHARE_TEXT = '🛡️ CyberGuard Italia — l\'app gratuita per difenderti dalle truffe digitali!\n\nAlert in tempo reale, casi reali, simulatori e strumenti pratici per proteggerti da phishing, deepfake e truffe online.\n\n📲 ';
 
-// ── PWA INSTALL BANNER ──
-let deferredPrompt;
+let deferredPrompt = null;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isAndroid = /android/i.test(navigator.userAgent);
+const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+// Android: cattura evento beforeinstallprompt
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  const banner = document.getElementById('install-banner');
-  if(banner) banner.style.display = 'flex';
+  if (!isInStandaloneMode) {
+    document.getElementById('android-banner').style.display = 'flex';
+  }
 });
-document.getElementById('install-btn')?.addEventListener('click', async () => {
-  if(!deferredPrompt) return;
+
+// Android banner — tasto installa
+document.getElementById('android-install-btn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
   deferredPrompt.prompt();
   const { outcome } = await deferredPrompt.userChoice;
   deferredPrompt = null;
-  document.getElementById('install-banner').style.display = 'none';
+  document.getElementById('android-banner').style.display = 'none';
 });
-document.getElementById('install-dismiss')?.addEventListener('click', () => {
-  document.getElementById('install-banner').style.display = 'none';
+
+document.getElementById('android-dismiss')?.addEventListener('click', () => {
+  document.getElementById('android-banner').style.display = 'none';
 });
+
+// iOS: mostra guida manuale dopo 4 secondi se non installata e non già vista
+if (isIOS && !isInStandaloneMode && !sessionStorage.getItem('cg_ios_shown')) {
+  setTimeout(() => {
+    document.getElementById('ios-guide').style.display = 'flex';
+    sessionStorage.setItem('cg_ios_shown', '1');
+  }, 4000);
+}
+
+// Tasto INSTALLA universale
+function triggerInstall() {
+  if (isInStandaloneMode) {
+    showNotifToast('✅ App già installata sulla tua Home!');
+    return;
+  }
+  if (isIOS) {
+    document.getElementById('ios-guide').style.display = 'flex';
+  } else if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(r => {
+      deferredPrompt = null;
+      document.getElementById('android-banner').style.display = 'none';
+    });
+  } else {
+    // Chrome desktop o già installata
+    showNotifToast('💡 Usa il menu del browser → "Installa app"');
+  }
+}
+
+// ── CONDIVISIONE ──
+function shareWA() {
+  const url = `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + APP_URL)}`;
+  window.open(url, '_blank');
+  document.getElementById('share-modal').style.display = 'none';
+}
+
+function shareTelegram() {
+  const url = `https://t.me/share/url?url=${encodeURIComponent(APP_URL)}&text=${encodeURIComponent(SHARE_TEXT)}`;
+  window.open(url, '_blank');
+  document.getElementById('share-modal').style.display = 'none';
+}
+
+async function copyLink() {
+  try {
+    await navigator.clipboard.writeText(APP_URL);
+    const icon = document.getElementById('copy-icon');
+    const btn = document.getElementById('copy-link-btn');
+    icon.textContent = '✓';
+    btn.style.borderLeftColor = '#00ff41';
+    showNotifToast('✅ Link copiato! Incollalo dove vuoi.');
+    setTimeout(() => { icon.textContent = '→'; }, 2000);
+  } catch(e) {
+    // Fallback per browser senza clipboard API
+    const ta = document.createElement('textarea');
+    ta.value = APP_URL;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showNotifToast('✅ Link copiato!');
+  }
+}
+
+// Chiudi modali toccando lo sfondo
+document.getElementById('ios-guide')?.addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+document.getElementById('share-modal')?.addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+
 
 // ── CASI REALI DINAMICI ──
 const CASI_URL = 'https://osensei78.github.io/cyberguard/casi.json';
@@ -2148,94 +2321,137 @@ async function checkEmail() {
   }
 }
 
-function checkPhone() {
+async function checkPhone() {
   const raw = document.getElementById('lab-phone').value.trim();
   if (!raw) return;
 
-  // Normalizza: rimuovi spazi, trattini, parentesi
-  const phone = raw.replace(/[\s\-().]/g, '');
-  const risks = [];
-  const info = [];
-  const safe = [];
+  // Normalizza numero
+  let phone = raw.replace(/[\s\-().]/g, '');
+  if (phone.startsWith('0039')) phone = '+39' + phone.slice(4);
+  if (phone.startsWith('39') && !phone.startsWith('+')) phone = '+' + phone;
+  if (!phone.startsWith('+') && !phone.startsWith('0')) phone = '+39' + phone;
 
-  // Normalizza in formato +39XXXXXXXXXX per analisi
-  let normalized = phone;
-  if (normalized.startsWith('0039')) normalized = '+39' + normalized.slice(4);
-  if (normalized.startsWith('39') && !normalized.startsWith('+')) normalized = '+' + normalized;
+  const resEl = document.getElementById('lab-phone-result');
+  resEl.style.display = 'block';
+  resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(0,255,65,.04);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);overflow:hidden;box-sizing:border-box;width:100%;word-break:break-word;">
+    <span style="color:var(--accent);">→</span> Ricerca in corso per <strong style="color:var(--text)">${phone}</strong> su chi-ha-chiamato.it...
+  </div>`;
 
-  const isItalian = normalized.startsWith('+39');
-  const localPart = isItalian ? normalized.slice(3) : normalized;
+  // Numero pulito per URL (solo cifre con +)
+  const phoneForUrl = phone.replace('+', '').replace(/\D/g,'');
+  const targetUrl = `https://www.chi-ha-chiamato.it/numbers/${phoneForUrl}`;
 
-  // --- Analisi prefisso ---
-  if (normalized.startsWith('+')) {
-    const cc = normalized.slice(1, 3);
-    // Prefissi noti per truffe internazionali verso l'Italia
-    const scamPrefixes = {
-      '234': 'Nigeria', '233': 'Ghana', '237': 'Camerun',
-      '216': 'Tunisia', '212': 'Marocco', '213': 'Algeria',
-      '375': 'Bielorussia', '380': 'Ucraina (numeri VoIP truffa)',
-      '371': 'Lettonia (numeri VoIP)', '372': 'Estonia (numeri VoIP)',
-      '44': 'UK (spesso usato per spoofing)', '1': 'USA/Canada'
-    };
-    const cc3 = normalized.slice(1, 4);
-    if (scamPrefixes[cc3]) {
-      risks.push(`⚠ Prefisso ${'+'+cc3} (${scamPrefixes[cc3]}) — frequentemente associato a truffe verso l'Italia`);
-    } else if (scamPrefixes[cc]) {
-      risks.push(`⚠ Prefisso ${'+'+cc} (${scamPrefixes[cc]}) — frequentemente associato a truffe`);
-    } else if (!isItalian) {
-      info.push(`ℹ Numero internazionale (${normalized.slice(0,4)}...) — verifica l'identità del chiamante prima di rispondere`);
-    }
-  }
-
-  // --- Analisi numeri italiani ---
-  if (isItalian) {
-    safe.push('✓ Prefisso italiano (+39)');
-
-    // Cellulari italiani: iniziano con 3 (es. 320, 333, 347, 380, 393...)
-    if (/^3[0-9]{9}$/.test(localPart)) {
-      info.push('ℹ Numero mobile italiano — lunghezza corretta');
-    }
-    // Fissi italiani: iniziano con 0
-    else if (/^0[0-9]{6,10}$/.test(localPart)) {
-      const areaMap = {'02':'Milano','06':'Roma','011':'Torino','081':'Napoli','051':'Bologna','055':'Firenze','091':'Palermo','070':'Cagliari','010':'Genova','049':'Padova'};
-      const area = Object.keys(areaMap).find(a => localPart.startsWith(a));
-      info.push(`ℹ Numero fisso italiano${area ? ` — prefisso ${area} (${areaMap[area]})` : ''}`);
-    }
-    // Numeri verdi
-    else if (/^800[0-9]{6}$/.test(localPart)) {
-      info.push('ℹ Numero verde gratuito (800) — verifica sul sito ufficiale dell\'ente');
-    }
-    // Numeri a sovrapprezzo
-    else if (/^89[0-9]/.test(localPart) || /^166/.test(localPart)) {
-      risks.push('⚠ Possibile numero a sovrapprezzo (89x/166) — la chiamata potrebbe costare molto');
-    }
-    // Numeri VoIP/servizi (4xx, 5xx come numeri brevi)
-    else if (/^[45][0-9]{2,5}$/.test(localPart)) {
-      info.push('ℹ Numero breve o servizio — tipicamente usato da aziende e call center');
-    }
-    else {
-      risks.push(`⚠ Formato non standard per numero italiano: ${localPart} — potrebbero essere numeri VoIP o falsificati`);
-    }
-  }
-
-  // --- Segnali universali di truffa ---
-  if (raw.length < 5) {
-    risks.push('⚠ Numero troppo corto — quasi certamente non valido');
-  }
-
-  // Disclaimer sempre presente
-  const disclaimer = [
-    '⚠ Attenzione: qualsiasi numero può essere falsificato (caller ID spoofing).',
-    '→ Non fidarti mai del numero visualizzato per operazioni bancarie o pagamenti.',
-    '→ Se hai dubbi, riattacca e richiama il numero ufficiale trovato sul sito dell\'ente.',
+  const PROXIES = [
+    u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   ];
 
-  const lines = [...risks, ...info, ...safe, ...disclaimer];
+  let html = null;
+  for (const proxy of PROXIES) {
+    try {
+      const res = await fetch(proxy(targetUrl), {
+        cache: 'no-store',
+        signal: AbortSignal.timeout(10000),
+        headers: { 'User-Agent': 'Mozilla/5.0' }
+      });
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.length > 200) { html = text; break; }
+      }
+    } catch(e) {}
+  }
 
-  if (risks.length > 0) {
-    labResult('lab-phone-result', false, `⚠ ${risks.length} segnale${risks.length > 1 ? 'i' : ''} di attenzione`, lines, 'red');
+  if (!html) {
+    // Fallback: analisi locale euristica
+    _phoneLocalAnalysis(phone, raw);
+    return;
+  }
+
+  // Parsing HTML risultati chi-ha-chiamato.it
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  // Estrai dati chiave
+  const rating = doc.querySelector('.rating-value, .score, [class*="rating"], [class*="score"]')?.textContent?.trim() || '';
+  const comments = Array.from(doc.querySelectorAll('.comment-text, .comment-body, [class*="comment"] p, .review-text'))
+    .slice(0, 4)
+    .map(el => el.textContent.trim().slice(0, 120))
+    .filter(t => t.length > 10);
+  const reportCount = doc.querySelector('[class*="report-count"], [class*="count"], .num-reports')?.textContent?.trim() || '';
+  const category = doc.querySelector('[class*="category"], [class*="type"], .call-type')?.textContent?.trim() || '';
+  const titleEl = doc.querySelector('h1, h2, .number-title');
+  const titleText = titleEl?.textContent?.trim() || '';
+
+  // Costruisci risultato
+  const isDangerous = /truffa|spam|pericolos|molestia|scam|fraud|rischio/i.test(html.slice(0, 5000));
+  const hasComments = comments.length > 0;
+
+  const lines = [];
+  if (titleText && !titleText.includes(phoneForUrl)) lines.push(`ℹ Identificato come: <strong>${titleText}</strong>`);
+  if (category) lines.push(`ℹ Categoria: ${category}`);
+  if (reportCount) lines.push(`ℹ Segnalazioni ricevute: ${reportCount}`);
+  if (rating) lines.push(`ℹ Valutazione community: ${rating}`);
+  if (hasComments) {
+    lines.push('―');
+    lines.push('<span style="color:var(--text3);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;">COMMENTI UTENTI:</span>');
+    comments.forEach(c => lines.push(`"${c}"`));
+  }
+  lines.push('―');
+  lines.push('⚠ Qualsiasi numero può essere falsificato (caller ID spoofing).');
+  lines.push('→ Non dare mai dati bancari o OTP a chiamate in entrata.');
+  lines.push(`→ Fonte: chi-ha-chiamato.it`);
+
+  const title = isDangerous
+    ? `⛔ Numero segnalato come PERICOLOSO dalla community`
+    : hasComments
+      ? `⚠ Numero presente nel database — leggi i commenti`
+      : `ℹ Numero non segnalato dalla community`;
+
+  // Render custom con supporto HTML nelle lines
+  const borderColor = isDangerous ? 'var(--red)' : hasComments ? 'var(--yellow)' : 'var(--accent)';
+  const bgColor = isDangerous ? 'rgba(255,0,51,.06)' : hasComments ? 'rgba(255,204,0,.05)' : 'rgba(0,255,65,.04)';
+  const titleColor = isDangerous ? '#ff6677' : hasComments ? 'var(--yellow)' : 'var(--accent)';
+
+  resEl.innerHTML = `
+    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;animation:fadeUp .2s ease;overflow:hidden;box-sizing:border-box;width:100%;">
+      <div style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:${titleColor};margin-bottom:10px;word-break:break-word;">${title}</div>
+      <div style="font-family:var(--mono);font-size:.68rem;color:var(--text3);margin-bottom:8px;">Numero verificato: <span style="color:var(--text2)">${phone}</span></div>
+      ${lines.map(l => l === '―'
+        ? `<div style="border-top:1px solid var(--border);margin:7px 0;"></div>`
+        : `<div style="font-family:var(--mono);font-size:.7rem;color:var(--text2);margin-bottom:4px;line-height:1.55;word-break:break-word;overflow-wrap:break-word;">${l}</div>`
+      ).join('')}
+    </div>`;
+}
+
+function _phoneLocalAnalysis(phone, raw) {
+  // Analisi euristica locale come fallback
+  const risks = [], info = [], safe = [];
+  const isItalian = phone.startsWith('+39');
+  const localPart = isItalian ? phone.slice(3) : phone;
+
+  if (!isItalian) {
+    const scamPrefixes = {'234':'Nigeria','233':'Ghana','237':'Camerun','216':'Tunisia','212':'Marocco','375':'Bielorussia','371':'Lettonia','372':'Estonia'};
+    const cc3 = phone.slice(1,4); const cc2 = phone.slice(1,3);
+    if (scamPrefixes[cc3]) risks.push(`⚠ Prefisso +${cc3} (${scamPrefixes[cc3]}) — frequentemente associato a truffe`);
+    else if (scamPrefixes[cc2]) risks.push(`⚠ Prefisso +${cc2} (${scamPrefixes[cc2]}) — frequentemente associato a truffe`);
+    else info.push(`ℹ Numero internazionale — verifica l'identità prima di richiamare`);
   } else {
-    labResult('lab-phone-result', true, 'ℹ Numero apparentemente nella norma', lines, 'accent');
+    safe.push('✓ Prefisso italiano (+39)');
+    if (/^3[0-9]{9}$/.test(localPart)) info.push('ℹ Numero mobile italiano');
+    else if (/^800/.test(localPart)) info.push('ℹ Numero verde');
+    else if (/^89[0-9]/.test(localPart)) risks.push('⚠ Possibile numero a sovrapprezzo (89x)');
+    else if (/^0/.test(localPart)) info.push('ℹ Numero fisso italiano');
+    else risks.push('⚠ Formato non standard — possibile numero VoIP o falsificato');
+  }
+  const lines = [...risks, ...info, ...safe,
+    '⚠ Servizio community temporaneamente non raggiungibile.',
+    '→ Verifica manualmente su chi-ha-chiamato.it',
+    '→ Non fidarti del numero visualizzato — può essere falsificato.'
+  ];
+  if (risks.length > 0) {
+    labResult('lab-phone-result', false, `⚠ ${risks.length} segnale di attenzione (analisi locale)`, lines, 'red');
+  } else {
+    labResult('lab-phone-result', true, 'ℹ Analisi locale — community non raggiungibile', lines, 'accent');
   }
 }
 
@@ -2264,6 +2480,9 @@ function checkPwLab(pw) {
 }
 
 // ── INIT ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 renderPf();
 refreshAlerts();
 setInterval(refreshAlerts, 5 * 60 * 1000);
