@@ -1375,49 +1375,243 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 
 </div><!-- /content -->
 
-<!-- ── iOS INSTALL GUIDE MODAL ── -->
-<div id="ios-guide" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.85);align-items:flex-end;justify-content:center;">
-  <div style="background:#050f05;border:1px solid #1a5c1a;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:24px 20px 36px;position:relative;">
-    <!-- Indicatore swipe -->
-    <div style="width:36px;height:3px;background:#2d5c2d;border-radius:2px;margin:0 auto 20px;"></div>
+<!-- ── INSTALL GUIDE MODAL ── -->
+<div id="ios-guide" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.92);align-items:flex-end;justify-content:center;overflow:hidden;">
+  <div style="background:#050f05;border:1px solid #1a5c1a;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:500px;max-height:92vh;display:flex;flex-direction:column;position:relative;">
+
+    <!-- Handle -->
+    <div style="width:36px;height:3px;background:#2d5c2d;border-radius:2px;margin:14px auto 0;flex-shrink:0;"></div>
+
     <!-- Header -->
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-      <div style="width:44px;height:44px;border:1px solid #00ff41;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 0 10px rgba(0,255,65,.3);">🛡️</div>
-      <div>
-        <div style="font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#00ff41;letter-spacing:.06em;">INSTALLA CYBERGUARD</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;">// segui i passaggi per iPhone</div>
+    <div style="display:flex;align-items:center;gap:12px;padding:16px 18px 12px;flex-shrink:0;border-bottom:1px solid #0d3d0d;">
+      <div style="width:40px;height:40px;border:1px solid #00ff41;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 0 10px rgba(0,255,65,.3);flex-shrink:0;">🛡️</div>
+      <div style="flex:1;">
+        <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:700;color:#00ff41;letter-spacing:.06em;">INSTALLA CYBERGUARD</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;color:#5a9a5a;margin-top:2px;">// guida passo per passo per il tuo dispositivo</div>
       </div>
-      <button onclick="document.getElementById('ios-guide').style.display='none'" style="margin-left:auto;background:none;border:none;color:#2d5c2d;font-size:1.4rem;cursor:pointer;padding:4px;">✕</button>
+      <button onclick="document.getElementById('ios-guide').style.display='none'" style="background:none;border:none;color:#2d5c2d;font-size:1.3rem;cursor:pointer;padding:4px;flex-shrink:0;">✕</button>
     </div>
-    <!-- Step 1 -->
-    <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;margin-bottom:8px;">
-      <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:#00ff41;min-width:24px;text-shadow:0 0 8px rgba(0,255,65,.5);">1</div>
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#b0ffb0;font-weight:700;margin-bottom:3px;">Tocca il tasto Condividi</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;line-height:1.5;">In Safari, tocca <span style="color:#00f5ff;font-size:.85rem;">⬆</span> in basso al centro dello schermo</div>
+
+    <!-- Device tabs -->
+    <div style="display:flex;gap:0;flex-shrink:0;border-bottom:1px solid #0d3d0d;overflow-x:auto;" id="install-tabs">
+      <button onclick="showInstallTab('iphone-new')" id="tab-iphone-new" style="flex:1;min-width:80px;padding:10px 6px;background:rgba(0,255,65,.1);border:none;border-bottom:2px solid #00ff41;color:#00ff41;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS 16.4+</button>
+      <button onclick="showInstallTab('iphone-old')" id="tab-iphone-old" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS vecchio</button>
+      <button onclick="showInstallTab('ipad')" id="tab-ipad" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📲 iPad</button>
+      <button onclick="showInstallTab('android-chrome')" id="tab-android-chrome" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">🤖 Android<br>Chrome</button>
+      <button onclick="showInstallTab('android-samsung')" id="tab-android-samsung" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">🤖 Android<br>Samsung</button>
+    </div>
+
+    <!-- Tab content scrollabile -->
+    <div style="overflow-y:auto;flex:1;padding:16px 18px 24px;-webkit-overflow-scrolling:touch;">
+
+      <!-- iPhone iOS 16.4+ -->
+      <div id="panel-iphone-new" class="install-panel">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+          ✓ Supporta notifiche push · Richiede Safari · iOS 16.4 o superiore
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#ff6633;margin-bottom:14px;padding:8px 12px;background:rgba(255,100,50,.06);border-left:3px solid #ff6633;">
+          ⚠ Attenzione: apri questa pagina con Safari. Se stai usando Chrome, Firefox o il browser di WhatsApp, le istruzioni non funzioneranno.
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#5a9a5a;margin-bottom:16px;">// 4 step — circa 30 secondi</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">1</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Safari e vai su questo link</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Assicurati di usare <strong style="color:#00f5ff">Safari</strong> (icona bussola blu). Se sei già qui con Safari, prosegui. Se vedi "Chrome" o altro in basso, copia il link e incollalo su Safari.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">2</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca il tasto Condividi ⬆</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Guarda nella barra in fondo allo schermo: c'è un quadrato con una freccia verso l'alto <strong style="color:#00f5ff">⬆</strong>. Toccalo. Su iPhone più vecchi potrebbe essere in alto a destra.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">3</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Scorri in basso → "Aggiungi a schermata Home"</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Si apre un menu con tante opzioni. Scorri verso il basso finché non vedi <strong style="color:#00ff41">＋ Aggiungi a schermata Home</strong>. Toccalo. Se non lo vedi, scorri ancora — a volte è nascosto in fondo.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">4</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi" in alto a destra</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Apparirà un'anteprima con il nome "CyberGuard". In alto a destra c'è il tasto <strong style="color:#00ff41">Aggiungi</strong> — toccalo. L'icona apparirà sulla tua schermata Home.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
+          <strong style="color:#00f5ff">Dopo l'installazione:</strong><br>
+          Apri CyberGuard dalla Home → vai su Profilo → tocca "Attiva notifiche" → conferma il permesso. Le notifiche arrivano solo quando l'app è installata sulla Home.
+        </div>
       </div>
-    </div>
-    <!-- Step 2 -->
-    <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;margin-bottom:8px;">
-      <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:#00ff41;min-width:24px;text-shadow:0 0 8px rgba(0,255,65,.5);">2</div>
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#b0ffb0;font-weight:700;margin-bottom:3px;">Scorri e tocca "Aggiungi a Home"</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;line-height:1.5;">Nel menu che appare, scorri verso il basso e cerca <span style="color:#00ff41">＋ Aggiungi a schermata Home</span></div>
+
+      <!-- iPhone iOS vecchio -->
+      <div id="panel-iphone-old" class="install-panel" style="display:none;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#ff6633;margin-bottom:14px;padding:8px 12px;background:rgba(255,100,50,.06);border-left:3px solid #ff6633;">
+          ⚠ iOS 15 o precedente: puoi installare l'app ma le notifiche push non sono supportate. Aggiorna a iOS 16.4+ per riceverle.
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#5a9a5a;margin-bottom:16px;">// procedura identica — notifiche non disponibili</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">1</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Safari (obbligatorio)</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iOS 15 e precedenti solo Safari supporta "Aggiungi a schermata Home". Chrome e altri browser non hanno questa funzione.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">2</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca il tasto Condividi ⬆</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iOS 15 il tasto è in basso al centro. Su iOS 13–14 potrebbe essere in alto a destra accanto alla barra dell'indirizzo.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">3</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Scorri → "Aggiungi a schermata Home"</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nel foglio di condivisione, scorri le icone nella seconda riga finché non trovi <strong style="color:#ffcc00">Aggiungi a schermata Home</strong>. Toccalo.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">4</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Conferma con "Aggiungi"</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Tocca <strong style="color:#ffcc00">Aggiungi</strong> in alto a destra nella schermata di conferma. L'app apparirà sulla Home come qualsiasi altra app.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(255,204,0,.05);border:1px solid rgba(255,204,0,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
+          <strong style="color:#ffcc00">Vuoi le notifiche?</strong> Aggiorna iPhone a iOS 16.4 o superiore da Impostazioni → Generali → Aggiornamento software.
+        </div>
       </div>
-    </div>
-    <!-- Step 3 -->
-    <div style="display:flex;gap:14px;align-items:flex-start;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;margin-bottom:20px;">
-      <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:#00ff41;min-width:24px;text-shadow:0 0 8px rgba(0,255,65,.5);">3</div>
-      <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#b0ffb0;font-weight:700;margin-bottom:3px;">Tocca "Aggiungi" in alto a destra</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;line-height:1.5;">L'icona CyberGuard apparirà sulla tua schermata Home — poi attiva le notifiche dal Profilo</div>
+
+      <!-- iPad -->
+      <div id="panel-ipad" class="install-panel" style="display:none;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+          ✓ Supporto completo su iPadOS 16.4+ · Usa Safari · Il tasto condividi è in alto
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">1</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Safari su iPad</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iPad Safari è l'unico browser che supporta l'installazione PWA. Assicurati di non essere in modalità privata (scheda scura).</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">2</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca il tasto Condividi — in alto a destra</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iPad il tasto Condividi <strong style="color:#00f5ff">⬆</strong> si trova nella barra in alto a destra, accanto alla barra degli indirizzi — non in basso come su iPhone.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">3</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi a schermata Home"</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Si apre un menu a tendina. Scorri verso il basso e tocca <strong style="color:#00f5ff">＋ Aggiungi a schermata Home</strong>. Potrebbe non essere visibile subito — scorri.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">4</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Conferma → "Aggiungi"</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nella schermata di conferma puoi modificare il nome. Poi tocca <strong style="color:#00f5ff">Aggiungi</strong>. L'icona comparirà nella schermata Home del tuo iPad.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
+          <strong style="color:#00f5ff">Nota iPad:</strong> Su iPadOS 16.4+ le notifiche push funzionano. Dopo l'installazione vai su Profilo → Attiva notifiche.
+        </div>
       </div>
-    </div>
-    <!-- Nota -->
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#2d5c2d;text-align:center;line-height:1.6;">
-      ⚠ Funziona solo da <span style="color:#5a9a5a">Safari</span> — non da Chrome o altri browser<br>
-      iOS 16.4 o superiore richiesto per le notifiche push
-    </div>
+
+      <!-- Android Chrome -->
+      <div id="panel-android-chrome" class="install-panel" style="display:none;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+          ✓ Installazione automatica disponibile · Notifiche push supportate · Android 8+
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">A</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#00ff41;font-weight:700;margin-bottom:4px;">Metodo rapido — banner automatico</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Chrome mostra automaticamente un banner in basso "Aggiungi a schermata Home". Basta toccare <strong style="color:#00ff41">Installa</strong> e confermare. Se il banner non compare, usa il metodo manuale qui sotto.</div>
+            </div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#2d5c2d;text-align:center;padding:4px 0;">— oppure manualmente —</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">1</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca i tre puntini ⋮ in alto a destra</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">In Chrome, tocca il menu <strong style="color:#00ff41">⋮</strong> (tre puntini verticali) nell'angolo in alto a destra dello schermo.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">2</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi a schermata Home"</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nel menu che si apre, trova la voce <strong style="color:#00ff41">Aggiungi a schermata Home</strong> (o "Installa app" su versioni recenti di Chrome). Toccala.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">3</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Installa" per confermare</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Apparirà un popup con l'anteprima. Tocca <strong style="color:#00ff41">Installa</strong>. L'app verrà aggiunta alla schermata Home e all'app drawer come un'app normale.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,255,65,.05);border:1px solid rgba(0,255,65,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
+          <strong style="color:#00ff41">Dopo l'installazione:</strong> Le notifiche push vengono chieste automaticamente. Se hai rifiutato, vai su Impostazioni Android → App → CyberGuard → Notifiche → Attiva.
+        </div>
+      </div>
+
+      <!-- Android Samsung -->
+      <div id="panel-android-samsung" class="install-panel" style="display:none;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+          ✓ Samsung Internet versione 15+ · Notifiche push supportate
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">1</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Samsung Internet</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Usa il browser Samsung Internet (icona blu con "S"). Se non ce l'hai, scaricalo dal Galaxy Store o usa Chrome come alternativa.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">2</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca le tre linee ☰ in basso a destra</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">In Samsung Internet il menu è in basso a destra con l'icona <strong style="color:#00f5ff">☰</strong> (tre linee orizzontali). Toccalo per aprire il menu principale.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">3</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi pagina a" → "Schermata Home"</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nel menu, cerca <strong style="color:#00f5ff">Aggiungi pagina a</strong> e poi seleziona <strong style="color:#00f5ff">Schermata Home</strong>. In alcune versioni compare direttamente "Installa app".</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
+            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">4</div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi" per confermare</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Conferma con <strong style="color:#00f5ff">Aggiungi</strong>. L'icona CyberGuard apparirà sulla schermata Home del tuo Samsung.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
+          <strong style="color:#00f5ff">Notifiche Samsung:</strong> Dopo l'installazione, il browser chiede il permesso notifiche. Accetta. Se lo hai rifiutato: Impostazioni → Notifiche → Samsung Internet → CyberGuard → Attiva.
+        </div>
+      </div>
+
+    </div><!-- fine scroll area -->
   </div>
 </div>
 
@@ -2053,31 +2247,75 @@ document.getElementById('android-dismiss')?.addEventListener('click', () => {
   document.getElementById('android-banner').style.display = 'none';
 });
 
-// iOS: mostra guida manuale dopo 4 secondi se non installata e non già vista
+// iOS: mostra guida dopo 4 secondi se non installata
 if (isIOS && !isInStandaloneMode && !sessionStorage.getItem('cg_ios_shown')) {
   setTimeout(() => {
-    document.getElementById('ios-guide').style.display = 'flex';
+    const guide = document.getElementById('ios-guide');
+    guide.style.display = 'flex';
+    const ua2 = navigator.userAgent;
+    const isIPad2 = /ipad/i.test(ua2) || (/macintosh/i.test(ua2) && navigator.maxTouchPoints > 1);
+    const v2 = ua2.match(/OS (\d+)_/);
+    const isOld2 = v2 && parseInt(v2[1]) < 16;
+    if (isIPad2) showInstallTab('ipad');
+    else if (isOld2) showInstallTab('iphone-old');
+    else showInstallTab('iphone-new');
     sessionStorage.setItem('cg_ios_shown', '1');
   }, 4000);
 }
 
 // Tasto INSTALLA universale
+// ── INSTALL GUIDE TABS ──
+function showInstallTab(tab) {
+  document.querySelectorAll('.install-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('#install-tabs button').forEach(b => {
+    b.style.background = 'none';
+    b.style.borderBottom = '2px solid transparent';
+    b.style.color = '#2d5c2d';
+  });
+  const panel = document.getElementById('panel-' + tab);
+  if (panel) panel.style.display = 'block';
+  const tabBtn = document.getElementById('tab-' + tab);
+  if (tabBtn) {
+    tabBtn.style.background = 'rgba(0,255,65,.1)';
+    tabBtn.style.borderBottom = '2px solid #00ff41';
+    tabBtn.style.color = '#00ff41';
+  }
+}
+
 function triggerInstall() {
   if (isInStandaloneMode) {
     showNotifToast('✅ App già installata sulla tua Home!');
     return;
   }
-  if (isIOS) {
-    document.getElementById('ios-guide').style.display = 'flex';
-  } else if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(r => {
-      deferredPrompt = null;
-      document.getElementById('android-banner').style.display = 'none';
-    });
+
+  // Rileva dispositivo e apre il tab giusto
+  const ua = navigator.userAgent;
+  const isSamsung = /SamsungBrowser/i.test(ua);
+  const isAndroidChrome = /android/i.test(ua) && !isSamsung;
+  const isIPad = /ipad/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+  const isOldIOS = isIOS && !isIPad && (() => {
+    const v = ua.match(/OS (\d+)_/);
+    return v && parseInt(v[1]) < 16;
+  })();
+
+  const guide = document.getElementById('ios-guide');
+  guide.style.display = 'flex';
+
+  if (isIPad) {
+    showInstallTab('ipad');
+  } else if (isSamsung) {
+    showInstallTab('android-samsung');
+  } else if (isAndroidChrome) {
+    if (deferredPrompt) {
+      // Banner nativo disponibile — mostra comunque la guida con tab Android
+      showInstallTab('android-chrome');
+    } else {
+      showInstallTab('android-chrome');
+    }
+  } else if (isOldIOS) {
+    showInstallTab('iphone-old');
   } else {
-    // Chrome desktop o già installata
-    showNotifToast('💡 Usa il menu del browser → "Installa app"');
+    showInstallTab('iphone-new'); // default iPhone iOS 16.4+
   }
 }
 
