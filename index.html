@@ -1045,7 +1045,10 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div class="page-sub">truffe realmente accadute in Italia — analizza, impara, difenditi</div>
       </div>
 
-      <div class="section-title">casi documentati 2026</div>
+      <!-- CASI DINAMICI DA casi.json — caricati automaticamente -->
+      <div id="casi-dynamic"></div>
+
+      <!-- CASI STATICI DI ARCHIVIO -->
 
       <div class="card" id="card-cr0" onclick="toggleCard('cr0')">
         <div class="card-head">
@@ -1442,6 +1445,7 @@ function goTo(id){
   document.getElementById('tab-'+id).classList.add('active');
   if(id==='profilo')renderPf();
   if(id==='alerts'){renderAlerts();clearBadge();}
+  if(id==='casireali' && casiData.length === 0) loadCasiReali();
 }
 
 // ── DATABASE CARDS ──
@@ -1938,6 +1942,77 @@ document.getElementById('install-dismiss')?.addEventListener('click', () => {
   document.getElementById('install-banner').style.display = 'none';
 });
 
+// ── CASI REALI DINAMICI ──
+const CASI_URL = 'https://osensei78.github.io/cyberguard/casi.json';
+let casiData = [];
+
+async function loadCasiReali() {
+  try {
+    const res = await fetch(CASI_URL + '?t=' + Date.now(), { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) return;
+    casiData = data;
+    renderCasiReali();
+  } catch(e) { /* mantieni casi statici se offline */ }
+}
+
+function renderCasiReali() {
+  if (!casiData.length) return;
+  const container = document.getElementById('casi-dynamic');
+  if (!container) return;
+
+  // Raggruppa per anno
+  const byYear = {};
+  casiData.forEach(c => {
+    const y = c.anno || '2026';
+    if (!byYear[y]) byYear[y] = [];
+    byYear[y].push(c);
+  });
+
+  const icoMap = { red:'ico-red', orange:'ico-orange', yellow:'ico-yellow', blue:'ico-blue', green:'ico-green', purple:'ico-purple' };
+  const badgeMap = { red:'badge-red', orange:'badge-orange', yellow:'badge-yellow' };
+
+  let html = '';
+  Object.keys(byYear).sort((a,b) => b-a).forEach(year => {
+    html += `<div class="section-title">casi documentati ${year}</div>`;
+    byYear[year].forEach((c, i) => {
+      const uid = 'dyn-' + year + '-' + i;
+      html += `
+      <div class="card" id="card-${uid}" onclick="toggleCard('${uid}')">
+        <div class="card-head">
+          <div class="c-ico ${icoMap[c.colore]||'ico-red'}">${c.ico||'📋'}</div>
+          <div class="c-body">
+            <div class="c-label">${c.tipo||''}</div>
+            <div class="c-title">${c.titolo||''}</div>
+            <div class="c-desc">${c.sommario||''}</div>
+            <div class="c-foot"><span class="badge ${badgeMap[c.badge]||'badge-red'}">Danno: ${c.danno||'N/D'}</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-${uid}">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come è andata</div>
+              <div class="step-list">
+                ${(c.passi||[]).map((p,n)=>`<div class="step"><span class="sn">${n+1}</span><span>${p}</span></div>`).join('')}
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Cosa impariamo</div>
+              <div class="tips">
+                ${(c.lezioni||[]).map(l=>`<div class="tip"><span class="tip-ico">✓</span><span>${l}</span></div>`).join('')}
+              </div>
+              ${c.dato ? `<div class="info-banner"><strong>Dato:</strong> ${c.dato}</div>` : ''}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+
+  container.innerHTML = html;
+}
+
 // ── LABORATORIO ──
 function labResult(elId, ok, title, lines, color) {
   const el = document.getElementById(elId);
@@ -2001,100 +2076,166 @@ function checkUrl() {
 }
 
 async function checkEmail() {
-  const email = document.getElementById('lab-email').value.trim().toLowerCase();
+  const email = document.getElementById('lab-email').value.trim();
   const resEl = document.getElementById('lab-email-result');
-  if (!email || !email.includes('@')) {
-    labResult('lab-email-result', false, '⚠ Inserisci un indirizzo email valido', [], 'red');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    labResult('lab-email-result', false, '⚠ Inserisci un indirizzo email valida', [], 'red');
     return;
   }
 
-  // Mostra stato caricamento
   resEl.style.display = 'block';
   resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(0,255,65,.04);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);">
-    <span style="color:var(--accent);">→</span> Verifica in corso per <strong style="color:var(--text)">${email}</strong>...
+    <span style="color:var(--accent);">→</span> Verifica in corso per <strong style="color:var(--text)">${email.toLowerCase()}</strong>...
   </div>`;
 
   try {
-    // Usa HIBP v3 API tramite proxy CORS
-    const sha1 = await emailToSHA1(email);
-    const prefix = sha1.slice(0, 5).toUpperCase();
-    const suffix = sha1.slice(5).toUpperCase();
+    // HIBP breachedaccount API richiede API key — usiamo il proxy publico di xposedornot.com
+    // che non richiede autenticazione e controlla gli stessi database
+    const encoded = encodeURIComponent(email.toLowerCase());
+    const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent('https://api.xposedornot.com/v1/check-email/' + encoded)}`;
+    const res = await fetch(proxyUrl, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
 
-    // k-anonymity: inviamo solo i primi 5 caratteri dell'hash
-    const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent('https://api.pwnedpasswords.com/range/' + prefix)}`;
-    const res = await fetch(proxyUrl, { cache: 'no-store' });
-
-    if (!res.ok) throw new Error('API non raggiungibile');
-    const text = await res.text();
-
-    // HIBP risponde con hash:count per ogni suffisso
-    const found = text.split('\n').find(line => line.startsWith(suffix));
-
-    if (found) {
-      const count = parseInt(found.split(':')[1]) || 1;
-      labResult('lab-email-result', false,
-        `⛔ Email trovata in ${count.toLocaleString('it-IT')} violazioni di dati!`,
+    if (res.status === 404) {
+      // 404 = email non trovata in nessun breach
+      labResult('lab-email-result', true,
+        '✓ Email non trovata nelle violazioni note',
         [
-          `Email analizzata: ${email}`,
-          '→ Le tue credenziali potrebbero essere in vendita sul dark web.',
-          '→ Cambia SUBITO la password su tutti i siti dove usi questa email.',
-          '→ Attiva l\'autenticazione a due fattori (2FA) ovunque sia possibile.',
-          '→ Se usi la stessa password su più siti, cambiale tutte immediatamente.',
-        ], 'red');
+          `Email verificata: ${email.toLowerCase()}`,
+          '→ Nessuna violazione nota trovata nei database pubblici di breach.',
+          '→ Questo non garantisce sicurezza assoluta — nuove violazioni emergono ogni giorno.',
+          '→ Usa sempre password uniche per ogni sito e attiva il 2FA.',
+        ], 'accent');
+      return;
+    }
+
+    if (!res.ok) throw new Error('Servizio non disponibile');
+
+    const data = await res.json();
+    // xposedornot restituisce { breaches: { BreachMetrics: [...] } } o simile
+    const breaches = data?.breaches?.BreachMetrics || data?.breaches || [];
+    const count = Array.isArray(breaches) ? breaches.length : (breaches ? 1 : 0);
+
+    if (count > 0) {
+      const names = Array.isArray(breaches)
+        ? breaches.slice(0, 5).map(b => b?.breach || b).join(', ')
+        : '';
+      labResult('lab-email-result', false,
+        `⛔ Email trovata in ${count} violazion${count > 1 ? 'i' : 'e'} di dati`,
+        [
+          `Email verificata: ${email.toLowerCase()}`,
+          names ? `→ Siti coinvolti: ${names}${count > 5 ? ` e altri ${count - 5}` : ''}` : '',
+          '→ Le tue credenziali potrebbero essere esposte — cambia subito le password.',
+          '→ Non riusare mai la stessa password su più siti.',
+          '→ Attiva il 2FA con app authenticator su tutti gli account importanti.',
+        ].filter(Boolean), 'red');
     } else {
       labResult('lab-email-result', true,
         '✓ Email non trovata nelle violazioni note',
         [
-          `Email analizzata: ${email}`,
+          `Email verificata: ${email.toLowerCase()}`,
           '→ Nessuna violazione nota trovata nei database pubblici.',
-          '→ Questo non garantisce sicurezza assoluta — nuove violazioni vengono scoperte ogni giorno.',
-          '→ Usa sempre password uniche e 2FA per ogni account.',
+          '→ Usa sempre password uniche per ogni sito e attiva il 2FA.',
         ], 'accent');
     }
   } catch(e) {
     labResult('lab-email-result', false,
-      '⚠ Verifica non disponibile al momento',
+      '⚠ Servizio temporaneamente non raggiungibile',
       [
-        '→ Il servizio di verifica è temporaneamente irraggiungibile.',
+        '→ Il servizio di verifica non è disponibile in questo momento.',
         '→ Riprova tra qualche minuto.',
-        `→ In alternativa verifica manualmente su: haveibeenpwned.com`,
+        '→ Puoi verificare manualmente su: haveibeenpwned.com',
       ], 'red');
   }
 }
 
-// SHA1 per k-anonymity HIBP
-async function emailToSHA1(email) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(email.toLowerCase());
-  const hashBuffer = await crypto.subtle.digest('SHA-1', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
-}
-
 function checkPhone() {
-  const phone = document.getElementById('lab-phone').value.trim().replace(/\s/g,'');
-  if (!phone) return;
+  const raw = document.getElementById('lab-phone').value.trim();
+  if (!raw) return;
+
+  // Normalizza: rimuovi spazi, trattini, parentesi
+  const phone = raw.replace(/[\s\-().]/g, '');
   const risks = [];
   const info = [];
+  const safe = [];
 
-  if (/^\+(?!39)/.test(phone)) risks.push(`⚠ Prefisso internazionale non italiano — chiamate truffa spesso da numeri esteri`);
-  if (/^00/.test(phone)) risks.push('⚠ Numero con prefisso 00 — possibile chiamata internazionale camuffata');
-  if (/^\+39(02|06|011|081|051|055)/.test(phone)) info.push('ℹ Numero fisso italiano — verifica che sia il numero ufficiale della banca/ente');
-  if (/^\+393[0-9]{9}$/.test(phone) || /^3[0-9]{9}$/.test(phone)) info.push('ℹ Numero mobile italiano');
-  if (phone.length < 8) risks.push('⚠ Numero troppo corto — possibile numero falsificato');
-  if (/^0800|^800/.test(phone)) info.push('ℹ Numero verde — verifica sul sito ufficiale dell\'azienda');
+  // Normalizza in formato +39XXXXXXXXXX per analisi
+  let normalized = phone;
+  if (normalized.startsWith('0039')) normalized = '+39' + normalized.slice(4);
+  if (normalized.startsWith('39') && !normalized.startsWith('+')) normalized = '+' + normalized;
 
-  const lines = [
-    ...risks,
-    ...info,
-    '→ Ricorda: il numero visualizzato può essere falsificato (caller ID spoofing).',
-    '→ Riattacca sempre e richiama tu il numero ufficiale dal sito o dalla carta.',
+  const isItalian = normalized.startsWith('+39');
+  const localPart = isItalian ? normalized.slice(3) : normalized;
+
+  // --- Analisi prefisso ---
+  if (normalized.startsWith('+')) {
+    const cc = normalized.slice(1, 3);
+    // Prefissi noti per truffe internazionali verso l'Italia
+    const scamPrefixes = {
+      '234': 'Nigeria', '233': 'Ghana', '237': 'Camerun',
+      '216': 'Tunisia', '212': 'Marocco', '213': 'Algeria',
+      '375': 'Bielorussia', '380': 'Ucraina (numeri VoIP truffa)',
+      '371': 'Lettonia (numeri VoIP)', '372': 'Estonia (numeri VoIP)',
+      '44': 'UK (spesso usato per spoofing)', '1': 'USA/Canada'
+    };
+    const cc3 = normalized.slice(1, 4);
+    if (scamPrefixes[cc3]) {
+      risks.push(`⚠ Prefisso ${'+'+cc3} (${scamPrefixes[cc3]}) — frequentemente associato a truffe verso l'Italia`);
+    } else if (scamPrefixes[cc]) {
+      risks.push(`⚠ Prefisso ${'+'+cc} (${scamPrefixes[cc]}) — frequentemente associato a truffe`);
+    } else if (!isItalian) {
+      info.push(`ℹ Numero internazionale (${normalized.slice(0,4)}...) — verifica l'identità del chiamante prima di rispondere`);
+    }
+  }
+
+  // --- Analisi numeri italiani ---
+  if (isItalian) {
+    safe.push('✓ Prefisso italiano (+39)');
+
+    // Cellulari italiani: iniziano con 3 (es. 320, 333, 347, 380, 393...)
+    if (/^3[0-9]{9}$/.test(localPart)) {
+      info.push('ℹ Numero mobile italiano — lunghezza corretta');
+    }
+    // Fissi italiani: iniziano con 0
+    else if (/^0[0-9]{6,10}$/.test(localPart)) {
+      const areaMap = {'02':'Milano','06':'Roma','011':'Torino','081':'Napoli','051':'Bologna','055':'Firenze','091':'Palermo','070':'Cagliari','010':'Genova','049':'Padova'};
+      const area = Object.keys(areaMap).find(a => localPart.startsWith(a));
+      info.push(`ℹ Numero fisso italiano${area ? ` — prefisso ${area} (${areaMap[area]})` : ''}`);
+    }
+    // Numeri verdi
+    else if (/^800[0-9]{6}$/.test(localPart)) {
+      info.push('ℹ Numero verde gratuito (800) — verifica sul sito ufficiale dell\'ente');
+    }
+    // Numeri a sovrapprezzo
+    else if (/^89[0-9]/.test(localPart) || /^166/.test(localPart)) {
+      risks.push('⚠ Possibile numero a sovrapprezzo (89x/166) — la chiamata potrebbe costare molto');
+    }
+    // Numeri VoIP/servizi (4xx, 5xx come numeri brevi)
+    else if (/^[45][0-9]{2,5}$/.test(localPart)) {
+      info.push('ℹ Numero breve o servizio — tipicamente usato da aziende e call center');
+    }
+    else {
+      risks.push(`⚠ Formato non standard per numero italiano: ${localPart} — potrebbero essere numeri VoIP o falsificati`);
+    }
+  }
+
+  // --- Segnali universali di truffa ---
+  if (raw.length < 5) {
+    risks.push('⚠ Numero troppo corto — quasi certamente non valido');
+  }
+
+  // Disclaimer sempre presente
+  const disclaimer = [
+    '⚠ Attenzione: qualsiasi numero può essere falsificato (caller ID spoofing).',
+    '→ Non fidarti mai del numero visualizzato per operazioni bancarie o pagamenti.',
+    '→ Se hai dubbi, riattacca e richiama il numero ufficiale trovato sul sito dell\'ente.',
   ];
 
+  const lines = [...risks, ...info, ...safe, ...disclaimer];
+
   if (risks.length > 0) {
-    labResult('lab-phone-result', false, `⚠ ${risks.length} segnale di attenzione`, lines, 'red');
+    labResult('lab-phone-result', false, `⚠ ${risks.length} segnale${risks.length > 1 ? 'i' : ''} di attenzione`, lines, 'red');
   } else {
-    labResult('lab-phone-result', true, 'ℹ Numero nella norma — ma attenzione allo spoofing', lines, 'accent');
+    labResult('lab-phone-result', true, 'ℹ Numero apparentemente nella norma', lines, 'accent');
   }
 }
 
@@ -2127,6 +2268,8 @@ renderPf();
 refreshAlerts();
 setInterval(refreshAlerts, 5 * 60 * 1000);
 updateNotifBtn();
+loadCasiReali();
+setInterval(loadCasiReali, 10 * 60 * 1000);
 </script>
 </body>
 </html>

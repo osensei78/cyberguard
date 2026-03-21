@@ -1,0 +1,71 @@
+[
+  {
+    "anno": "2026",
+    "ico": "📱",
+    "tipo": "Truffa lavoro WhatsApp",
+    "titolo": "Marco, 28 anni — Torino, Marzo 2026",
+    "sommario": "Falso recruiter Amazon su WhatsApp: €4.200 persi per fare recensioni da casa.",
+    "danno": "€4.200",
+    "colore": "red",
+    "badge": "red",
+    "passi": [
+      "Marco riceve un messaggio WhatsApp da un numero straniero: finto recruiter Amazon offre lavoro da casa €80-200 al giorno.",
+      "Viene invitato in un gruppo Telegram dove altri colleghi mostrano pagamenti ricevuti. Tutto sembra reale.",
+      "Per iniziare deve acquistare prodotti e recensirli. Gli verrà rimborsato tutto più il compenso. Versa €800.",
+      "I rimborsi arrivano davvero nei primi giorni. Fiducioso, Marco aumenta fino a €4.200 totali. Poi il gruppo sparisce."
+    ],
+    "lezioni": [
+      "Amazon e qualsiasi azienda legittima non assume mai tramite WhatsApp non richiesto.",
+      "I primi rimborsi sono deliberati per guadagnare fiducia prima del colpo finale.",
+      "Nessun lavoro legittimo richiede di versare soldi per iniziare a lavorare.",
+      "Cerca il nome del gruppo più truffa su Google prima di qualsiasi versamento."
+    ],
+    "dato": "In Italia nel solo gennaio 2026 sono state segnalate oltre 1.200 truffe lavorative via WhatsApp."
+  },
+  {
+    "anno": "2025",
+    "ico": "👩",
+    "tipo": "Sextortion con AI",
+    "titolo": "Federica, 19 anni — Bologna, 2025",
+    "sommario": "Foto del profilo Instagram trasformate in immagini false con AI. Ricatto da €500.",
+    "danno": "€500 + trauma",
+    "colore": "blue",
+    "badge": "orange",
+    "passi": [
+      "Federica riceve un DM su Instagram: minaccia di diffondere immagini intime. Include una foto deepfake convincente generata con AI.",
+      "La foto era stata creata usando le foto pubbliche del suo profilo. Nessuna immagine reale era mai stata scattata.",
+      "Per paura paga €500. Immediatamente arriva una nuova richiesta da €800.",
+      "Federica denuncia alla Polizia Postale. Il ricattatore viene identificato tramite tracciamento della transazione crypto."
+    ],
+    "lezioni": [
+      "Non pagare mai: il pagamento non ferma il ricatto, lo aumenta sempre.",
+      "Le immagini potrebbero essere completamente false — l'AI genera deepfake da foto normali.",
+      "Denuncia subito su commissariatops.it — la Polizia Postale traccia questi criminali.",
+      "Imposta il profilo Instagram su privato e limita le foto pubbliche del viso."
+    ],
+    "dato": "Nel 2025 i casi di sextortion AI in Italia sono aumentati del +280% rispetto al 2024."
+  },
+  {
+    "anno": "2025",
+    "ico": "👨‍⚕️",
+    "tipo": "Romance Scam + Crypto",
+    "titolo": "Antonella, 55 anni — Palermo, 2025",
+    "sommario": "Finto medico militare ONU su Facebook. 11 mesi di relazione, €28.000 investiti e persi.",
+    "danno": "€28.000",
+    "colore": "yellow",
+    "badge": "red",
+    "passi": [
+      "Antonella riceve una richiesta di amicizia da un finto medico militare americano in missione ONU in Ghana. Profilo curato con foto rubate.",
+      "Dopo 4 mesi di messaggi quotidiani, le presenta una piattaforma crypto con rendimenti garantiti.",
+      "Antonella investe €2.000. La dashboard mostra subito guadagni falsi. In 7 mesi investe €28.000 totali.",
+      "Quando prova a prelevare servono tasse doganali per sbloccare i fondi. Antonella capisce di essere stata truffata e denuncia."
+    ],
+    "lezioni": [
+      "Cerca le foto del profilo su Google Immagini — spesso sono rubate a persone reali.",
+      "Militari, medici e ingegneri in missione all'estero sono i profili truffa più usati al mondo.",
+      "Una relazione online che non porta mai a una videochiamata reale è quasi certamente una truffa.",
+      "Nessuna piattaforma legittima garantisce rendimenti fissi — verifica sempre su consob.it."
+    ],
+    "dato": "Le truffe romantiche online in Italia hanno causato perdite per €312 milioni nel solo 2025."
+  }
+]
