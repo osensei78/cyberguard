@@ -1322,7 +1322,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
           <input id="lab-email" class="pw-inp" type="email" placeholder="tuaemail@esempio.com" autocomplete="off" style="font-size:.78rem;border-left-color:var(--cyan-dim);">
           <button class="btn btn-primary" onclick="checkEmail()" style="white-space:nowrap;flex-shrink:0;border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 8px rgba(0,245,255,.15);">VERIFICA</button>
         </div>
-        <div id="lab-email-result" style="display:none;"></div>
+        <div id="lab-email-result" style="display:none;overflow:hidden;"></div>
       </div>
 
       <!-- TOOL 3: PASSWORD STRENGTH (già esiste ma riproposta qui) -->
@@ -2021,9 +2021,9 @@ function labResult(elId, ok, title, lines, color) {
   const bgColor = ok ? 'rgba(0,255,65,.06)' : 'rgba(255,0,51,.06)';
   const textColor = ok ? 'var(--accent)' : '#ff6677';
   el.innerHTML = `
-    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;animation:fadeUp .2s ease;">
-      <div style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:${textColor};margin-bottom:8px;">${title}</div>
-      ${lines.map(l => `<div style="font-family:var(--mono);font-size:.7rem;color:var(--text2);margin-bottom:3px;">${l}</div>`).join('')}
+    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;animation:fadeUp .2s ease;overflow:hidden;box-sizing:border-box;width:100%;">
+      <div style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:${textColor};margin-bottom:8px;word-break:break-word;">${title}</div>
+      ${lines.map(l => `<div style="font-family:var(--mono);font-size:.7rem;color:var(--text2);margin-bottom:3px;word-break:break-word;overflow-wrap:break-word;line-height:1.5;">${l}</div>`).join('')}
     </div>`;
 }
 
@@ -2084,7 +2084,7 @@ async function checkEmail() {
   }
 
   resEl.style.display = 'block';
-  resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(0,255,65,.04);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);">
+  resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(0,255,65,.04);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);overflow:hidden;box-sizing:border-box;width:100%;word-break:break-word;">
     <span style="color:var(--accent);">→</span> Verifica in corso per <strong style="color:var(--text)">${email.toLowerCase()}</strong>...
   </div>`;
 
