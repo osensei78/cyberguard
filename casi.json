@@ -1,71 +1,301 @@
 [
   {
-    "anno": "2026",
+    "id": "cr-2026-01",
+    "anno": 2026,
     "ico": "📱",
-    "tipo": "Truffa lavoro WhatsApp",
-    "titolo": "Marco, 28 anni — Torino, Marzo 2026",
-    "sommario": "Falso recruiter Amazon su WhatsApp: €4.200 persi per fare recensioni da casa.",
-    "danno": "€4.200",
-    "colore": "red",
-    "badge": "red",
+    "label": "WhatsApp Job Scam + Money Muling",
+    "titolo": "Marco, 24 anni — Torino, Gennaio 2026",
+    "desc": "Risponde a un'offerta di lavoro su WhatsApp. Diventa inconsapevolmente un money mule.",
+    "badge": "Danno: €22.000 + denuncia",
+    "badge_tipo": "red",
     "passi": [
-      "Marco riceve un messaggio WhatsApp da un numero straniero: finto recruiter Amazon offre lavoro da casa €80-200 al giorno.",
-      "Viene invitato in un gruppo Telegram dove altri colleghi mostrano pagamenti ricevuti. Tutto sembra reale.",
-      "Per iniziare deve acquistare prodotti e recensirli. Gli verrà rimborsato tutto più il compenso. Versa €800.",
-      "I rimborsi arrivano davvero nei primi giorni. Fiducioso, Marco aumenta fino a €4.200 totali. Poi il gruppo sparisce."
+      "Marco riceve un messaggio WhatsApp: lavoro da casa come 'coordinatore pagamenti' per un'azienda tedesca, €800 a settimana. Sito web curato, contratto via email — sembra tutto legittimo.",
+      "Il lavoro consiste nel ricevere bonifici sul suo conto e ritrasferirli su IBAN esteri trattenendo il 10% di commissione.",
+      "In 3 settimane transitano €22.000 sul suo conto. Marco non sa che sono soldi rubati ad altre vittime.",
+      "La Polizia Postale blocca il suo conto. Marco viene indagato per riciclaggio. L'azienda era inesistente, i fondi già spariti all'estero."
     ],
-    "lezioni": [
-      "Amazon e qualsiasi azienda legittima non assume mai tramite WhatsApp non richiesto.",
-      "I primi rimborsi sono deliberati per guadagnare fiducia prima del colpo finale.",
-      "Nessun lavoro legittimo richiede di versare soldi per iniziare a lavorare.",
-      "Cerca il nome del gruppo più truffa su Google prima di qualsiasi versamento."
+    "difese": [
+      "Nessun lavoro legittimo ti chiede di usare il tuo conto personale per transitare denaro di terzi.",
+      "Questo schema si chiama 'money muling' — è reato penale anche se non eri consapevole di partecipare.",
+      "Verifica l'azienda su Registro Imprese, LinkedIn e Google prima di accettare qualsiasi incarico.",
+      "Se ti propongono commissioni su transazioni di denaro: rifiuta sempre, segnala alla Polizia Postale."
     ],
-    "dato": "In Italia nel solo gennaio 2026 sono state segnalate oltre 1.200 truffe lavorative via WhatsApp."
+    "dato": "In Italia nel 2025 i casi di money muling involontario sono aumentati del 180% rispetto al 2023, colpendo soprattutto under 30 in cerca di lavoro."
   },
   {
-    "anno": "2025",
+    "id": "cr-2026-02",
+    "anno": 2026,
     "ico": "👩",
-    "tipo": "Sextortion con AI",
-    "titolo": "Federica, 19 anni — Bologna, 2025",
-    "sommario": "Foto del profilo Instagram trasformate in immagini false con AI. Ricatto da €500.",
-    "danno": "€500 + trauma",
-    "colore": "blue",
-    "badge": "orange",
+    "label": "SIM Swap + Svuotamento conto",
+    "titolo": "Federica, 38 anni — Bologna, Febbraio 2026",
+    "desc": "I truffatori ottengono una nuova SIM col suo numero. In 20 minuti il conto è vuoto.",
+    "badge": "Danno: €31.500",
+    "badge_tipo": "red",
     "passi": [
-      "Federica riceve un DM su Instagram: minaccia di diffondere immagini intime. Include una foto deepfake convincente generata con AI.",
-      "La foto era stata creata usando le foto pubbliche del suo profilo. Nessuna immagine reale era mai stata scattata.",
-      "Per paura paga €500. Immediatamente arriva una nuova richiesta da €800.",
-      "Federica denuncia alla Polizia Postale. Il ricattatore viene identificato tramite tracciamento della transazione crypto."
+      "Federica riceve un SMS dal gestore: 'La tua SIM sarà disattivata entro 2 ore. Clicca qui per confermare i dati.' Inserisce nome, codice fiscale e numero cliente su una pagina clone.",
+      "Con questi dati i truffatori si recano in un punto vendita con documento falso e richiedono la portabilità del numero su una nuova SIM.",
+      "Appena la nuova SIM è attiva, quella di Federica smette di funzionare. I truffatori entrano nell'app bancaria via 'password dimenticata' e ricevono tutti gli OTP.",
+      "In 20 minuti eseguono 4 bonifici per €31.500 totali. Federica se ne accorge solo quando torna la copertura — troppo tardi."
     ],
-    "lezioni": [
-      "Non pagare mai: il pagamento non ferma il ricatto, lo aumenta sempre.",
-      "Le immagini potrebbero essere completamente false — l'AI genera deepfake da foto normali.",
-      "Denuncia subito su commissariatops.it — la Polizia Postale traccia questi criminali.",
-      "Imposta il profilo Instagram su privato e limita le foto pubbliche del viso."
+    "difese": [
+      "Attiva il PIN anti-SIM swap con il tuo operatore (TIM, Vodafone, WindTre hanno questa funzione).",
+      "Usa sempre un'app authenticator (Google Authenticator, Authy) invece degli SMS per il 2FA bancario.",
+      "Se la tua SIM smette improvvisamente di funzionare, chiama subito il gestore e la banca.",
+      "Non inserire mai dati personali su link ricevuti via SMS, anche se sembrano dal tuo operatore."
     ],
-    "dato": "Nel 2025 i casi di sextortion AI in Italia sono aumentati del +280% rispetto al 2024."
+    "dato": null
   },
   {
-    "anno": "2025",
-    "ico": "👨‍⚕️",
-    "tipo": "Romance Scam + Crypto",
-    "titolo": "Antonella, 55 anni — Palermo, 2025",
-    "sommario": "Finto medico militare ONU su Facebook. 11 mesi di relazione, €28.000 investiti e persi.",
-    "danno": "€28.000",
-    "colore": "yellow",
-    "badge": "red",
+    "id": "cr-2026-06",
+    "anno": 2026,
+    "ico": "👴",
+    "label": "Spoofing bancario + finto carabiniere",
+    "titolo": "Pensionato, 67 anni — Coccaglio (BS), Marzo 2026",
+    "desc": "Sul display compare il numero reale della sua banca. Stava per perdere €98.000.",
+    "badge": "Danno evitato: €98.000",
+    "badge_tipo": "orange",
     "passi": [
-      "Antonella riceve una richiesta di amicizia da un finto medico militare americano in missione ONU in Ghana. Profilo curato con foto rubate.",
-      "Dopo 4 mesi di messaggi quotidiani, le presenta una piattaforma crypto con rendimenti garantiti.",
-      "Antonella investe €2.000. La dashboard mostra subito guadagni falsi. In 7 mesi investe €28.000 totali.",
-      "Quando prova a prelevare servono tasse doganali per sbloccare i fondi. Antonella capisce di essere stata truffata e denuncia."
+      "Il 67enne riceve una chiamata: sul display appare il numero reale della sua filiale bancaria. La voce professionale lo informa di movimenti sospetti sul conto e gli chiede di effettuare due bonifici urgenti su un 'conto sicuro' della banca.",
+      "I truffatori usano la tecnica del Caller ID Spoofing: il numero visualizzato è identico a quello della banca, ma la chiamata parte da tutt'altra parte.",
+      "L'uomo esegue i bonifici convinto di proteggere i suoi risparmi. Si insospettisce solo dopo aver riagganciato e si reca immediatamente dai Carabinieri di Cologne.",
+      "La segnalazione immediata è decisiva: i militari attivano le procedure bancarie d'emergenza e bloccano l'intera somma. I €98.000 vengono recuperati e restituiti integralmente."
     ],
-    "lezioni": [
-      "Cerca le foto del profilo su Google Immagini — spesso sono rubate a persone reali.",
-      "Militari, medici e ingegneri in missione all'estero sono i profili truffa più usati al mondo.",
-      "Una relazione online che non porta mai a una videochiamata reale è quasi certamente una truffa.",
-      "Nessuna piattaforma legittima garantisce rendimenti fissi — verifica sempre su consob.it."
+    "difese": [
+      "Il numero visualizzato sul display può essere falsificato: non fidarti mai del numero che vedi.",
+      "Nessuna banca chiede bonifici urgenti per 'mettere al sicuro' i tuoi soldi — è sempre una truffa.",
+      "Riattacca immediatamente e chiama tu la banca al numero sul retro della carta o sul sito ufficiale.",
+      "In caso di dubbio chiama il 112: la rapidità di reazione può fare la differenza tra perdere tutto e recuperare tutto."
     ],
-    "dato": "Le truffe romantiche online in Italia hanno causato perdite per €312 milioni nel solo 2025."
+    "dato": "Fonte: Brescia Tomorrow, 20 marzo 2026. I Carabinieri di Cologne hanno recuperato l'intera somma grazie alla segnalazione immediata della vittima."
+  },
+  {
+    "id": "cr-2026-07",
+    "anno": 2026,
+    "ico": "👩",
+    "label": "Spoofing + finto operatore antifrode",
+    "titolo": "Donna cesenate — Cesena (FC), Marzo 2026",
+    "desc": "Prima chiama un 'operatore bancario', poi un 'carabiniere'. Due giovani di 25 e 20 anni denunciati.",
+    "badge": "Danno: migliaia di €",
+    "badge_tipo": "red",
+    "passi": [
+      "La vittima riceve una chiamata da un numero che sembra la sua banca: un uomo si presenta come operatore bancario e la informa di un tentativo di hackeraggio del conto in corso.",
+      "Pochi minuti dopo arriva una seconda chiamata da un finto carabiniere, che rafforza la credibilità della situazione e crea un senso di emergenza urgente.",
+      "Convinta di dover agire subito per proteggere i risparmi, la donna esegue un bonifico istantaneo di diverse migliaia di euro verso un conto estero indicato come 'sicuro'.",
+      "I Carabinieri di Macerone e la Procura di Forlì identificano rapidamente i due responsabili — un 25enne e un 20enne italiani — e sequestrano il conto estero in Spagna. Circa metà della somma viene recuperata e restituita."
+    ],
+    "difese": [
+      "La sequenza banca + forze dell'ordine che chiamano in rapida successione è uno schema classico: riattacca sempre.",
+      "I Carabinieri non chiamano mai per chiederti di fare bonifici urgenti — nessuna forza dell'ordine lo fa.",
+      "I bonifici istantanei verso conti esteri sono quasi impossibili da recuperare una volta eseguiti: prenditi sempre il tempo di verificare.",
+      "Segnala subito al 112: in questo caso metà somma è stata recuperata grazie alla rapidità dell'intervento."
+    ],
+    "dato": "Fonte: Forlì24ore, 20 marzo 2026. I due truffatori sono stati denunciati dai Carabinieri della Stazione di Macerone."
+  },
+  {
+    "id": "cr-2026-08",
+    "anno": 2026,
+    "ico": "👨",
+    "label": "Spoofing + app banking — 4 bonifici in sequenza",
+    "titolo": "Uomo, 65 anni — Cupramontana (AN), processo 2026",
+    "desc": "La voce lo chiama per nome. Sul display: il nome della sua banca. €29.000 in 4 bonifici.",
+    "badge": "Danno: €29.000 (€26.000 recuperati)",
+    "badge_tipo": "orange",
+    "passi": [
+      "Mentre controlla l'app della banca, il 65enne riceve una notifica di movimenti sospetti. Immediatamente dopo squilla il telefono: sul display compare il nome della sua banca, la voce lo chiama per nome e sembra sapere tutto del suo conto.",
+      "Il falso operatore lo guida passo dopo passo: 'Inserisca 1, 2, 3, 4' — in realtà sta autorizzando un bonifico da €1.234. Poi '2, 3, 4, 5' — un altro bonifico. Quattro operazioni in sequenza, l'ultima da €18.000.",
+      "La voce lo rassicura: 'I soldi sono virtuali, li riavrete subito, stiamo proteggendo il conto.' Il conto si svuota mentre parlano.",
+      "Quando l'app bancaria viene bloccata per sicurezza, il 65enne capisce. Chiama i Carabinieri ancora al telefono con il truffatore. L'intervento lampo blocca la Postepay del complice: €26.000 recuperati su €29.000."
+    ],
+    "difese": [
+      "Nessuna banca ti guida a inserire sequenze di numeri per 'proteggere' il conto: stai autorizzando bonifici reali.",
+      "Se qualcuno conosce il tuo nome e i dettagli del conto, potrebbero aver già rubato i tuoi dati in precedenza.",
+      "Riattacca e vai fisicamente in filiale o chiama il numero sul retro della carta — mai il numero di chi ha chiamato te.",
+      "Anche se il conto si svuota davanti ai tuoi occhi, la segnalazione immediata può salvare gran parte dei fondi."
+    ],
+    "dato": "Fonte: AnconaToday, marzo 2026. Il caso è arrivato in tribunale ad Ancona. Un 55enne di Torre del Greco è imputato per truffa."
+  },
+  {
+    "id": "cr-2026-09",
+    "anno": 2026,
+    "ico": "🪪",
+    "label": "Furto microchip carta d'identità elettronica",
+    "titolo": "Casi multipli — Vicenza, Mantova, Perugia, Macerata, 2026",
+    "desc": "Nuova frontiera: rubano il microchip dalla CIE per aprire conti, SIM e accedere a servizi pubblici.",
+    "badge": "Danno: furto identità",
+    "badge_tipo": "red",
+    "passi": [
+      "Le forze dell'ordine segnalano in tutta Italia carte d'identità elettroniche (CIE) trovate con il microchip asportato chirurgicamente. I casi emergono durante controlli di polizia su strada a Vicenza e in altre province.",
+      "Il microchip autentico viene inserito in documenti contraffatti. I sistemi digitali di verifica leggono i dati reali della vittima, ignorando che il documento fisico è falso.",
+      "Con il chip rubato i criminali aprono SIM telefoniche, conti bancari, accedono a portali INPS e Agenzia delle Entrate, richiedono pratiche a nome della vittima.",
+      "Le vittime scoprono il furto solo mesi dopo, quando trovano SIM intestate a loro nome, conti mai aperti o pratiche fiscali sconosciute. Il recupero dell'identità richiede lunghi procedimenti legali."
+    ],
+    "difese": [
+      "Controlla periodicamente il tuo SPID e i tuoi accessi su NoiPA, INPS e Agenzia delle Entrate per rilevare attività anomale.",
+      "Se perdi la carta d'identità, denuncia subito e segnala all'ente emittente per bloccare il chip.",
+      "Attiva le notifiche su tutti i servizi digitali collegati al tuo codice fiscale.",
+      "Se noti SIM o conti intestati a te che non hai mai aperto, denuncia immediatamente alla Polizia Postale."
+    ],
+    "dato": "Fonte: BusinessOnline, 17 marzo 2026. Indagini in corso nelle province di Vicenza, Mantova, Perugia e Macerata."
+  },
+  {
+    "id": "cr-2026-10",
+    "anno": 2026,
+    "ico": "📧",
+    "label": "Phishing — finta email Polizia Postale",
+    "titolo": "Campagna nazionale — Italia, Gennaio 2026",
+    "desc": "Email con logo della Polizia Postale: accuse false di reati gravi, richiesta di pagamento per evitare l'arresto.",
+    "badge": "Danno: variabile",
+    "badge_tipo": "red",
+    "passi": [
+      "Le vittime ricevono una email con loghi ufficiali della Polizia Postale e delle Comunicazioni. Il messaggio le accusa di aver commesso reati gravi online — tra cui pedopornografia — nell'ambito di una fantomatica indagine penale.",
+      "L'email minaccia l'emissione di un mandato di arresto e l'iscrizione in un 'Registro dei delinquenti sessuali' se la vittima non risponde entro 24 ore con le proprie giustificazioni.",
+      "Prese dal panico, molte vittime rispondono inviando dati personali e giustificazioni. Il truffatore usa queste informazioni per aumentare la pressione e richiedere un pagamento urgente per 'archiviare il caso'.",
+      "Chi paga riceve nuove richieste sempre più alte. Chi non paga viene tempestato di email con finte notifiche giudiziarie. La Polizia Postale ha emesso un avviso pubblico ufficiale su questa campagna."
+    ],
+    "difese": [
+      "La Polizia non contatta mai i cittadini via email per accuse penali o richieste di pagamento: è sempre una truffa.",
+      "Non rispondere mai — anche solo rispondere conferma che l'email è attiva e aumenta le richieste.",
+      "Non cliccare link né aprire allegati: possono installare malware o rubare credenziali.",
+      "Segnala l'email su commissariatops.it e blocca il mittente immediatamente."
+    ],
+    "dato": "Fonte: Polizia di Stato e CybersecItalia, gennaio 2026. La campagna è ancora attiva — la Polizia Postale ha emesso avviso ufficiale."
+  },
+  {
+    "id": "cr-2025-01",
+    "anno": 2025,
+    "ico": "👴",
+    "label": "Deepfake vocale AI — Truffa del nipote 2.0",
+    "titolo": "Carmela, 71 anni — Palermo, Marzo 2025",
+    "desc": "La voce del nipote clonata dall'AI. Consegna €18.000 in contanti a uno sconosciuto.",
+    "badge": "Danno: €18.000",
+    "badge_tipo": "red",
+    "passi": [
+      "Carmela riceve una chiamata: è la voce di suo nipote Salvatore, identica. Dice di aver investito in crypto e di rischiare l'arresto se non paga subito.",
+      "La voce era stata clonata da 40 secondi di audio estratto da un Reel Instagram del nipote.",
+      "Un secondo chiamante, presentato come 'consulente legale', spiega i dettagli e chiede un versamento urgente in contanti.",
+      "Un corriere si presenta a casa. Carmela consegna €18.000 in una busta. Il nipote reale non saprà nulla fino al giorno dopo."
+    ],
+    "difese": [
+      "Stabilisci subito una PAROLA D'ORDINE segreta con tutti i familiari — una parola che solo voi conoscete.",
+      "Non aprire mai la porta a chi viene a ritirare denaro: riattacca e chiama tu il familiare al suo numero.",
+      "I deepfake vocali si creano con pochi secondi di audio: privatizza i video con la tua voce sui social.",
+      "Nessun consulente legale viene a casa a ritirare contanti per emergenze crypto."
+    ],
+    "dato": "Nel 2025 le truffe con deepfake vocale hanno causato danni per oltre €240 milioni in Italia, secondo i dati della Polizia Postale."
+  },
+  {
+    "id": "cr-2025-02",
+    "anno": 2025,
+    "ico": "👨‍💼",
+    "label": "Spear Phishing — Falsa fattura fornitore",
+    "titolo": "Studio professionale — Firenze, Giugno 2025",
+    "desc": "Email identica a quella del fornitore storico. Cambia solo l'IBAN. €56.000 in fumo.",
+    "badge": "Danno: €56.000",
+    "badge_tipo": "red",
+    "passi": [
+      "La segreteria riceve una email dal fornitore abituale con cui lavorano da 8 anni. Oggetto: 'Aggiornamento coordinate bancarie per prossimi pagamenti'.",
+      "Email identica nella grafica e nel tono. Il dominio era 'fornitor-esrl.it' invece di 'fornitorisrl.it' — una sola lettera diversa.",
+      "Nessuno verifica. Il successivo pagamento da €56.000 viene eseguito sul nuovo IBAN — conto aperto con documenti falsi in Romania.",
+      "Il fornitore reale segnala il mancato pagamento dopo 30 giorni. I fondi sono già stati trasferiti più volte: irrecuperabili."
+    ],
+    "difese": [
+      "Qualsiasi cambio di coordinate bancarie va verificato TELEFONICAMENTE al numero ufficiale del fornitore — mai rispondere alla stessa email.",
+      "Controlla sempre il dominio mittente carattere per carattere prima di eseguire pagamenti.",
+      "Implementa in azienda una procedura obbligatoria di doppia verifica per bonifici sopra soglia.",
+      "Attiva il protocollo DMARC sul tuo dominio email aziendale — riduce il rischio di spoofing."
+    ],
+    "dato": null
+  },
+  {
+    "id": "cr-2025-03",
+    "anno": 2025,
+    "ico": "👦",
+    "label": "Sextortion AI — Foto generate dall'AI",
+    "titolo": "Davide, 17 anni — Venezia, Settembre 2025",
+    "desc": "Nessuna foto intima reale. I truffatori le hanno generate con l'AI usando il suo Instagram.",
+    "badge": "Danno: psicologico + €800",
+    "badge_tipo": "orange",
+    "passi": [
+      "Davide riceve messaggi da un profilo Instagram femminile che lo segue da settimane. Inizia una conversazione normale.",
+      "Dopo qualche giorno riceve immagini generate dall'AI che lo ritraggono in situazioni compromettenti — create usando le sue foto pubbliche.",
+      "Il ricattatore minaccia di mandare le immagini ai suoi contatti e alla scuola se non paga €800 in crypto entro 24 ore.",
+      "Davide paga per paura. Le richieste continuano con importi più alti. Solo quando lo confessa ai genitori la spirale si interrompe con una denuncia."
+    ],
+    "difese": [
+      "Non pagare mai: il pagamento non ferma il ricattatore, lo incoraggia ad aumentare le richieste.",
+      "Segnala subito alla Polizia Postale su commissariatops.it — hanno un team dedicato ai minori.",
+      "Rendi privato il profilo Instagram e limita chi può vedere le tue foto.",
+      "Parla subito con un adulto di fiducia: non sei solo e non hai fatto nulla di sbagliato."
+    ],
+    "dato": "Nel 2025 i casi di sextortion con immagini AI verso minorenni sono triplicati in Italia. L'80% delle vittime non denuncia per vergogna."
+  },
+  {
+    "id": "cr-2024-01",
+    "anno": 2024,
+    "ico": "👴",
+    "label": "Vishing + Deepfake vocale",
+    "titolo": "Rosa, 74 anni — Milano, 2024",
+    "desc": "Perde €43.000 in un pomeriggio. La voce del figlio era perfetta.",
+    "badge": "Danno: €43.000",
+    "badge_tipo": "red",
+    "passi": [
+      "Rosa riceve una chiamata: è la voce di suo figlio Marco, in lacrime. Dice di aver causato un incidente e di aver bisogno urgente di soldi per l'avvocato.",
+      "La voce era stata clonata da pochi secondi di audio estratti da un video Facebook del figlio.",
+      "Un secondo uomo, che si presenta come 'avvocato Ferretti', chiama subito dopo con dettagli credibili sull'incidente.",
+      "Rosa fa tre bonifici in due ore: €12.000, €16.000 e €15.000. Quando chiama il vero figlio capisce tutto — ma i soldi sono già irrecuperabili."
+    ],
+    "difese": [
+      "La parola d'ordine segreta di famiglia avrebbe bloccato tutto al primo secondo.",
+      "Prima di qualsiasi bonifico, riattacca e chiama tu il numero del familiare salvato in rubrica.",
+      "Nessun avvocato legittimo chiede bonifici urgenti per telefono.",
+      "Riduci i video pubblici con la voce dei tuoi familiari sui social."
+    ],
+    "dato": "In Italia nel 2024 le truffe con deepfake vocale sono aumentate del 340% rispetto all'anno precedente."
+  },
+  {
+    "id": "cr-2024-02",
+    "anno": 2024,
+    "ico": "👨‍💼",
+    "label": "CEO Fraud + Deepfake video",
+    "titolo": "Azienda manifatturiera — Brescia, 2024",
+    "desc": "La contabile esegue un bonifico da €87.000 dopo una videocall con il 'CEO'.",
+    "badge": "Danno: €87.000",
+    "badge_tipo": "red",
+    "passi": [
+      "La contabile riceve una email dal CEO con richiesta urgente e riservata di un bonifico internazionale.",
+      "Per rassicurarla viene organizzata una videocall su Teams con il CEO e un 'consulente finanziario'. I volti sembravano perfetti.",
+      "I truffatori avevano usato video pubblici del CEO da LinkedIn e YouTube per costruire il deepfake in tempo reale.",
+      "Il bonifico da €87.000 viene eseguito. L'azienda lo scopre solo il giorno dopo quando il vero CEO rientra dall'estero."
+    ],
+    "difese": [
+      "In azienda: nessun bonifico sopra soglia senza doppia verifica telefonica al numero ufficiale.",
+      "In videocall sospette chiedi un gesto insolito ('mostra un oggetto specifico') — i deepfake faticano con richieste improvvise.",
+      "Le richieste urgenti e riservate sono quasi sempre un segnale di manipolazione.",
+      "Stabilisci un canale di verifica secondario obbligatorio per pagamenti straordinari."
+    ],
+    "dato": null
+  },
+  {
+    "id": "cr-2024-03",
+    "anno": 2024,
+    "ico": "👦",
+    "label": "Pig Butchering — Crypto Scam",
+    "titolo": "Luca, 31 anni — Roma, 2024",
+    "desc": "8 mesi di relazione online, €34.000 investiti in crypto. Poi il silenzio.",
+    "badge": "Danno: €34.000",
+    "badge_tipo": "red",
+    "passi": [
+      "Luca conosce 'Sophie' su Instagram. Profilo curato, foto professionali, vive a Zurigo. Relazione intensa per messaggi.",
+      "Dopo 3 mesi Sophie 'per caso' menziona una piattaforma crypto. Luca vede i suoi 'guadagni' sulla dashboard.",
+      "Luca investe €2.000 e vede subito +€800 in dashboard. Aumenta progressivamente fino a €34.000 in 5 mesi.",
+      "Quando prova a prelevare servono 'tasse di sblocco'. Paga. Sophie sparisce e il sito va offline."
+    ],
+    "difese": [
+      "I guadagni visibili sulla dashboard sono falsi — generati dal software per spingerti a investire di più.",
+      "Se non riesci a prelevare senza pagare prima, i tuoi soldi sono già persi.",
+      "Cerca sempre il nome della piattaforma su consob.it e su Google + 'truffa'.",
+      "Le relazioni online che portano a investimenti sono quasi sempre truffe orchestrate da team criminali."
+    ],
+    "dato": "Il 'pig butchering' ha causato perdite per oltre €1 miliardo in Europa nel 2024."
   }
 ]
