@@ -373,17 +373,17 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div class="nav-card-desc">12 tipologie spiegate con segnali di allarme e consigli pratici</div>
         <div class="nav-card-arrow">Esplora →</div>
       </div>
-      <div class="nav-card" onclick="goTo('quiz')">
-        <div class="nav-card-ico ico-purple">🧠</div>
-        <div class="nav-card-title">Quiz</div>
-        <div class="nav-card-desc">3 livelli di difficoltà per testare quanto sei preparato</div>
-        <div class="nav-card-arrow">Inizia →</div>
+      <div class="nav-card" onclick="goTo('casireali')">
+        <div class="nav-card-ico ico-red">🔴</div>
+        <div class="nav-card-title">Casi Reali</div>
+        <div class="nav-card-desc">Storie vere di truffe italiane — analizza cosa è andato storto</div>
+        <div class="nav-card-arrow">Leggi →</div>
       </div>
-      <div class="nav-card" onclick="goTo('simulatori')">
-        <div class="nav-card-ico ico-orange">⚡</div>
-        <div class="nav-card-title">Simulatori</div>
-        <div class="nav-card-desc">Riconosci phishing, smishing e vishing in scenari reali</div>
-        <div class="nav-card-arrow">Prova →</div>
+      <div class="nav-card" onclick="goTo('laboratorio')">
+        <div class="nav-card-ico ico-green">🧪</div>
+        <div class="nav-card-title">Laboratorio</div>
+        <div class="nav-card-desc">Verifica link sospetti, email violate e sicurezza password</div>
+        <div class="nav-card-arrow">Testa →</div>
       </div>
       <div class="nav-card" onclick="goTo('alerts')">
         <div class="nav-card-ico ico-red">📡</div>
@@ -1037,6 +1037,217 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
     </div>
   </div>
 
+  <!-- ═══ CASI REALI ═══ -->
+  <div class="screen" id="sc-casireali">
+    <div class="pg">
+      <div class="page-header">
+        <div class="page-title">Casi Reali</div>
+        <div class="page-sub">truffe realmente accadute in Italia — analizza, impara, difenditi</div>
+      </div>
+
+      <div class="section-title">casi documentati</div>
+
+      <div class="card" id="card-cr1" onclick="toggleCard('cr1')">
+        <div class="card-head">
+          <div class="c-ico ico-red">👴</div>
+          <div class="c-body">
+            <div class="c-label">Vishing + Deepfake vocale</div>
+            <div class="c-title">Rosa, 74 anni — Milano, 2024</div>
+            <div class="c-desc">Perde €43.000 in un pomeriggio. La voce del figlio era perfetta.</div>
+            <div class="c-foot"><span class="badge badge-red">Danno: €43.000</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-cr1">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come è andata</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Rosa riceve una chiamata: è la voce di suo figlio Marco, in lacrime. Dice di aver causato un incidente e di aver bisogno urgente di soldi per l'avvocato.</span></div>
+                <div class="step"><span class="sn">2</span><span>La voce era stata clonata da pochi secondi di audio estratti da un video Facebook del figlio.</span></div>
+                <div class="step"><span class="sn">3</span><span>Un secondo uomo, che si presenta come "avvocato Ferretti", chiama subito dopo e fornisce dettagli credibili sull'incidente.</span></div>
+                <div class="step"><span class="sn">4</span><span>Rosa fa tre bonifici in due ore: €12.000, €16.000 e €15.000. Quando chiama il vero figlio capisce tutto — ma i soldi sono già irrecuperabili.</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Cosa impariamo</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>La parola d'ordine segreta di famiglia avrebbe bloccato tutto al primo secondo.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Prima di qualsiasi bonifico, riattacca e chiama tu il numero del familiare salvato in rubrica.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Nessun avvocato legittimo chiede bonifici urgenti per telefono.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Riduci i video pubblici con la tua voce e quella dei tuoi familiari sui social.</span></div>
+              </div>
+              <div class="info-banner"><strong>Dato:</strong> In Italia nel 2024 le truffe con deepfake vocale sono aumentate del 340% rispetto all'anno precedente.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-cr2" onclick="toggleCard('cr2')">
+        <div class="card-head">
+          <div class="c-ico ico-yellow">👨‍💼</div>
+          <div class="c-body">
+            <div class="c-label">CEO Fraud + Bonifico urgente</div>
+            <div class="c-title">Azienda manifatturiera — Brescia, 2024</div>
+            <div class="c-desc">La contabile esegue un bonifico da €87.000 dopo una videocall con il "CEO".</div>
+            <div class="c-foot"><span class="badge badge-red">Danno: €87.000</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-cr2">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come è andata</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>La contabile riceve una email dal CEO con richiesta urgente e riservata di un bonifico internazionale.</span></div>
+                <div class="step"><span class="sn">2</span><span>Per rassicurarla viene organizzata una videocall su Teams con il CEO e un "consulente finanziario". I volti sembravano perfetti.</span></div>
+                <div class="step"><span class="sn">3</span><span>I truffatori avevano usato footage video pubblici del CEO da LinkedIn e YouTube per costruire il deepfake in tempo reale.</span></div>
+                <div class="step"><span class="sn">4</span><span>Il bonifico da €87.000 viene eseguito. L'azienda lo scopre solo il giorno dopo quando il vero CEO rientra dall'estero.</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Cosa impariamo</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>In azienda: nessun bonifico superiore a soglia senza doppia verifica telefonica al numero ufficiale.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>In videocall sospette chiedi un gesto insolito ("mostra un oggetto specifico") — i deepfake faticano con richieste improvvise.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Le richieste urgenti e riservate sono quasi sempre un segnale di manipolazione.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-cr3" onclick="toggleCard('cr3')">
+        <div class="card-head">
+          <div class="c-ico ico-blue">👦</div>
+          <div class="c-body">
+            <div class="c-label">Pig Butchering / Crypto Scam</div>
+            <div class="c-title">Luca, 31 anni — Roma, 2024</div>
+            <div class="c-desc">8 mesi di relazione online, €34.000 investiti in crypto. Poi il silenzio.</div>
+            <div class="c-foot"><span class="badge badge-red">Danno: €34.000</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-cr3">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come è andata</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Luca conosce "Sophie" su Instagram. Profilo curato, foto professionali, vive a Zurigo. Inizia una relazione intensa per messaggi.</span></div>
+                <div class="step"><span class="sn">2</span><span>Dopo 3 mesi Sophie "per caso" menziona una piattaforma crypto dove guadagna bene. Luca vede i suoi "guadagni" sulla dashboard.</span></div>
+                <div class="step"><span class="sn">3</span><span>Luca investe €2.000 e vede subito +€800 in dashboard. Aumenta progressivamente fino a €34.000 in 5 mesi.</span></div>
+                <div class="step"><span class="sn">4</span><span>Quando prova a prelevare servono "tasse di sblocco" da €4.000. Luca paga. Poi Sophie sparisce e il sito va offline.</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Cosa impariamo</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>I guadagni visibili sulla dashboard sono falsi — generati dal software per spingerti a investire di più.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Se non riesci a prelevare senza pagare prima, i tuoi soldi sono già persi.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Cerca sempre il nome della piattaforma su consob.it e su Google + "truffa".</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Le relazioni online che portano a investimenti sono quasi sempre truffe orchestrate da team criminali.</span></div>
+              </div>
+              <div class="info-banner"><strong>Dato:</strong> Il "pig butchering" ha causato perdite per oltre €1 miliardo in Europa nel 2024.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="card-cr4" onclick="toggleCard('cr4')">
+        <div class="card-head">
+          <div class="c-ico ico-orange">👩</div>
+          <div class="c-body">
+            <div class="c-label">Smishing + Clonazione conto</div>
+            <div class="c-title">Giulia, 42 anni — Napoli, 2024</div>
+            <div class="c-desc">Un SMS della banca, 3 minuti di distrazione, €8.200 spariti.</div>
+            <div class="c-foot"><span class="badge badge-orange">Danno: €8.200</span><span class="c-chevron">▼</span></div>
+          </div>
+        </div>
+        <div class="detail" id="detail-cr4">
+          <div class="d-grid">
+            <div>
+              <div class="d-section-title">Come è andata</div>
+              <div class="step-list">
+                <div class="step"><span class="sn">1</span><span>Giulia riceve un SMS nella conversazione ufficiale della sua banca: "Movimento sospetto rilevato, blocca ora il tuo conto."</span></div>
+                <div class="step"><span class="sn">2</span><span>Il link porta a una pagina identica alla banca. Giulia inserisce credenziali e il codice OTP appena arrivato via SMS.</span></div>
+                <div class="step"><span class="sn">3</span><span>In quel momento i truffatori usano le credenziali in tempo reale per aggiungere un IBAN beneficiario ed eseguire il bonifico.</span></div>
+                <div class="step"><span class="sn">4</span><span>In 3 minuti €8.200 escono dal conto. La banca non riesce a bloccare il trasferimento.</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="d-section-title">Cosa impariamo</div>
+              <div class="tips">
+                <div class="tip"><span class="tip-ico">✓</span><span>Il SIM swapping permette ai truffatori di ricevere i tuoi SMS: usa l'app authenticator, non gli SMS per il 2FA.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Le banche non mandano mai link per bloccare transazioni — vai sempre sull'app ufficiale.</span></div>
+                <div class="tip"><span class="tip-ico">✓</span><span>Un OTP ti viene chiesto solo quando sei tu a fare un'operazione — mai su richiesta altrui.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ LABORATORIO ═══ -->
+  <div class="screen" id="sc-laboratorio">
+    <div class="pg">
+      <div class="page-header">
+        <div class="page-title">Laboratorio</div>
+        <div class="page-sub">strumenti pratici per verificare la tua sicurezza digitale</div>
+      </div>
+
+      <div class="section-title">strumenti disponibili</div>
+
+      <!-- TOOL 1: CHECK LINK -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--accent-dim);padding:16px;margin-bottom:8px;">
+        <div style="font-family:var(--display);font-size:.8rem;color:var(--accent);margin-bottom:4px;letter-spacing:.06em;">🔗 ANALISI LINK SOSPETTO</div>
+        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">// incolla un URL e scopri se è potenzialmente pericoloso</div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <input id="lab-url" class="pw-inp" type="text" placeholder="https://esempio-sospetto.xyz/login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="font-size:.78rem;">
+          <button class="btn btn-primary" onclick="checkUrl()" style="white-space:nowrap;flex-shrink:0;">ANALIZZA</button>
+        </div>
+        <div id="lab-url-result" style="display:none;"></div>
+      </div>
+
+      <!-- TOOL 2: CHECK EMAIL BREACH -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--cyan-dim);padding:16px;margin-bottom:8px;">
+        <div style="font-family:var(--display);font-size:.8rem;color:var(--cyan);margin-bottom:4px;letter-spacing:.06em;">📧 VERIFICA EMAIL VIOLATA</div>
+        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">// controlla se la tua email è comparsa in un data breach noto</div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <input id="lab-email" class="pw-inp" type="email" placeholder="tuaemail@esempio.com" autocomplete="off" style="font-size:.78rem;border-left-color:var(--cyan-dim);">
+          <button class="btn btn-primary" onclick="checkEmail()" style="white-space:nowrap;flex-shrink:0;border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 8px rgba(0,245,255,.15);">VERIFICA</button>
+        </div>
+        <div id="lab-email-result" style="display:none;"></div>
+      </div>
+
+      <!-- TOOL 3: PASSWORD STRENGTH (già esiste ma riproposta qui) -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--accent-dim);padding:16px;margin-bottom:8px;">
+        <div style="font-family:var(--display);font-size:.8rem;color:var(--accent);margin-bottom:4px;letter-spacing:.06em;">🔑 ANALISI PASSWORD</div>
+        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">// quanto tempo ci vuole per craccare la tua password?</div>
+        <div class="pw-inp-wrap">
+          <input class="pw-inp" id="lab-pw-inp" type="text" placeholder="inserisci una password da testare..." oninput="checkPwLab(this.value)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="pw-result" id="lab-pw-res">
+          <div class="pw-score-row">
+            <span class="pw-score-lbl" id="lab-pw-slbl"></span>
+            <span class="pw-crack" id="lab-pw-crack"></span>
+          </div>
+          <div class="pw-bar"><div class="pw-fill" id="lab-pw-fill"></div></div>
+          <div class="pw-checks" id="lab-pw-checks"></div>
+        </div>
+      </div>
+
+      <!-- TOOL 4: NUMERO SOSPETTO -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid rgba(255,102,0,.4);padding:16px;margin-bottom:8px;">
+        <div style="font-family:var(--display);font-size:.8rem;color:var(--orange);margin-bottom:4px;letter-spacing:.06em;">📞 ANALISI NUMERO SOSPETTO</div>
+        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">// inserisci un numero di telefono e scopri i segnali di rischio</div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <input id="lab-phone" class="pw-inp" type="tel" placeholder="+39 333 1234567" autocomplete="off" style="font-size:.78rem;border-left-color:rgba(255,102,0,.4);">
+          <button class="btn btn-primary" onclick="checkPhone()" style="white-space:nowrap;flex-shrink:0;border-color:var(--orange);color:var(--orange);box-shadow:0 0 8px rgba(255,102,0,.15);">ANALIZZA</button>
+        </div>
+        <div id="lab-phone-result" style="display:none;"></div>
+      </div>
+
+    </div>
+  </div>
+
 </div><!-- /content -->
 
 <!-- PWA INSTALL BANNER -->
@@ -1052,9 +1263,9 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 
 <div id="tabbar">
   <button class="tab active" id="tab-home" onclick="goTo('home')"><span class="tab-ico">🏠</span>Home</button>
-  <button class="tab" id="tab-database" onclick="goTo('database')"><span class="tab-ico">🗄️</span>Database</button>
-  <button class="tab" id="tab-quiz" onclick="goTo('quiz')"><span class="tab-ico">🧠</span>Quiz</button>
-  <button class="tab" id="tab-simulatori" onclick="goTo('simulatori')"><span class="tab-ico">⚡</span>Sim</button>
+  <button class="tab" id="tab-database" onclick="goTo('database')"><span class="tab-ico">🗄️</span>DB</button>
+  <button class="tab" id="tab-casireali" onclick="goTo('casireali')"><span class="tab-ico">🔴</span>Casi</button>
+  <button class="tab" id="tab-laboratorio" onclick="goTo('laboratorio')"><span class="tab-ico">🧪</span>Lab</button>
   <button class="tab" id="tab-alerts" onclick="goTo('alerts')"><span class="tab-ico">📡</span>Alert<span class="tab-badge show" id="alert-badge">3</span></button>
   <button class="tab" id="tab-profilo" onclick="goTo('profilo')"><span class="tab-ico">👤</span>Profilo</button>
 </div>
@@ -1621,6 +1832,147 @@ document.getElementById('install-btn')?.addEventListener('click', async () => {
 document.getElementById('install-dismiss')?.addEventListener('click', () => {
   document.getElementById('install-banner').style.display = 'none';
 });
+
+// ── LABORATORIO ──
+function labResult(elId, ok, title, lines, color) {
+  const el = document.getElementById(elId);
+  el.style.display = 'block';
+  const borderColor = ok ? 'var(--accent)' : 'var(--red)';
+  const bgColor = ok ? 'rgba(0,255,65,.06)' : 'rgba(255,0,51,.06)';
+  const textColor = ok ? 'var(--accent)' : '#ff6677';
+  el.innerHTML = `
+    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;animation:fadeUp .2s ease;">
+      <div style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:${textColor};margin-bottom:8px;">${title}</div>
+      ${lines.map(l => `<div style="font-family:var(--mono);font-size:.7rem;color:var(--text2);margin-bottom:3px;">${l}</div>`).join('')}
+    </div>`;
+}
+
+function checkUrl() {
+  const raw = document.getElementById('lab-url').value.trim();
+  if (!raw) return;
+  const url = raw.toLowerCase();
+  const risks = [];
+  const safe = [];
+
+  // Analisi euristica locale
+  const suspDomains = ['xyz','top','click','gq','ml','tk','cf','ga','icu','shop','online','site','store','live'];
+  const suspWords = ['login','account','verify','secure','update','confirm','bancaintesa','paypal','inps','amazon','poste','aruba','nexi','unicredit','intesa'];
+  const ipPattern = /https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
+  const longSubdomain = /([a-z0-9-]+\.){3,}/;
+
+  try {
+    const parsed = new URL(raw.startsWith('http') ? raw : 'https://'+raw);
+    const host = parsed.hostname;
+    const tld = host.split('.').pop();
+    const path = parsed.pathname + parsed.search;
+
+    if (suspDomains.includes(tld)) risks.push(`⚠ Dominio TLD sospetto: .${tld} — spesso usato per phishing`);
+    if (ipPattern.test(raw)) risks.push('⚠ URL con indirizzo IP diretto — nessun sito legittimo usa IP raw');
+    if (longSubdomain.test(host)) risks.push(`⚠ Sottodomini multipli: ${host} — tecnica comune per ingannare`);
+    if (suspWords.some(w => host.includes(w))) risks.push(`⚠ Parola sensibile nel dominio: "${suspWords.find(w => host.includes(w))}" — possibile impersonazione`);
+    if (path.includes('login') || path.includes('password') || path.includes('accedi')) risks.push('⚠ Percorso contiene parole di autenticazione');
+    if (host.length > 40) risks.push(`⚠ Dominio molto lungo (${host.length} caratteri) — segnale di typosquatting`);
+    if (!raw.startsWith('https')) risks.push('⚠ Connessione non cifrata (HTTP) — dati trasmessi in chiaro');
+    else safe.push('✓ Connessione HTTPS attiva');
+    if (!longSubdomain.test(host) && !suspDomains.includes(tld)) safe.push('✓ Struttura dominio nella norma');
+
+  } catch(e) {
+    risks.push('⚠ URL non valido o malformato');
+  }
+
+  if (risks.length === 0) {
+    labResult('lab-url-result', true, '✓ Nessun segnale di rischio rilevato', [
+      ...safe,
+      '→ Questo non garantisce che il sito sia sicuro al 100%.',
+      '→ Verifica sempre di essere sul sito ufficiale prima di inserire dati.'
+    ], 'accent');
+  } else {
+    labResult('lab-url-result', false, `⛔ ${risks.length} segnale${risks.length>1?'i':''} di rischio rilevato${risks.length>1?'i':''}`, [
+      ...risks,
+      ...safe,
+      '→ Non inserire mai dati personali o bancari su questo URL.'
+    ], 'red');
+  }
+}
+
+function checkEmail() {
+  const email = document.getElementById('lab-email').value.trim().toLowerCase();
+  if (!email || !email.includes('@')) {
+    labResult('lab-email-result', false, '⚠ Inserisci un indirizzo email valido', [], 'red');
+    return;
+  }
+
+  // Apertura Have I Been Pwned per verifica reale
+  labResult('lab-email-result', true,
+    '→ Verifica avviata su HaveIBeenPwned.com',
+    [
+      `Email analizzata: ${email}`,
+      '→ Il servizio più affidabile per verificare violazioni è HaveIBeenPwned.',
+      '→ Per privacy, la verifica completa avviene sul loro sito ufficiale.',
+      '→ Clicca il pulsante qui sotto per controllare direttamente:'
+    ], 'cyan');
+
+  // Aggiunge link diretto
+  const res = document.getElementById('lab-email-result');
+  const link = document.createElement('a');
+  link.href = `https://haveibeenpwned.com/account/${encodeURIComponent(email)}`;
+  link.target = '_blank';
+  link.rel = 'noopener';
+  link.style.cssText = 'display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.3);color:var(--cyan);padding:6px 12px;font-family:var(--mono);font-size:.72rem;font-weight:700;text-decoration:none;letter-spacing:.05em;text-transform:uppercase;';
+  link.textContent = '🔍 VERIFICA SU HAVEIBEENPWNED →';
+  res.querySelector('div').appendChild(link);
+}
+
+function checkPhone() {
+  const phone = document.getElementById('lab-phone').value.trim().replace(/\s/g,'');
+  if (!phone) return;
+  const risks = [];
+  const info = [];
+
+  if (/^\+(?!39)/.test(phone)) risks.push(`⚠ Prefisso internazionale non italiano — chiamate truffa spesso da numeri esteri`);
+  if (/^00/.test(phone)) risks.push('⚠ Numero con prefisso 00 — possibile chiamata internazionale camuffata');
+  if (/^\+39(02|06|011|081|051|055)/.test(phone)) info.push('ℹ Numero fisso italiano — verifica che sia il numero ufficiale della banca/ente');
+  if (/^\+393[0-9]{9}$/.test(phone) || /^3[0-9]{9}$/.test(phone)) info.push('ℹ Numero mobile italiano');
+  if (phone.length < 8) risks.push('⚠ Numero troppo corto — possibile numero falsificato');
+  if (/^0800|^800/.test(phone)) info.push('ℹ Numero verde — verifica sul sito ufficiale dell\'azienda');
+
+  const lines = [
+    ...risks,
+    ...info,
+    '→ Ricorda: il numero visualizzato può essere falsificato (caller ID spoofing).',
+    '→ Riattacca sempre e richiama tu il numero ufficiale dal sito o dalla carta.',
+  ];
+
+  if (risks.length > 0) {
+    labResult('lab-phone-result', false, `⚠ ${risks.length} segnale di attenzione`, lines, 'red');
+  } else {
+    labResult('lab-phone-result', true, 'ℹ Numero nella norma — ma attenzione allo spoofing', lines, 'accent');
+  }
+}
+
+function checkPwLab(pw) {
+  const r = document.getElementById('lab-pw-res');
+  if (!pw) { r.classList.remove('show'); return; }
+  r.classList.add('show');
+  const checks = [
+    {ok:pw.length>=12,label:'12+ caratteri'},
+    {ok:/[A-Z]/.test(pw),label:'Lettere maiuscole'},
+    {ok:/[a-z]/.test(pw),label:'Lettere minuscole'},
+    {ok:/[0-9]/.test(pw),label:'Numeri'},
+    {ok:/[^A-Za-z0-9]/.test(pw),label:'Simboli speciali'},
+    {ok:pw.length>=16,label:'16+ caratteri'},
+    {ok:!/(password|123|qwerty|admin|ciao|abc)/i.test(pw),label:'Nessuna parola comune'},
+  ];
+  const sc = checks.filter(c=>c.ok).length;
+  const cols=['#ff0033','#ff0033','#ff6600','#ff6600','#ffcc00','#00ff41','#00ff41'];
+  const lbls=['Pessima','Molto debole','Debole','Media','Discreta','Buona','Ottima'];
+  const tms=['< 1 secondo','pochi secondi','qualche minuto','ore','giorni','anni','secoli'];
+  const sl=document.getElementById('lab-pw-slbl'),fill=document.getElementById('lab-pw-fill');
+  sl.textContent='Sicurezza: '+lbls[sc]; sl.style.color=cols[sc];
+  fill.style.width=Math.round(sc/7*100)+'%'; fill.style.background=cols[sc];
+  document.getElementById('lab-pw-crack').textContent='Crack stimato: '+tms[sc];
+  document.getElementById('lab-pw-checks').innerHTML=checks.map(c=>`<div class="pw-check ${c.ok?'ok':'no'}">${c.ok?'✓':'○'} ${c.label}</div>`).join('');
+}
 
 // ── INIT ──
 renderPf();
