@@ -2258,21 +2258,6 @@ document.getElementById('android-dismiss')?.addEventListener('click', () => {
   document.getElementById('android-banner').style.display = 'none';
 });
 
-// iOS: mostra guida dopo 4 secondi se non installata
-if (isIOS && !isInStandaloneMode && !sessionStorage.getItem('cg_ios_shown')) {
-  setTimeout(() => {
-    const guide = document.getElementById('ios-guide');
-    guide.style.display = 'flex';
-    const ua2 = navigator.userAgent;
-    const isIPad2 = /ipad/i.test(ua2) || (/macintosh/i.test(ua2) && navigator.maxTouchPoints > 1);
-    const v2 = ua2.match(/OS (\d+)_/);
-    const isOld2 = v2 && parseInt(v2[1]) < 16;
-    if (isIPad2) showInstallTab('ipad');
-    else if (isOld2) showInstallTab('iphone-old');
-    else showInstallTab('iphone-new');
-    sessionStorage.setItem('cg_ios_shown', '1');
-  }, 4000);
-}
 
 // Tasto INSTALLA universale
 // ── INSTALL GUIDE TABS ──
