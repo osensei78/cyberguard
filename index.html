@@ -1394,7 +1394,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 
     <!-- Device tabs -->
     <div style="display:flex;gap:0;flex-shrink:0;border-bottom:1px solid #0d3d0d;overflow-x:auto;" id="install-tabs">
-      <button onclick="showInstallTab('iphone-new')" id="tab-iphone-new" style="flex:1;min-width:80px;padding:10px 6px;background:rgba(0,255,65,.1);border:none;border-bottom:2px solid #00ff41;color:#00ff41;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS 16.4+</button>
+      <button onclick="showInstallTab('iphone-new')" id="tab-iphone-new" style="flex:1;min-width:80px;padding:10px 6px;background:rgba(0,255,65,.1);border:none;border-bottom:2px solid #00ff41;color:#00ff41;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS 18+</button>
       <button onclick="showInstallTab('iphone-old')" id="tab-iphone-old" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS vecchio</button>
       <button onclick="showInstallTab('ipad')" id="tab-ipad" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📲 iPad</button>
       <button onclick="showInstallTab('android-chrome')" id="tab-android-chrome" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">🤖 Android<br>Chrome</button>
@@ -1407,7 +1407,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
       <!-- iPhone iOS 16.4+ -->
       <div id="panel-iphone-new" class="install-panel">
         <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
-          ✓ Supporta notifiche push · Richiede Safari · iOS 16.4 o superiore
+          ✓ Supporta notifiche push · Richiede Safari · iOS 18 o superiore
         </div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#ff6633;margin-bottom:14px;padding:8px 12px;background:rgba(255,100,50,.06);border-left:3px solid #ff6633;">
           ⚠ Attenzione: apri questa pagina con Safari. Se stai usando Chrome, Firefox o il browser di WhatsApp, le istruzioni non funzioneranno.
@@ -1418,21 +1418,24 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
             <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">1</div>
             <div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Safari e vai su questo link</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Assicurati di usare <strong style="color:#00f5ff">Safari</strong> (icona bussola blu). Se sei già qui con Safari, prosegui. Se vedi "Chrome" o altro in basso, copia il link e incollalo su Safari.</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Assicurati di usare <strong style="color:#00f5ff">Safari</strong> (icona bussola blu). Se sei già qui con Safari, prosegui. Se vedi Chrome o WhatsApp, copia il link e incollalo in Safari.</div>
             </div>
           </div>
           <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
             <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">2</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca il tasto Condividi ⬆</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Guarda nella barra in fondo allo schermo: c'è un quadrato con una freccia verso l'alto <strong style="color:#00f5ff">⬆</strong>. Toccalo. Su iPhone più vecchi potrebbe essere in alto a destra.</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Trova il tasto Condividi — dipende dalla versione iOS</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">
+                <span style="color:#ffcc00">● iOS 18+</span> → tocca i <strong style="color:#ffcc00">tre puntini ···</strong> nella barra degli indirizzi in alto, poi nel menu che appare tocca <strong style="color:#ffcc00">Condividi</strong><br><br>
+                <span style="color:#00ff41">● iOS 16–17</span> → tocca il quadrato con freccia <strong style="color:#00ff41">⬆</strong> in basso al centro della barra di navigazione
+              </div>
             </div>
           </div>
           <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
             <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">3</div>
             <div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Scorri in basso → "Aggiungi a schermata Home"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Si apre un menu con tante opzioni. Scorri verso il basso finché non vedi <strong style="color:#00ff41">＋ Aggiungi a schermata Home</strong>. Toccalo. Se non lo vedi, scorri ancora — a volte è nascosto in fondo.</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Si apre un menu con tante opzioni. Scorri verso il basso finché non vedi <strong style="color:#00ff41">＋ Aggiungi a schermata Home</strong>. Toccalo. Se non lo vedi subito, scorri ancora — a volte è in fondo alla lista.</div>
             </div>
           </div>
           <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
