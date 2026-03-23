@@ -1,10 +1,26 @@
 [
   {
+    "id": "alert-006",
+    "ico": "🛣️",
+    "title": "OGGI — Truffa pedaggio autostradale: SMS e email false da Autostrade per l'Italia",
+    "text": "Segnalata oggi 23 marzo 2026 una nuova ondata di SMS ed email fraudolente che simulano comunicazioni ufficiali di Autostrade per l'Italia. Il messaggio avvisa di un 'mancato pagamento del pedaggio' e invita a regolarizzare la propria posizione cliccando su un link urgente.\n\nCome funziona:\n— Ricevi un SMS o email con mittente apparentemente ufficiale (es. 'Autostrade', 'Telepass', 'Free-To-X')\n— Il testo segnala un pedaggio non pagato di pochi euro (es. €2,90 o €4,50) per creare senso di urgenza\n— Il link porta a un sito clone del portale ufficiale, graficamente identico\n— Una volta inseriti i dati della carta, i truffatori eseguono addebiti molto più alti\n\nCome riconoscerlo:\n— Autostrade per l'Italia non invia mai link via SMS per pagamenti arretrati\n— I domini legittimi sono autostrade.it, telepass.com o free-to-x.com — controlla carattere per carattere\n— La comunicazione ufficiale avviene tramite posta raccomandata o portale MyTelepass\n— Importi bassi (2-5€) sono usati deliberatamente per non insospettire\n\nCosa fare:\n— Non cliccare il link — verifica direttamente su autostrade.it o chiama il tuo gestore\n— Se hai già inserito i dati della carta, contatta subito la banca per bloccarla\n— Segnala il messaggio su commissariatops.it",
+    "tags": [
+      "critico",
+      "phishing"
+    ],
+    "date": "2026-03-23T11:09:00",
+    "time": "oggi",
+    "url": "https://www.virgilio.it/motori/notizie/truffa-pedaggi-autostradali-fantasma/321382/"
+  },
+  {
     "id": "alert-005",
     "ico": "💼",
     "title": "Truffa lavoro su WhatsApp — finti recruiter INPS e grandi aziende",
     "text": "Nuova ondata di messaggi WhatsApp da numeri stranieri che si spacciano per recruiter di Amazon, INPS, Poste Italiane e grandi aziende italiane. Offrono lavoro da casa con compensi da €80 a €200 al giorno per 'fare recensioni' o 'coordinare pagamenti'.\n\nCome funziona:\n— Ti invitano in un gruppo Telegram con finti colleghi che mostrano pagamenti ricevuti\n— All'inizio arrivano davvero piccoli rimborsi (servono a costruire fiducia)\n— Poi chiedono versamenti sempre più alti, poi spariscono\n— In alcuni casi la vittima diventa inconsapevolmente un money mule e viene indagata per riciclaggio\n\nCosa fare:\n— Non rispondere mai a offerte di lavoro non richieste su WhatsApp\n— Nessun lavoro legittimo chiede di versare soldi per iniziare\n— Segnala il numero alla Polizia Postale su commissariatops.it",
-    "tags": ["critico", "social"],
+    "tags": [
+      "critico",
+      "social"
+    ],
     "date": "2026-03-21T10:00:00",
     "time": "oggi",
     "url": "https://www.commissariatodips.it/notizie/index.html"
@@ -14,7 +30,10 @@
     "ico": "₿",
     "title": "Piattaforme crypto false — deepfake di VIP italiani su Instagram e TikTok",
     "text": "Segnalate su Instagram e TikTok migliaia di inserzioni pubblicitarie con video deepfake di personaggi noti italiani (imprenditori, conduttori TV, calciatori) che promuovono piattaforme di investimento crypto con 'rendimenti garantiti'.\n\nSchema tipico:\n— Annuncio con volto e voce del VIP clonati dall'AI\n— Registrazione su piattaforma clone con interfaccia professionale\n— Dashboard mostra guadagni falsi per spingerti a investire di più\n— Al momento del prelievo compaiono 'commissioni' da pagare — poi spariscono con tutto\n\nDifendersi:\n— Verifica sempre su consob.it prima di qualsiasi investimento\n— Nessun rendimento 'garantito' è legittimo — mai\n— Segnala i video falsi direttamente alla piattaforma social",
-    "tags": ["critico", "crypto"],
+    "tags": [
+      "critico",
+      "crypto"
+    ],
     "date": "2026-03-18T09:00:00",
     "time": "3 giorni fa",
     "url": "https://www.consob.it/web/area-pubblica/bollettino-delle-sanzioni"
@@ -24,7 +43,10 @@
     "ico": "🎙️",
     "title": "Truffa vocale AI su WhatsApp — clonano la voce dei tuoi familiari",
     "text": "La Polizia Postale segnala un forte aumento di truffe in cui i criminali clonano la voce di un familiare (figlio, nipote, genitore) usando pochi secondi di audio estratti da video pubblici su Instagram, TikTok o Facebook.\n\nCome funziona:\n— Chiamata da numero sconosciuto: senti la voce identica di tuo figlio/nipote\n— Ti racconta di un incidente, un arresto o un'emergenza urgente\n— Un secondo chiamante (finto avvocato o carabiniere) conferma e chiede denaro in contanti\n— Un 'corriere' si presenta a casa per ritirare i soldi\n\nDifesa immediata:\n— Stabilisci SUBITO una parola d'ordine segreta con i tuoi familiari\n— Riattacca e chiama tu il familiare al suo numero salvato in rubrica\n— Non aprire mai la porta a sconosciuti che vengono a ritirare denaro\n— Chiama il 112 se hai dubbi",
-    "tags": ["critico", "social"],
+    "tags": [
+      "critico",
+      "social"
+    ],
     "date": "2026-03-15T08:00:00",
     "time": "una settimana fa",
     "url": "https://www.commissariatodips.it/notizie/index.html"
@@ -34,7 +56,10 @@
     "ico": "📱",
     "title": "Campagna smishing attiva — Finti SMS Agenzia delle Entrate e INPS",
     "text": "CERT-AGID segnala una campagna smishing attiva su tutto il territorio nazionale. Le vittime ricevono SMS apparentemente dall'Agenzia delle Entrate o dall'INPS che comunicano rimborsi fiscali in sospeso o irregolarità nel conto.\n\nIl messaggio contiene un link a un sito clone perfettamente identico al sito ufficiale, dove viene chiesto di inserire codice fiscale, IBAN e credenziali SPID.\n\nAttenzione:\n— L'Agenzia delle Entrate non invia MAI link via SMS per rimborsi\n— Il mittente 'AdE' o 'INPS' può essere falsificato\n— I siti clone hanno domini come 'agenziaentrate-rimborso.it' o simili\n\nCosa fare se hai cliccato:\n— Cambia immediatamente le credenziali SPID\n— Contatta il tuo istituto bancario se hai inserito dati bancari\n— Denuncia su commissariatops.it",
-    "tags": ["critico", "phishing"],
+    "tags": [
+      "critico",
+      "phishing"
+    ],
     "date": "2026-03-10T07:00:00",
     "time": "2 settimane fa",
     "url": "https://cert-agid.gov.it/news/"
