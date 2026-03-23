@@ -30,6 +30,40 @@
   --mono:'JetBrains Mono','Share Tech Mono',monospace;
   --display:'Orbitron',monospace;
 }
+body.light-mode{
+  --bg:#f0f7f0;--surface:#ffffff;--surface2:#e8f5e8;
+  --border:#b8d4b8;--border2:#7ab87a;
+  --accent:#007a1f;--accent2:#005a16;--accent-dim:#c8e6c8;
+  --cyan:#0077aa;--cyan-dim:#cce8f4;
+  --red:#cc0022;--red-dim:#fce8ea;--yellow:#b38600;--orange:#c05000;
+  --text:#1a3a1a;--text2:#2d6b2d;--text3:#4a8a4a;
+  --mono:'JetBrains Mono','Share Tech Mono',monospace;
+  --display:'Orbitron',monospace;
+}
+body.light-mode::after{background:none;}
+body.light-mode .home-banner{background:linear-gradient(135deg,#e8f5e8 0%,#d4ecd4 60%,#dff0df 100%);}
+body.light-mode .home-banner-grid{background-image:linear-gradient(rgba(0,122,31,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,122,31,.06) 1px,transparent 1px);}
+body.light-mode .home-banner-ico{filter:drop-shadow(0 0 8px rgba(0,122,31,.4));}
+body.light-mode .home-banner-title{text-shadow:0 0 8px rgba(0,122,31,.3);}
+body.light-mode .tb-logo{box-shadow:0 0 6px rgba(0,122,31,.2),inset 0 0 4px rgba(0,122,31,.05);}
+body.light-mode .b-url{color:var(--red);}
+body.light-mode .b-body{background:#f8fff8;}
+body.light-mode .b-bar{background:#e0ede0;}
+body.light-mode .sms-wrap{background:#f0f7f0;}
+body.light-mode .call-wrap{background:#ffffff;}
+body.light-mode .q-card{background:#ffffff;}
+body.light-mode .qopt{background:#f8fff8;}
+body.light-mode #tabbar{box-shadow:0 -2px 8px rgba(0,0,0,.06);}
+
+/* THEME TOGGLE SWITCH */
+.theme-toggle{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.theme-toggle-label{font-size:.55rem;font-weight:700;color:var(--text3);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;line-height:1;}
+.toggle-switch{position:relative;width:36px;height:20px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-track{position:absolute;inset:0;background:var(--accent-dim);border:1px solid var(--border2);border-radius:20px;cursor:pointer;transition:background .25s,border-color .25s;}
+.toggle-switch input:checked + .toggle-track{background:rgba(0,122,31,.15);border-color:#7ab87a;}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--text3);transition:transform .25s,background .25s;pointer-events:none;display:flex;align-items:center;justify-content:center;font-size:.55rem;line-height:1;}
+.toggle-switch input:checked + .toggle-track .toggle-thumb{transform:translateX(16px);background:#007a1f;}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,.012) 2px,rgba(0,255,65,.012) 4px);pointer-events:none;z-index:9999;}
 html,body{height:100%;height:100dvh;overflow:hidden;background:var(--bg);}
 body{font-family:var(--mono);color:var(--text);font-size:13px;display:flex;flex-direction:column;height:100%;height:100dvh;}
@@ -355,6 +389,16 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
     <div class="tb-pill pill-green"><div class="dot"></div>SECURE</div>
     <div class="tb-pill pill-red"><div class="dot"></div><span id="tb-alert-n">3 alert</span></div>
     <span id="tb-clock"></span>
+    <div class="theme-toggle">
+      <span class="theme-toggle-label" id="theme-lbl">🌙</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="theme-chk" onchange="toggleTheme(this.checked)">
+        <div class="toggle-track">
+          <div class="toggle-thumb" id="theme-thumb">🌙</div>
+        </div>
+      </label>
+      <span class="theme-toggle-label" id="theme-lbl2">☀️</span>
+    </div>
   </div>
 </div>
 
@@ -2734,10 +2778,30 @@ function checkPwLab(pw) {
   document.getElementById('lab-pw-checks').innerHTML=checks.map(c=>`<div class="pw-check ${c.ok?'ok':'no'}">${c.ok?'✓':'○'} ${c.label}</div>`).join('');
 }
 
+// ── TEMA CHIARO / SCURO ──
+function toggleTheme(isLight) {
+  document.body.classList.toggle('light-mode', isLight);
+  const thumb = document.getElementById('theme-thumb');
+  if(thumb) thumb.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('cg_theme', isLight ? 'light' : 'dark');
+}
+// Applica tema salvato all'avvio
+(function(){
+  const saved = localStorage.getItem('cg_theme');
+  if(saved === 'light') {
+    document.body.classList.add('light-mode');
+    const chk = document.getElementById('theme-chk');
+    if(chk) chk.checked = true;
+    const thumb = document.getElementById('theme-thumb');
+    if(thumb) thumb.textContent = '☀️';
+  }
+})();
+
 // ── INIT ──
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
+initTheme();
 renderPf();
 refreshAlerts();
 setInterval(refreshAlerts, 5 * 60 * 1000);
