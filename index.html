@@ -1028,7 +1028,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
     <div class="pg">
       <div class="page-header">
         <div class="page-title">Alert Live</div>
-        <div class="page-sub">Minacce attive in Italia — aggiornato in tempo reale</div>
+        <div class="page-sub">CERT-AGID · Polizia Postale · Google News Italia — aggiornato ogni 5 min</div>
       </div>
       <div class="filter-bar">
         <button class="flt active" onclick="filterAlerts('all',this)">Tutti</button>
@@ -1942,8 +1942,18 @@ let unread=0,aFilter='all';
 const tagMap={critico:'at-red',phishing:'at-yellow',malware:'at-red',crypto:'at-blue',social:'at-green'};
 
 const RSS_FEEDS = [
+  // ── Istituzionali italiani ──
   { rssUrl: 'https://cert-agid.gov.it/feed/', source: 'CERT-AGID', ico: '🇮🇹' },
-  { rssUrl: 'https://www.cybersecurity360.it/feed/', source: 'Cybersecurity360', ico: '🛡️' }
+  { rssUrl: 'https://www.cybersecurity360.it/feed/', source: 'Cybersecurity360', ico: '🛡️' },
+  { rssUrl: 'https://www.commissariatodips.it/rss.xml', source: 'Commissariato PS', ico: '👮' },
+  { rssUrl: 'https://www.agendadigitale.eu/feed/', source: 'Agenda Digitale', ico: '📰' },
+  // ── Google News RSS — attacchi e truffe in Italia ──
+  { rssUrl: 'https://news.google.com/rss/search?q=attacco+informatico+Italia&hl=it&gl=IT&ceid=IT:it', source: 'Google News', ico: '🔍' },
+  { rssUrl: 'https://news.google.com/rss/search?q=truffa+online+Italia&hl=it&gl=IT&ceid=IT:it', source: 'Google News', ico: '🔍' },
+  { rssUrl: 'https://news.google.com/rss/search?q=cybercrime+Italia+2026&hl=it&gl=IT&ceid=IT:it', source: 'Google News', ico: '🔍' },
+  { rssUrl: 'https://news.google.com/rss/search?q=phishing+smishing+Italia&hl=it&gl=IT&ceid=IT:it', source: 'Google News', ico: '🔍' },
+  { rssUrl: 'https://news.google.com/rss/search?q=ransomware+Italia&hl=it&gl=IT&ceid=IT:it', source: 'Google News', ico: '🔍' },
+  { rssUrl: 'https://news.google.com/rss/search?q=polizia+postale+truffa&hl=it&gl=IT&ceid=IT:it', source: 'Google News', ico: '🔍' },
 ];
 
 const CORS_PROXIES = [
@@ -2014,11 +2024,11 @@ function parseRSS(xmlText, feed) {
 function classifyTags(title) {
   const t = title.toLowerCase();
   const tags = [];
-  if(/phishing|smishing|vishing|email truffa|fake|falso/i.test(t)) tags.push('phishing');
-  if(/ransomware|malware|virus|trojan|spyware|backdoor|exploit|vulnerabilit/i.test(t)) tags.push('malware');
-  if(/crypto|bitcoin|truffa|scam|ponzi|investimento|frode/i.test(t)) tags.push('crypto');
-  if(/social|data breach|credenziali|password|leak/i.test(t)) tags.push('social');
-  if(/critico|critical|urgente|zero.day|attacco|attack/i.test(t)) tags.push('critico');
+  if(/phishing|smishing|vishing|email truffa|fake|falso|pedaggio|posta|corriere|finto|spoof/i.test(t)) tags.push('phishing');
+  if(/ransomware|malware|virus|trojan|spyware|backdoor|exploit|vulnerabilit|hacker|hackerato|violazion|databreach|breach|attacco informatico|cyber.attacco/i.test(t)) tags.push('malware');
+  if(/crypto|bitcoin|truffa|scam|ponzi|investimento|frode|deepfake|vip|piattaforma|soldi|conto|bonifico|svuota/i.test(t)) tags.push('crypto');
+  if(/social|data breach|credenziali|password|leak|identità|dati personali|furto identit|privacy|gdpr|sim.swap/i.test(t)) tags.push('social');
+  if(/critico|critical|urgente|zero.day|attacco|attack|emergenza|allerta|polizia postale|carabinieri|arrestat|denunciat/i.test(t)) tags.push('critico');
   return tags.length > 0 ? tags : ['malware'];
 }
 
@@ -2042,7 +2052,16 @@ async function loadRSSFeeds() {
       results.push(...parseRSS(xml, feed));
     } catch(e) { console.warn('Feed non disponibile:', feed.source); }
   }));
-  return results;
+
+  // Deduplica per titolo simile (Google News porta spesso la stessa notizia da fonti diverse)
+  const seen = new Set();
+  return results.filter(item => {
+    // Normalizza il titolo: minuscolo, rimuovi punteggiatura e spazi extra
+    const key = item.title.toLowerCase().replace(/[^a-zàèìòù0-9]/g, '').slice(0, 40);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 async function refreshAlerts() {
