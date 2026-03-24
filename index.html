@@ -323,7 +323,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .a-head{display:flex;justify-content:space-between;align-items:flex-start;gap:7px;margin-bottom:2px;}
 .a-title{font-size:.78rem;font-weight:700;color:var(--text);font-family:var(--mono);}
 .a-time{font-size:.6rem;color:var(--text3);white-space:nowrap;font-family:var(--mono);}
-.a-text{font-size:.68rem;color:var(--text2);line-height:1.5;margin-bottom:4px;font-family:var(--mono);}
+.a-text{font-size:.68rem;color:var(--text2);line-height:1.5;margin-bottom:4px;font-family:var(--mono);min-height:3em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 .a-tags{display:flex;gap:3px;flex-wrap:wrap;}
 .a-tag{font-size:.56rem;font-weight:700;padding:2px 5px;border-radius:2px;letter-spacing:.06em;font-family:var(--mono);border:1px solid;}
 .at-red{background:rgba(255,0,51,.1);color:#ff3355;border-color:rgba(255,0,51,.3);}
@@ -1997,10 +1997,10 @@ function parseRSS(xmlText, feed) {
         || (guidEl?.getAttribute('isPermaLink') !== 'false' ? guidEl?.textContent?.trim() : '')
         || '';
 
-      // PREVIEW: massimo 80 caratteri — solo un assaggio
-      const preview = full.length > 80
-        ? full.slice(0, 80) + '…'
-        : (full.length > 0 ? full : 'Tocca per leggere il dettaglio.');
+      // PREVIEW: massimo 160 caratteri — uguale agli alert admin
+      const preview = full.length > 160
+        ? full.slice(0, 160) + '…'
+        : (full.length > 0 ? full : 'Tocca per leggere il dettaglio completo.');
 
       // DETAIL: tutto il testo disponibile fino a 1500 caratteri
       const detail = full.length > 1500
@@ -2268,7 +2268,7 @@ async function loadAdminAlerts() {
     return data.map(a => ({
       ico: a.ico || '📢',
       title: a.title || 'Comunicazione CyberGuard',
-      preview: (a.text||'').length > 80 ? (a.text||'').slice(0,80) + '…' : (a.text||'Tocca per leggere il dettaglio.'),
+      preview: (a.text||'').length > 160 ? (a.text||'').slice(0,160) + '…' : (a.text||'Tocca per leggere il dettaglio.'),
       detail: a.text || '',
       url: a.url || '',
       tags: a.tags || ['critico'],
