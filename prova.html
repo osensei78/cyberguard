@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PriceRadar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="font-family:sans-serif; text-align:center; padding:40px;">
+  <h1>🔍 PriceRadar</h1>
+
+  <input id="search" placeholder="Cerca prodotto..." style="padding:10px; width:60%;" />
+  <button onclick="search()">Cerca</button>
+
+  <div id="results"></div>
+
+<script>
+async function search() {
+  const q = document.getElementById("search").value;
+
+  const res = await fetch("https://api.allorigins.win/raw?url=" +
+    encodeURIComponent(`https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=YOUR_EBAY_APP_ID&RESPONSE-DATA-FORMAT=JSON&keywords=${q}`)
+  );
+
+  const data = await res.json();
+  const items = data.findItemsByKeywordsResponse[0].searchResult[0].item || [];
+
+  let html = "";
+
+  items.forEach(item => {
+    const price = item.sellingStatus[0].currentPrice[0].__value__;
+
+    html += `
+      <div style="border:1px solid #ccc; margin:20px; padding:10px;">
+        <img src="${item.galleryURL[0]}" width="100"/>
+        <h3>${item.title[0]}</h3>
+        <p>${price} €</p>
+        <a href="${item.viewItemURL[0]}" target="_blank">Vai</a>
+      </div>
+    `;
+  });
+
+  document.getElementById("results").innerHTML = html;
+}
+</script>
+</body>
+</html>
