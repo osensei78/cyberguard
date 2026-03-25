@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>InvenScan – Inventario</title>
+<script type="module">
+import { BrowserMultiFormatReader, BarcodeFormat, DecodeHintType } from 'https://esm.sh/@zxing/library@0.21.3';
+window._ZXingReader = null;
+window._ZXingLib = { BrowserMultiFormatReader, BarcodeFormat, DecodeHintType };
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0d0f0e;
+    --surface: #151918;
+    --card: #1c211f;
+    --border: #2a332f;
+    --accent: #00e87a;
+    --accent-dim: #00e87a22;
+    --accent-mid: #00e87a55;
+    --text: #e8efe9;
+    --muted: #5a6b61;
+    --danger: #ff4d4d;
+    --warn: #ffb020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.25rem;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent); }
+  .item-count {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-mid);
+    color: var(--accent);
+    font-size: 0.7rem;
+    padding: 3px 10px; border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    flex: 1; padding: 12px;
+    text-align: center; font-size: 0.75rem;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* PAGES */
+  .page { display: none; padding: 20px; }
+  .page.active { display: block; }
+
+  /* SCANNER */
+  .scanner-wrap {
+    position: relative;
+    width: 100%; max-width: 480px;
+    margin: 0 auto 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    background: #000;
+    aspect-ratio: 4/3;
+  }
+  #interactive { width: 100%; height: 100%; }
+  #interactive video { width: 100%; height: 100%; object-fit: cover; }
+  #interactive canvas { display: none; }
+
+  .scan-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .scan-frame {
+    width: 70%; height: 40%;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.45);
+    position: relative;
+  }
+  .scan-line {
+    position: absolute; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: scanLine 2s ease-in-out infinite;
+    top: 0;
+  }
+  @keyframes scanLine {
+    0%, 100% { top: 0; opacity: 1; }
+    50% { top: calc(100% - 2px); opacity: 0.7; }
+  }
+  .corner {
+    position: absolute; width: 14px; height: 14px;
+    border-color: var(--accent); border-style: solid;
+  }
+  .corner.tl { top: -2px; left: -2px; border-width: 3px 0 0 3px; }
+  .corner.tr { top: -2px; right: -2px; border-width: 3px 3px 0 0; }
+  .corner.bl { bottom: -2px; left: -2px; border-width: 0 0 3px 3px; }
+  .corner.br { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; }
+
+  .scanner-idle {
+    width: 100%; max-width: 480px; margin: 0 auto 20px;
+    aspect-ratio: 4/3;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+    background: var(--surface);
+    border: 2px dashed var(--border);
+    border-radius: 16px; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .scanner-idle:hover { border-color: var(--accent); background: var(--accent-dim); }
+  .scanner-idle svg { color: var(--accent); opacity: 0.7; }
+  .scanner-idle p { color: var(--muted); font-size: 0.8rem; letter-spacing: 1px; text-align: center; }
+
+  /* FORM */
+  .form-group { margin-bottom: 14px; }
+  label { display: block; font-size: 0.7rem; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
+  input, select, textarea {
+    width: 100%; padding: 12px 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text);
+    font-family: 'DM Mono', monospace; font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  input::placeholder { color: var(--muted); }
+  select option { background: var(--surface); }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* BUTTONS */
+  .btn {
+    display: block; width: 100%; padding: 14px;
+    border-radius: 12px; border: none; cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    transition: all 0.2s; font-weight: 500;
+  }
+  .btn-primary {
+    background: var(--accent); color: #000;
+  }
+  .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-ghost {
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger {
+    background: transparent; color: var(--danger);
+    border: 1px solid var(--danger); padding: 8px 14px;
+    width: auto; font-size: 0.7rem;
+  }
+
+  .btn-scan-toggle {
+    max-width: 480px; margin: 0 auto 16px;
+    display: block; padding: 12px;
+    background: var(--surface); border: 1px solid var(--accent-mid);
+    border-radius: 10px; color: var(--accent);
+    cursor: pointer; font-family: 'DM Mono', monospace;
+    font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+    text-align: center; transition: all 0.2s;
+  }
+  .btn-scan-toggle:hover { background: var(--accent-dim); }
+
+  /* FLASH */
+  .flash {
+    position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
+    padding: 10px 20px; border-radius: 8px;
+    font-size: 0.8rem; letter-spacing: 1px;
+    z-index: 999; animation: flashIn 0.3s ease;
+    white-space: nowrap; pointer-events: none;
+  }
+  .flash.ok { background: var(--accent); color: #000; }
+  .flash.err { background: var(--danger); color: #fff; }
+  @keyframes flashIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* INVENTORY LIST */
+  .search-bar {
+    display: flex; gap: 10px; margin-bottom: 16px;
+  }
+  .search-bar input { flex: 1; }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 12px; text-align: center;
+  }
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 700; color: var(--accent);
+  }
+  .stat-lbl { font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; margin-top: 2px; }
+
+  .inventory-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .inv-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px;
+    display: flex; align-items: flex-start; gap: 12px;
+    transition: border-color 0.2s;
+    animation: itemIn 0.3s ease;
+  }
+  @keyframes itemIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .inv-item:hover { border-color: var(--accent-mid); }
+  .inv-item.low-stock { border-left: 3px solid var(--warn); }
+  .inv-item.no-stock { border-left: 3px solid var(--danger); }
+
+  .item-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--accent-dim); border: 1px solid var(--accent-mid);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .item-info { flex: 1; min-width: 0; }
+  .item-name {
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 0.95rem; margin-bottom: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .item-barcode { font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; }
+  .item-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .badge {
+    font-size: 0.65rem; padding: 2px 8px;
+    border-radius: 20px; letter-spacing: 0.5px;
+  }
+  .badge-cat { background: #1e2d2a; color: #4db88a; border: 1px solid #2a4a3a; }
+  .badge-qty {
+    font-weight: 500;
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  }
+  .badge-qty.low { background: #2d2200; border-color: #5a4000; color: var(--warn); }
+  .badge-qty.zero { background: #2d0a0a; border-color: #5a1a1a; color: var(--danger); }
+
+  .item-actions { display: flex; gap: 6px; align-items: center; }
+  .qty-btn {
+    width: 28px; height: 28px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .qty-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty-state .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
+  .empty-state p { font-size: 0.8rem; letter-spacing: 1px; }
+
+  /* EXPORT */
+  .export-section { margin-top: 20px; }
+  .export-section h3 {
+    font-family: 'Syne', sans-serif; font-size: 0.8rem;
+    letter-spacing: 2px; color: var(--muted); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .export-btns { display: flex; flex-direction: column; gap: 10px; }
+
+  /* DETAIL MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75); z-index: 200;
+    align-items: flex-end; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border-radius: 20px 20px 0 0;
+    border: 1px solid var(--border); border-bottom: none;
+    width: 100%; max-width: 600px; padding: 24px 20px 40px;
+    animation: slideUp 0.3s ease;
+    max-height: 90dvh; overflow-y: auto;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-handle {
+    width: 40px; height: 4px; border-radius: 2px;
+    background: var(--border); margin: 0 auto 20px;
+  }
+  .modal h2 {
+    font-family: 'Syne', sans-serif; font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .modal-actions .btn { flex: 1; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Inven<span>Scan</span></div>
+  <div class="item-count" id="headerCount">0 ARTICOLI</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('scan')">📷 Scansiona</div>
+  <div class="tab" onclick="switchTab('inventory')">📦 Inventario</div>
+  <div class="tab" onclick="switchTab('export')">📤 Esporta</div>
+</div>
+
+<!-- SCAN PAGE -->
+<div class="page active" id="page-scan">
+  <div id="scannerIdle" class="scanner-idle" onclick="startScanner().catch(e=>flash('Errore: '+e,'err'))">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="3" y="3" width="18" height="18" rx="3"/>
+      <path d="M7 7h2v10H7zM11 7h1v10h-1zM13 7h1v10h-1zM15 7h2v10h-2z"/>
+    </svg>
+    <p>Tocca per attivare<br>la fotocamera</p>
+  </div>
+
+  <div id="scannerActive" style="display:none">
+    <div class="scanner-wrap">
+      <div id="interactive" class="viewport"></div>
+      <div class="scan-overlay">
+        <div class="scan-frame">
+          <div class="scan-line"></div>
+          <div class="corner tl"></div>
+          <div class="corner tr"></div>
+          <div class="corner bl"></div>
+          <div class="corner br"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-scan-toggle" onclick="stopScanner()">⏹ Ferma fotocamera</button>
+  </div>
+
+  <div id="scanForm" style="display:none">
+    <div class="form-group">
+      <label>Codice a barre</label>
+      <input type="text" id="fBarcode" placeholder="Scansionato automaticamente" readonly>
+    </div>
+    <div class="form-group">
+      <label>Nome prodotto</label>
+      <input type="text" id="fName" placeholder="Es. Vite M6x30">
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Quantità</label>
+        <input type="number" id="fQty" value="1" min="0">
+      </div>
+      <div class="form-group">
+        <label>Scorta min.</label>
+        <input type="number" id="fMin" value="5" min="0">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Categoria</label>
+        <select id="fCat">
+          <option value="Generale">Generale</option>
+          <option value="Elettronica">Elettronica</option>
+          <option value="Meccanica">Meccanica</option>
+          <option value="Consumabili">Consumabili</option>
+          <option value="Imballaggio">Imballaggio</option>
+          <option value="Utensili">Utensili</option>
+          <option value="Materie prime">Materie prime</option>
+          <option value="Altro">Altro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Unità</label>
+        <select id="fUnit">
+          <option value="pz">pz</option>
+          <option value="kg">kg</option>
+          <option value="g">g</option>
+          <option value="m">m</option>
+          <option value="cm">cm</option>
+          <option value="L">L</option>
+          <option value="conf">conf</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Note</label>
+      <input type="text" id="fNotes" placeholder="Opzionale">
+    </div>
+    <button class="btn btn-primary" onclick="saveItem()">💾 Salva in inventario</button>
+    <br><br>
+    <button class="btn btn-ghost" onclick="resetForm()">✕ Annulla</button>
+  </div>
+
+  <!-- AI Photo Scan -->
+  <div id="manualSection" style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+    <button class="btn btn-ghost" id="aiScanBtn" onclick="triggerPhotoScan()" style="font-size:0.8rem;padding:12px;border-color:var(--accent-mid);color:var(--accent)">
+      🤖 Scatta foto → AI legge il codice
+    </button>
+    <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none" onchange="analyzePhoto(this)">
+
+    <div id="aiLoading" style="display:none;text-align:center;padding:16px;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+      <div style="color:var(--accent);font-size:0.8rem;letter-spacing:1px">🔍 Analisi in corso...</div>
+      <div style="color:var(--muted);font-size:0.7rem;margin-top:4px">Claude sta leggendo l'etichetta</div>
+    </div>
+
+    <button class="btn btn-ghost" onclick="manualEntry()" style="font-size:0.75rem;padding:10px">
+      ✏️ Inserimento manuale
+    </button>
+  </div>
+</div>
+
+<!-- INVENTORY PAGE -->
+<div class="page" id="page-inventory">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val" id="statTotal">0</div>
+      <div class="stat-lbl">Articoli</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statLow" style="color:var(--warn)">0</div>
+      <div class="stat-lbl">Scorte basse</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statZero" style="color:var(--danger)">0</div>
+      <div class="stat-lbl">Esauriti</div>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Cerca nome o barcode..." oninput="renderInventory()">
+  </div>
+
+  <div class="inventory-list" id="inventoryList">
+    <div class="empty-state">
+      <div class="icon">📭</div>
+      <p>Nessun articolo ancora<br>Vai su Scansiona per iniziare</p>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT PAGE -->
+<div class="page" id="page-export">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val" id="expTotal">0</div>
+      <div class="stat-lbl">Totale</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="expLow" style="color:var(--warn)">0</div>
+      <div class="stat-lbl">Scorte basse</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="expZero" style="color:var(--danger)">0</div>
+      <div class="stat-lbl">Esauriti</div>
+    </div>
+  </div>
+
+  <div class="export-section">
+    <h3>Esporta dati</h3>
+    <div class="export-btns">
+      <button class="btn btn-primary" onclick="exportCSV()">⬇ Scarica CSV</button>
+      <button class="btn btn-ghost" onclick="exportJSON()">⬇ Scarica JSON</button>
+      <button class="btn btn-ghost" onclick="copyToClipboard()">📋 Copia negli appunti</button>
+    </div>
+  </div>
+
+  <div class="export-section" style="margin-top:30px">
+    <h3>Gestione dati</h3>
+    <div class="export-btns">
+      <button class="btn btn-ghost" style="color:var(--danger);border-color:var(--danger)" onclick="clearAll()">🗑 Cancella tutto l'inventario</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="editModal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2 id="modalTitle">Modifica articolo</h2>
+    <div class="form-group">
+      <label>Nome prodotto</label>
+      <input type="text" id="mName">
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Quantità</label>
+        <input type="number" id="mQty" min="0">
+      </div>
+      <div class="form-group">
+        <label>Scorta min.</label>
+        <input type="number" id="mMin" min="0">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Categoria</label>
+        <select id="mCat">
+          <option>Generale</option><option>Elettronica</option><option>Meccanica</option>
+          <option>Consumabili</option><option>Imballaggio</option><option>Utensili</option>
+          <option>Materie prime</option><option>Altro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Unità</label>
+        <select id="mUnit">
+          <option>pz</option><option>kg</option><option>g</option>
+          <option>m</option><option>cm</option><option>L</option><option>conf</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Note</label>
+      <input type="text" id="mNotes">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annulla</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Salva</button>
+    </div>
+    <br>
+    <button class="btn" style="background:transparent;border:1px solid var(--danger);color:var(--danger)" onclick="deleteItem()">🗑 Elimina articolo</button>
+  </div>
+</div>
+
+<script>
+let inventory = JSON.parse(localStorage.getItem('invenscan') || '[]');
+let scannerRunning = false;
+let editIndex = -1;
+const EMOJI_MAP = {
+  'Elettronica':'🔌','Meccanica':'⚙️','Consumabili':'🧴',
+  'Imballaggio':'📦','Utensili':'🔧','Materie prime':'🪨','Generale':'📋','Altro':'🏷️'
+};
+
+function save() {
+  localStorage.setItem('invenscan', JSON.stringify(inventory));
+  updateStats();
+}
+
+function updateStats() {
+  const total = inventory.length;
+  const low = inventory.filter(i => i.qty > 0 && i.qty <= i.min).length;
+  const zero = inventory.filter(i => i.qty === 0).length;
+  document.getElementById('headerCount').textContent = total + ' ARTICOLI';
+  ['Total','Low','Zero'].forEach(k => {
+    const v = k==='Total'?total:k==='Low'?low:zero;
+    document.getElementById('stat'+k) && (document.getElementById('stat'+k).textContent = v);
+    document.getElementById('exp'+k) && (document.getElementById('exp'+k).textContent = v);
+  });
+}
+
+// TABS
+function switchTab(t) {
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', ['scan','inventory','export'][i]===t);
+  });
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-'+t).classList.add('active');
+  if(t==='inventory') renderInventory();
+  if(t==='export') updateStats();
+}
+
+// SCANNER (ZXing)
+async function startScanner() {
+  if(scannerRunning) return;
+  document.getElementById('scannerIdle').style.display='none';
+  document.getElementById('scannerActive').style.display='block';
+  document.getElementById('manualSection').style.display='none';
+
+  // Wait for ZXing to load
+  let attempts = 0;
+  while(!window._ZXingLib && attempts++ < 20) await new Promise(r=>setTimeout(r,200));
+  if(!window._ZXingLib) { flash('Libreria non caricata, riprova','err'); stopScanner(); return; }
+
+  const { BrowserMultiFormatReader, DecodeHintType, BarcodeFormat } = window._ZXingLib;
+
+  const hints = new Map();
+  hints.set(DecodeHintType.POSSIBLE_FORMATS, [
+    BarcodeFormat.CODE_128, BarcodeFormat.CODE_39, BarcodeFormat.CODE_93,
+    BarcodeFormat.EAN_13, BarcodeFormat.EAN_8, BarcodeFormat.UPC_A,
+    BarcodeFormat.UPC_E, BarcodeFormat.QR_CODE, BarcodeFormat.DATA_MATRIX,
+    BarcodeFormat.ITF, BarcodeFormat.CODABAR
+  ]);
+  hints.set(DecodeHintType.TRY_HARDER, true);
+
+  const reader = new BrowserMultiFormatReader(hints, { delayBetweenScanAttempts: 150 });
+  window._ZXingReader = reader;
+  scannerRunning = true;
+
+  // Get back camera
+  let deviceId;
+  try {
+    const devices = await BrowserMultiFormatReader.listVideoInputDevices();
+    const back = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[devices.length-1];
+    deviceId = back?.deviceId;
+  } catch(e) {}
+
+  // Create video element inside #interactive
+  const container = document.getElementById('interactive');
+  container.innerHTML = '';
+  const video = document.createElement('video');
+  video.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+  video.setAttribute('playsinline','');
+  container.appendChild(video);
+
+  let lastCode = '', lastTime = 0;
+  try {
+    await reader.decodeFromVideoDevice(deviceId, video, (result, err) => {
+      if(!result) return;
+      const code = result.getText();
+      const now = Date.now();
+      if(code === lastCode && now-lastTime < 2500) return;
+      lastCode = code; lastTime = now;
+      onBarcodeDetected(code);
+    });
+  } catch(e) {
+    flash('Fotocamera non disponibile: ' + (e.message||e), 'err');
+    stopScanner();
+  }
+}
+
+function stopScanner() {
+  if(window._ZXingReader) {
+    try { window._ZXingReader.reset(); } catch(e) {}
+    window._ZXingReader = null;
+  }
+  scannerRunning = false;
+  document.getElementById('interactive').innerHTML = '';
+  document.getElementById('scannerIdle').style.display='flex';
+  document.getElementById('scannerActive').style.display='none';
+  document.getElementById('manualSection').style.display='block';
+}
+
+function onBarcodeDetected(code) {
+  stopScanner();
+  // check duplicate
+  const existing = inventory.findIndex(i => i.barcode === code);
+  if(existing >= 0) {
+    inventory[existing].qty++;
+    save();
+    flash('➕ Quantità aggiornata: ' + inventory[existing].name, 'ok');
+    return;
+  }
+  document.getElementById('fBarcode').value = code;
+  document.getElementById('fName').value = '';
+  document.getElementById('fQty').value = 1;
+  document.getElementById('scanForm').style.display='block';
+  document.getElementById('fName').focus();
+  flash('Codice rilevato: ' + code, 'ok');
+}
+
+function triggerPhotoScan() {
+  document.getElementById('photoInput').click();
+}
+
+async function analyzePhoto(input) {
+  const file = input.files[0];
+  if(!file) return;
+  input.value = '';
+
+  document.getElementById('aiLoading').style.display = 'block';
+  document.getElementById('aiScanBtn').style.display = 'none';
+
+  try {
+    const base64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = rej;
+      r.readAsDataURL(file);
+    });
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: { type: 'base64', media_type: file.type || 'image/jpeg', data: base64 }
+            },
+            {
+              type: 'text',
+              text: `Analizza questa immagine di un'etichetta da magazzino. Estrai le seguenti informazioni e rispondi SOLO con JSON valido, senza markdown, senza commenti:
+{
+  "barcode": "codice a barre o codice articolo (es. ELF00220419)",
+  "name": "nome del prodotto in italiano, descrittivo",
+  "category": "una tra: Meccanica, Elettronica, Consumabili, Imballaggio, Utensili, Materie prime, Generale"
+}
+Se non riesci a leggere il barcode, metti il codice articolo visibile come testo. Estrai sempre qualcosa di utile.`
+            }
+          ]
+        }]
+      })
+    });
+
+    const data = await response.json();
+    let text = (data.content || []).map(b => b.text || '').join('').trim();
+    text = text.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(text);
+
+    document.getElementById('fBarcode').value = parsed.barcode || '';
+    document.getElementById('fBarcode').removeAttribute('readonly');
+    document.getElementById('fName').value = parsed.name || '';
+    if(parsed.category) document.getElementById('fCat').value = parsed.category;
+    document.getElementById('scanForm').style.display = 'block';
+    document.getElementById('fName').focus();
+    flash('✅ Etichetta letta: ' + (parsed.barcode || '?'), 'ok');
+
+  } catch(e) {
+    flash('Errore lettura foto: ' + e.message, 'err');
+  } finally {
+    document.getElementById('aiLoading').style.display = 'none';
+    document.getElementById('aiScanBtn').style.display = 'block';
+  }
+}
+
+
+  document.getElementById('fBarcode').value = 'MANUALE-' + Date.now();
+  document.getElementById('fBarcode').removeAttribute('readonly');
+  document.getElementById('scanForm').style.display='block';
+  document.getElementById('manualSection').style.display='none';
+  document.getElementById('fBarcode').focus();
+}
+
+function saveItem() {
+  const name = document.getElementById('fName').value.trim();
+  if(!name) { flash('Inserisci un nome prodotto','err'); return; }
+  const item = {
+    id: Date.now(),
+    barcode: document.getElementById('fBarcode').value,
+    name,
+    qty: parseInt(document.getElementById('fQty').value)||0,
+    min: parseInt(document.getElementById('fMin').value)||0,
+    cat: document.getElementById('fCat').value,
+    unit: document.getElementById('fUnit').value,
+    notes: document.getElementById('fNotes').value,
+    addedAt: new Date().toISOString()
+  };
+  inventory.unshift(item);
+  save();
+  flash('✅ ' + name + ' aggiunto!','ok');
+  resetForm();
+}
+
+function resetForm() {
+  document.getElementById('scanForm').style.display='none';
+  document.getElementById('manualSection').style.display='flex';
+  document.getElementById('aiScanBtn').style.display='block';
+  document.getElementById('fBarcode').setAttribute('readonly','');
+  document.getElementById('fName').value='';
+  document.getElementById('fQty').value=1;
+  document.getElementById('fNotes').value='';
+}
+
+// INVENTORY
+function renderInventory() {
+  const q = (document.getElementById('searchInput')?.value||'').toLowerCase();
+  const filtered = inventory.filter(i =>
+    i.name.toLowerCase().includes(q) || i.barcode.toLowerCase().includes(q)
+  );
+  const list = document.getElementById('inventoryList');
+  if(!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Nessun articolo trovato</p></div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(item => {
+    const idx = inventory.indexOf(item);
+    const cls = item.qty===0?'no-stock':item.qty<=item.min?'low-stock':'';
+    const qtyCls = item.qty===0?'zero':item.qty<=item.min?'low':'';
+    const emoji = EMOJI_MAP[item.cat]||'📋';
+    return `<div class="inv-item ${cls}" onclick="openModal(${idx})">
+      <div class="item-icon">${emoji}</div>
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-barcode">${item.barcode}</div>
+        <div class="item-meta">
+          <span class="badge badge-cat">${item.cat}</span>
+          <span class="badge badge-qty ${qtyCls}">${item.qty} ${item.unit}</span>
+          ${item.qty<=item.min && item.min>0 ? '<span class="badge" style="background:#2d2200;color:var(--warn);border:1px solid #5a4000">⚠ Scorta bassa</span>' : ''}
+        </div>
+      </div>
+      <div class="item-actions" onclick="event.stopPropagation()">
+        <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+        <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+      </div>
+    </div>`;
+  }).join('');
+  updateStats();
+}
+
+function changeQty(idx, delta) {
+  inventory[idx].qty = Math.max(0, inventory[idx].qty + delta);
+  save();
+  renderInventory();
+}
+
+// MODAL
+function openModal(idx) {
+  editIndex = idx;
+  const item = inventory[idx];
+  document.getElementById('modalTitle').textContent = item.name;
+  document.getElementById('mName').value = item.name;
+  document.getElementById('mQty').value = item.qty;
+  document.getElementById('mMin').value = item.min;
+  document.getElementById('mCat').value = item.cat;
+  document.getElementById('mUnit').value = item.unit;
+  document.getElementById('mNotes').value = item.notes||'';
+  document.getElementById('editModal').classList.add('open');
+}
+function closeModal(e) {
+  if(!e || e.target===document.getElementById('editModal'))
+    document.getElementById('editModal').classList.remove('open');
+}
+function saveEdit() {
+  const item = inventory[editIndex];
+  item.name = document.getElementById('mName').value;
+  item.qty = parseInt(document.getElementById('mQty').value)||0;
+  item.min = parseInt(document.getElementById('mMin').value)||0;
+  item.cat = document.getElementById('mCat').value;
+  item.unit = document.getElementById('mUnit').value;
+  item.notes = document.getElementById('mNotes').value;
+  save(); renderInventory();
+  document.getElementById('editModal').classList.remove('open');
+  flash('✅ Articolo aggiornato','ok');
+}
+function deleteItem() {
+  if(!confirm('Eliminare questo articolo?')) return;
+  inventory.splice(editIndex,1);
+  save(); renderInventory();
+  document.getElementById('editModal').classList.remove('open');
+  flash('🗑 Articolo eliminato','ok');
+}
+
+// EXPORT
+function exportCSV() {
+  if(!inventory.length){flash('Inventario vuoto','err');return;}
+  const rows = [['Barcode','Nome','Quantità','Unità','Scorta min','Categoria','Note','Data aggiunta']];
+  inventory.forEach(i => rows.push([i.barcode,i.name,i.qty,i.unit,i.min,i.cat,i.notes||'',i.addedAt.split('T')[0]]));
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download(csv,'inventario.csv','text/csv');
+  flash('✅ CSV scaricato','ok');
+}
+function exportJSON() {
+  if(!inventory.length){flash('Inventario vuoto','err');return;}
+  download(JSON.stringify(inventory,null,2),'inventario.json','application/json');
+  flash('✅ JSON scaricato','ok');
+}
+function copyToClipboard() {
+  if(!inventory.length){flash('Inventario vuoto','err');return;}
+  const txt = inventory.map(i=>`[${i.barcode}] ${i.name} — ${i.qty} ${i.unit} (${i.cat})`).join('\n');
+  navigator.clipboard.writeText(txt).then(()=>flash('📋 Copiato!','ok')).catch(()=>flash('Errore copia','err'));
+}
+function clearAll() {
+  if(!confirm('Cancellare TUTTO l\'inventario? Operazione irreversibile.')) return;
+  inventory=[];
+  save(); renderInventory();
+  flash('🗑 Inventario cancellato','ok');
+}
+function download(data,name,type) {
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([data],{type}));
+  a.download=name; a.click();
+}
+
+// FLASH
+function flash(msg,type='ok') {
+  document.querySelectorAll('.flash').forEach(el=>el.remove());
+  const el=document.createElement('div');
+  el.className='flash '+type; el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2800);
+}
+
+// INIT
+updateStats();
+</script>
+</body>
+</html>
