@@ -1434,85 +1434,6 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div id="lab-phone-result" style="display:none;"></div>
       </div>
 
-
-      <!-- TOOL 5: GENERA PASSWORD SICURA -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--accent-dim);border-radius:8px;padding:16px;margin-bottom:8px;">
-        <div style="font-family:var(--display);font-size:.8rem;color:var(--accent);margin-bottom:4px;font-weight:700;">🔑 GENERA PASSWORD SICURA</div>
-        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">Crea una password forte e copiala con un tap</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;">
-            <label style="font-size:.7rem;color:var(--text2);font-family:var(--mono);">Lunghezza: <span id="pw-len-val">16</span></label>
-            <input type="range" id="pw-len" min="8" max="32" value="16" oninput="document.getElementById('pw-len-val').textContent=this.value;genPw()" style="width:55%;accent-color:var(--accent);">
-          </div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <label style="font-size:.7rem;color:var(--text2);font-family:var(--mono);display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="pw-upper" checked onchange="genPw()" style="accent-color:var(--accent);">Maiuscole</label>
-            <label style="font-size:.7rem;color:var(--text2);font-family:var(--mono);display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="pw-num" checked onchange="genPw()" style="accent-color:var(--accent);">Numeri</label>
-            <label style="font-size:.7rem;color:var(--text2);font-family:var(--mono);display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="pw-sym" checked onchange="genPw()" style="accent-color:var(--accent);">Simboli</label>
-            <label style="font-size:.7rem;color:var(--text2);font-family:var(--mono);display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="pw-noa" onchange="genPw()" style="accent-color:var(--accent);">Evita ambigui (0,O,l,1)</label>
-          </div>
-        </div>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <div id="pw-gen-out" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:.85rem;color:var(--accent);letter-spacing:.08em;word-break:break-all;min-height:38px;"></div>
-          <button class="btn btn-primary" onclick="genPw()" style="flex-shrink:0;padding:8px 10px;" title="Rigenera">⟳</button>
-          <button class="btn btn-outline" id="pw-copy-btn" onclick="copyGenPw()" style="flex-shrink:0;padding:8px 10px;" title="Copia">📋</button>
-        </div>
-        <div id="pw-gen-strength" style="margin-top:8px;font-size:.68rem;color:var(--text3);font-family:var(--mono);"></div>
-      </div>
-
-      <!-- TOOL 6: PROFILO SOCIAL FAKE -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--cyan-dim);border-radius:8px;padding:16px;margin-bottom:8px;">
-        <div style="font-family:var(--display);font-size:.8rem;color:var(--cyan);margin-bottom:4px;font-weight:700;">🕵️ ANALISI PROFILO SOSPETTO</div>
-        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">Rispondi alle domande — l'algoritmo calcola la probabilità che il profilo sia falso</div>
-        <div id="fake-checks" style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px;">
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc1" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Foto profilo troppo perfetta / sembra da modello</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc2" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Account creato di recente (meno di 1 anno)</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc3" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Pochi post ma tanti follower</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc4" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Ti ha contattato per primo senza motivo</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc5" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Dice di lavorare all'estero (militare, medico, ingegnere)</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc6" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Non vuole fare videocall o ha sempre la webcam rotta</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc7" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Si è innamorato/a molto rapidamente</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc8" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Ha chiesto o allude a soldi / investimenti</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc9" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> La stessa foto appare su altri account con nome diverso</label>
-          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.73rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="fc10" style="accent-color:var(--cyan);margin-top:2px;flex-shrink:0;"> Scrive in italiano strano o usa traduttore automatico</label>
-        </div>
-        <button class="btn btn-primary" onclick="analyzeFake()" style="border-color:var(--cyan);background:var(--cyan);">Analizza profilo</button>
-        <div id="fake-result" style="display:none;margin-top:10px;"></div>
-      </div>
-
-      <!-- TOOL 7: PERMESSI APP SOSPETTI -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid rgba(168,85,247,.4);border-radius:8px;padding:16px;margin-bottom:8px;">
-        <div style="font-family:var(--display);font-size:.8rem;color:#a855f7;margin-bottom:4px;font-weight:700;">📱 ANALISI PERMESSI APP</div>
-        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">Seleziona i permessi richiesti da un'app — scopri se sono sospetti</div>
-        <div id="perm-checks" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p1" data-risk="3" style="accent-color:#a855f7;"> 📍 Posizione sempre attiva</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p2" data-risk="3" style="accent-color:#a855f7;"> 🎙 Microfono</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p3" data-risk="3" style="accent-color:#a855f7;"> 📷 Fotocamera</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p4" data-risk="3" style="accent-color:#a855f7;"> 💬 Leggi SMS</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p5" data-risk="2" style="accent-color:#a855f7;"> 📒 Rubrica contatti</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p6" data-risk="3" style="accent-color:#a855f7;"> 🔑 Accessibilità / overlay</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p7" data-risk="2" style="accent-color:#a855f7;"> 📁 Tutti i file</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p8" data-risk="1" style="accent-color:#a855f7;"> 🌐 Internet</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p9" data-risk="3" style="accent-color:#a855f7;"> 📲 Installa altre app</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p10" data-risk="2" style="accent-color:#a855f7;"> 🔔 Notifiche (lettura)</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p11" data-risk="3" style="accent-color:#a855f7;"> ⚙️ Impostazioni di sistema</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.72rem;color:var(--text2);font-family:var(--mono);"><input type="checkbox" id="p12" data-risk="1" style="accent-color:#a855f7;"> 📳 Vibrazione</label>
-        </div>
-        <div style="margin-bottom:10px;font-size:.7rem;color:var(--text2);font-family:var(--mono);">Tipo di app: <select id="app-type" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;font-family:var(--mono);font-size:.7rem;margin-left:6px;"><option value="torcia">Torcia / utility semplice</option><option value="gioco">Gioco</option><option value="meteo">Meteo</option><option value="fitness">Fitness / salute</option><option value="social">Social / chat</option><option value="banca">Banking / pagamenti</option></select></div>
-        <button class="btn btn-primary" onclick="analyzePerms()" style="border-color:#a855f7;background:#a855f7;">Analizza permessi</button>
-        <div id="perm-result" style="display:none;margin-top:10px;"></div>
-      </div>
-
-      <!-- TOOL 8: ANALISI EMAIL SOSPETTA -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-left:2px solid rgba(245,158,11,.4);border-radius:8px;padding:16px;margin-bottom:8px;">
-        <div style="font-family:var(--display);font-size:.8rem;color:var(--yellow);margin-bottom:4px;font-weight:700;">🔍 ANALISI EMAIL SOSPETTA</div>
-        <div style="font-size:.7rem;color:var(--text2);margin-bottom:12px;font-family:var(--mono);">Incolla il testo dell'email ricevuta — rilevo segnali di phishing</div>
-        <textarea id="email-body-inp" placeholder="Incolla qui il testo completo dell'email (oggetto, mittente, corpo...)" style="width:100%;min-height:110px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:10px;font-family:var(--mono);font-size:.72rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
-        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
-          <button class="btn btn-primary" onclick="analyzeEmail()" style="border-color:var(--yellow);background:var(--yellow);color:#000;">Analizza email</button>
-          <button class="btn btn-outline" onclick="document.getElementById('email-body-inp').value='';document.getElementById('email-analysis-result').style.display='none'">Cancella</button>
-        </div>
-        <div id="email-analysis-result" style="display:none;margin-top:10px;"></div>
-      </div>
     </div>
   </div>
 
@@ -1891,7 +1812,7 @@ function goTo(id){
   const tb = document.getElementById('tab-'+id);
   if(tb) tb.classList.add('active');
   if(id==='profilo'){renderPf();loadReg();} if(typeof gtag!=='undefined') gtag('event','page_view',{page_title:id,page_location:window.location.href+'#'+id});
-  if(id==='alerts'){renderAlerts();clearBadge();} if(id==='laboratorio'){setTimeout(genPw,100);}
+  if(id==='alerts'){renderAlerts();clearBadge();}
   if(id==='casireali' && casiData.length === 0) loadCasiReali();
 }
 
@@ -1942,7 +1863,7 @@ const QUIZ_BANK={
     {q:'Trovi una chiavetta USB nel parcheggio dell\'ufficio. Cosa fai?',o:['La inserisco nel PC per capire di chi è e restituirla','La consegno all\'IT o la distruggo senza mai inserirla','La uso nel PC di casa, non in quello aziendale','La tengo come storage extra'],c:1,xp:20,fb:'Corretto. Le chiavette "abbandonate" sono un attacco classico: si auto-eseguono all\'inserimento e installano malware in pochi secondi.'},
     {q:'Quale strategia di backup protegge meglio da un attacco ransomware?',o:['Backup giornaliero sul desktop','Backup su cloud sincronizzato in tempo reale','Regola 3-2-1: 3 copie, 2 supporti diversi, 1 completamente offline','Backup mensile su chiavetta USB'],c:2,xp:20,fb:'Corretto. Il backup offline è fisicamente disconnesso dalla rete: il ransomware non può raggiungerlo né cifrarlo.'},
     {q:'Cos\'è il "vishing"?',o:['Phishing via video','Truffa telefonica in cui il criminale si finge un\'istituzione legittima','Un tipo di malware che spia le videocall','Phishing tramite messaggi vocali automatici'],c:1,xp:20,fb:'Corretto. Il vishing (voice phishing) usa chiamate telefoniche per ingannare la vittima, spesso fingendo di essere banche o supporto tecnico.'},
-    {q:'Il tuo PC è stato colpito da ransomware e tutti i file sono cifrati. Qual è la prima cosa giusta da fare?',o:['Pagare subito il riscatto in Bitcoin','Scollegare il PC dalla rete e cercare decryptori gratuiti su nomoreransom.org','Formattare subito il disco senza fare nulla','Spegnere il router di casa'],c:1,xp:20,fb:'Corretto. Scollegare dalla rete impedisce la diffusione. Non pagare mai: non garantisce il recupero dei file e finanzia i criminali. Su nomoreransom.org trovi spesso decryptori gratuiti.'},
+    {q:'Un ransomware ha cifrato tutti i tuoi file. Cosa NON dovresti fare?',o:['Scollegare immediatamente il PC dalla rete','Pagare il riscatto in Bitcoin','Cercare decryptori gratuiti su nomoreransom.org','Segnalare l\'incidente alla Polizia Postale'],c:1,xp:20,fb:'Corretto. Pagare non garantisce il recupero dei file e finanzia i criminali. Cerca prima su nomoreransom.org — spesso esistono decryptori gratuiti.'},
     {q:'Come funziona il "SIM swapping"?',o:['Un virus si trasferisce da uno smartphone all\'altro via Bluetooth','Il criminale convince l\'operatore telefonico a trasferire il tuo numero su una SIM che controlla lui','Un attacco che clona fisicamente il chip SIM','Un malware che intercetta gli SMS'],c:1,xp:20,fb:'Corretto. Con il SIM swap il criminale riceve tutti i tuoi SMS — inclusi i codici OTP — bypassando il 2FA via messaggio.'},
     {q:'Hai ricevuto un\'email da hr@amazon-supporto-italia.com. Qual è il problema?',o:['Non c\'è nessun problema, sembra legittima','Il dominio "amazon-supporto-italia.com" non è amazon.com — è un dominio fake','Il formato dell\'email non è corretto','L\'email non ha allegati'],c:1,xp:20,fb:'Corretto. Amazon usa solo domini @amazon.com o @amazon.it. Qualsiasi variante è un tentativo di impersonazione.'},
     {q:'Cos\'è il "pretexting" nel social engineering?',o:['Una tecnica per creare password false','Creare uno scenario inventato credibile per guadagnare la fiducia della vittima','Un attacco ai server aziendali','Un tipo di phishing via SMS'],c:1,xp:20,fb:'Corretto. Il pretexting costruisce una storia falsa convincente (es: "sono il tecnico IT") per far abbassare la guardia alla vittima.'},
@@ -2993,170 +2914,6 @@ function saveReg(){
   // Aggiorna subito il nome nel profilo
   document.querySelector('.pf-name').textContent = name;
   showNotifToast('✅ Profilo salvato!');
-}
-
-
-// ── GENERA PASSWORD ──
-const PW_CHARS = {
-  lower: 'abcdefghijkmnopqrstuvwxyz',
-  lowerSafe: 'abcdefghjkmnpqrstuvwxyz',
-  upper: 'ABCDEFGHJKLMNPQRSTUVWXYZ',
-  upperSafe: 'ABCDEFGHJKLMNPQRSTUVWXYZ',
-  num: '0123456789',
-  numSafe: '23456789',
-  sym: '!@#$%^&*-_=+?'
-};
-function genPw(){
-  const len = parseInt(document.getElementById('pw-len').value)||16;
-  const useUpper = document.getElementById('pw-upper').checked;
-  const useNum = document.getElementById('pw-num').checked;
-  const useSym = document.getElementById('pw-sym').checked;
-  const noAmb = document.getElementById('pw-noa').checked;
-  let chars = noAmb ? PW_CHARS.lowerSafe : PW_CHARS.lower;
-  let required = [];
-  if(useUpper){ chars += noAmb ? PW_CHARS.upperSafe : PW_CHARS.upper; required.push(noAmb ? PW_CHARS.upperSafe : PW_CHARS.upper); }
-  if(useNum){ chars += noAmb ? PW_CHARS.numSafe : PW_CHARS.num; required.push(noAmb ? PW_CHARS.numSafe : PW_CHARS.num); }
-  if(useSym){ chars += PW_CHARS.sym; required.push(PW_CHARS.sym); }
-  if(chars.length < 2) chars = PW_CHARS.lower + PW_CHARS.upper;
-  const arr = new Uint32Array(len);
-  crypto.getRandomValues(arr);
-  let pw = '';
-  // Garantisci almeno un char per ogni tipo richiesto
-  required.forEach(set => { pw += set[arr[pw.length] % set.length]; });
-  for(let i = pw.length; i < len; i++) pw += chars[arr[i] % chars.length];
-  // Shuffle
-  pw = pw.split('').sort(()=>Math.random()-.5).join('');
-  document.getElementById('pw-gen-out').textContent = pw;
-  // Forza aggiornamento strength
-  const sc = [pw.length>=12, /[A-Z]/.test(pw), /[a-z]/.test(pw), /[0-9]/.test(pw), /[^A-Za-z0-9]/.test(pw), pw.length>=16].filter(Boolean).length;
-  const cols=['#ef4444','#f97316','#f97316','#f59e0b','#22c55e','#22c55e'];
-  const lbls=['Debole','Media','Discreta','Buona','Ottima','Eccellente'];
-  document.getElementById('pw-gen-strength').innerHTML = `Sicurezza: <span style="color:${cols[sc-1]||'#ef4444'};font-weight:700;">${lbls[sc-1]||'Debole'}</span> &nbsp;·&nbsp; ${len} caratteri`;
-  document.getElementById('pw-copy-btn').textContent = '📋';
-}
-async function copyGenPw(){
-  const pw = document.getElementById('pw-gen-out').textContent;
-  if(!pw) return;
-  try{ await navigator.clipboard.writeText(pw); }
-  catch(e){ const t=document.createElement('textarea');t.value=pw;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t); }
-  document.getElementById('pw-copy-btn').textContent = '✓';
-  showNotifToast('✅ Password copiata!');
-  setTimeout(()=>document.getElementById('pw-copy-btn').textContent='📋', 2000);
-}
-
-// ── ANALISI PROFILO FAKE ──
-function analyzeFake(){
-  const ids = ['fc1','fc2','fc3','fc4','fc5','fc6','fc7','fc8','fc9','fc10'];
-  const weights = [2,1,1,2,2,3,2,4,3,1];
-  const labels = [
-    'Foto troppo perfetta','Account recente','Pochi post molti follower',
-    'Ti ha contattato per primo','Lavora all'estero','Niente videocall',
-    'Innamoramento rapido','Ha chiesto soldi','Foto duplicata con altro nome','Italiano strano'
-  ];
-  let score = 0, flags = [];
-  ids.forEach((id,i)=>{ if(document.getElementById(id).checked){ score+=weights[i]; flags.push(labels[i]); } });
-  const maxScore = weights.reduce((a,b)=>a+b,0);
-  const pct = Math.round(score/maxScore*100);
-  const el = document.getElementById('fake-result');
-  el.style.display = 'block';
-  let color, title, advice;
-  if(pct >= 60){ color='var(--red)'; title='⛔ Profilo quasi certamente FALSO'; advice='Interrompi ogni contatto. Non mandare mai soldi. Segnala il profilo alla piattaforma.'; }
-  else if(pct >= 35){ color='var(--yellow)'; title='⚠️ Profilo SOSPETTO — alta attenzione'; advice='Procedi con cautela. Fai una ricerca inversa della foto su Google Immagini prima di continuare.'; }
-  else if(pct >= 15){ color='var(--orange)'; title='ℹ️ Qualche segnale da monitorare'; advice='Niente di definitivo, ma tieni alta la guardia soprattutto se inizia a chiedere favori.'; }
-  else{ color='var(--accent)'; title='✓ Nessun segnale critico rilevato'; advice='Il profilo non mostra segnali evidenti di falsità. Rimani comunque prudente online.'; }
-  el.innerHTML = `<div style="border:1px solid ${color};border-left:3px solid ${color};background:rgba(0,0,0,.1);border-radius:6px;padding:12px 14px;">
-    <div style="font-family:var(--display);font-size:.82rem;font-weight:700;color:${color};margin-bottom:6px;">${title}</div>
-    <div style="font-family:var(--mono);font-size:.68rem;color:var(--text2);margin-bottom:8px;">Punteggio di rischio: <strong style="color:${color}">${pct}%</strong></div>
-    ${flags.length ? `<div style="font-family:var(--mono);font-size:.68rem;color:var(--text3);margin-bottom:8px;">Segnali trovati: ${flags.join(' · ')}</div>` : ''}
-    <div style="font-family:var(--display);font-size:.73rem;color:var(--text2);line-height:1.6;">${advice}</div>
-    <div style="margin-top:8px;font-family:var(--mono);font-size:.65rem;color:var(--text3);">💡 Consiglio: cerca la foto profilo su <a href="https://images.google.com" target="_blank" style="color:var(--cyan);">Google Immagini</a> — trascina la foto o incolla l'URL.</div>
-  </div>`;
-}
-
-// ── ANALISI PERMESSI APP ──
-function analyzePerms(){
-  const appType = document.getElementById('app-type').value;
-  const permIds = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10','p11','p12'];
-  const permLabels = ['Posizione sempre attiva','Microfono','Fotocamera','Leggi SMS','Rubrica','Accessibilità/overlay','Tutti i file','Internet','Installa altre app','Notifiche','Impostazioni sistema','Vibrazione'];
-  // Permessi normali per tipo app
-  const normal = {
-    torcia:['p8','p12'], gioco:['p8','p3','p12'], meteo:['p1','p8'],
-    fitness:['p1','p2','p3','p8','p5'], social:['p1','p2','p3','p5','p8','p10'],
-    banca:['p1','p8','p4','p10']
-  };
-  const normalPerms = normal[appType]||[];
-  let suspicious = [], critical = [];
-  permIds.forEach((id,i)=>{
-    const el = document.getElementById(id);
-    if(el.checked){
-      const risk = parseInt(el.dataset.risk)||1;
-      if(!normalPerms.includes(id)){
-        if(risk>=3) critical.push(permLabels[i]);
-        else if(risk>=2) suspicious.push(permLabels[i]);
-      }
-    }
-  });
-  const res = document.getElementById('perm-result');
-  res.style.display = 'block';
-  let color, title, body;
-  if(critical.length >= 2){ color='var(--red)'; title='⛔ App PERICOLOSA — permessi ingiustificati'; }
-  else if(critical.length === 1 || suspicious.length >= 2){ color='var(--yellow)'; title='⚠️ Permessi sospetti per questo tipo di app'; }
-  else if(suspicious.length === 1){ color='var(--orange)'; title='ℹ️ Un permesso da valutare'; }
-  else{ color='var(--accent)'; title='✓ Permessi nella norma per questo tipo di app'; }
-  const lines = [];
-  if(critical.length) lines.push(`<div style="color:var(--red);font-size:.7rem;margin-bottom:4px;">🔴 Permessi critici: <strong>${critical.join(', ')}</strong></div>`);
-  if(suspicious.length) lines.push(`<div style="color:var(--yellow);font-size:.7rem;margin-bottom:4px;">🟡 Permessi sospetti: <strong>${suspicious.join(', ')}</strong></div>`);
-  const advice = critical.length >= 2
-    ? 'Non installare questa app o rimuovila subito. I permessi richiesti non sono giustificati dalla sua funzione.'
-    : critical.length === 1
-    ? 'Valuta attentamente se concedere questo permesso. Cerca l'app su Google + "malware" o "truffa".'
-    : suspicious.length
-    ? 'Nega i permessi sospetti all'installazione — l'app probabilmente funziona comunque senza.'
-    : 'I permessi richiesti sono ragionevoli per questo tipo di applicazione.';
-  res.innerHTML = `<div style="border:1px solid ${color};border-left:3px solid ${color};background:rgba(0,0,0,.1);border-radius:6px;padding:12px 14px;">
-    <div style="font-family:var(--display);font-size:.82rem;font-weight:700;color:${color};margin-bottom:8px;">${title}</div>
-    ${lines.join('')}
-    <div style="font-family:var(--display);font-size:.73rem;color:var(--text2);line-height:1.6;margin-top:6px;">${advice}</div>
-  </div>`;
-}
-
-// ── ANALISI EMAIL SOSPETTA ──
-function analyzeEmail(){
-  const text = document.getElementById('email-body-inp').value.trim();
-  if(!text){ showNotifToast('⚠ Incolla prima il testo dell'email.'); return; }
-  const t = text.toLowerCase();
-  const findings = [];
-  // Pattern di rischio
-  const checks = [
-    { re:/urgente|immediat|entro\s*24|scade|bloccato|sospeso|verifica subito|azione richiesta/i, w:3, msg:'🔴 Urgenza artificiale — tecnica classica di pressione psicologica' },
-    { re:/clicca qui|click here|accedi ora|conferma ora|verifica ora|vai al link|apri il link/i, w:3, msg:'🔴 Invito a cliccare un link — mai farlo da email sospette' },
-    { re:/password|credenziali|codice otp|pin|conto corrente|iban|carta di credito|dati bancari/i, w:3, msg:'🔴 Richiesta di dati sensibili — le istituzioni non li chiedono mai via email' },
-    { re:/hai vinto|premio|vincita|congratulazioni|selezionato|eredità|milion/i, w:3, msg:'🔴 Promessa di vincita o eredità — schema truffa classico' },
-    { re:/paypal|amazon|intesa|unicredit|poste italian|microsoft|apple|netflix|inps|agenzia entrate/i, w:2, msg:'🟡 Nome di brand noto — verifica che il mittente sia il dominio ufficiale' },
-    { re:/http:\/\//i, w:3, msg:'🔴 Link HTTP non cifrato in un'email ufficiale — grave segnale' },
-    { re:/[a-z0-9-]+\.(xyz|top|click|tk|ml|gq|cf|ga|icu|pw|cc)/i, w:3, msg:'🔴 Dominio sospetto nel testo (.xyz .top .tk ecc.)' },
-    { re:/caro cliente|dear customer|gentile utente|salve utente/i, w:2, msg:'🟡 Saluto generico — le aziende usano il tuo nome reale' },
-    { re:/non rispondere a questa email|do not reply/i, w:1, msg:'ℹ️ Email "no-reply" — normale ma verifica il contesto' },
-    { re:/allegato|attachment|\.exe|\.zip|\.doc[xm]?/i, w:2, msg:'🟡 Allegato menzionato — non aprirlo senza verificare il mittente' },
-    { re:/bitcoin|crypto|wallet|ethereum|trasferisci|ricarica postepay/i, w:3, msg:'🔴 Pagamento in crypto o ricariche — quasi sempre una truffa' },
-    { re:/aggiorna i tuoi dati|aggiornamento account|verifica identità|conferma profilo/i, w:3, msg:'🔴 Richiesta di aggiornamento dati — tecnica phishing standard' },
-  ];
-  checks.forEach(c=>{ if(c.re.test(text)) findings.push({w:c.w, msg:c.msg}); });
-  const score = findings.reduce((a,b)=>a+b.w, 0);
-  const res = document.getElementById('email-analysis-result');
-  res.style.display = 'block';
-  let color, title;
-  if(score >= 8){ color='var(--red)'; title='⛔ Email di PHISHING — alto rischio'; }
-  else if(score >= 4){ color='var(--yellow)'; title='⚠️ Email SOSPETTA — procedi con cautela'; }
-  else if(score >= 2){ color='var(--orange)'; title='ℹ️ Qualche segnale — valuta attentamente'; }
-  else{ color='var(--accent)'; title='✓ Nessun segnale critico rilevato'; }
-  const lines = findings.sort((a,b)=>b.w-a.w).map(f=>`<div style="font-family:var(--mono);font-size:.7rem;color:var(--text2);padding:3px 0;border-bottom:1px solid var(--border);">${f.msg}</div>`).join('');
-  res.innerHTML = `<div style="border:1px solid ${color};border-left:3px solid ${color};background:rgba(0,0,0,.1);border-radius:6px;padding:12px 14px;">
-    <div style="font-family:var(--display);font-size:.82rem;font-weight:700;color:${color};margin-bottom:8px;">${title}</div>
-    <div style="font-family:var(--mono);font-size:.68rem;color:var(--text2);margin-bottom:10px;">Punteggio di rischio: <strong style="color:${color}">${score}</strong> — ${findings.length} segnale${findings.length!==1?'i':''} trovato${findings.length!==1?'i':''}</div>
-    ${lines || '<div style="font-family:var(--mono);font-size:.7rem;color:var(--text3);">Nessun pattern sospetto rilevato nel testo.</div>'}
-    <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-family:var(--display);font-size:.72rem;color:var(--text3);">💡 Se hai dubbi, non cliccare nessun link. Vai direttamente sul sito ufficiale digitando l'URL tu stesso.</div>
-  </div>`;
 }
 
 // ── TEMA CHIARO / SCURO ──
