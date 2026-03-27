@@ -1769,6 +1769,9 @@ function renderPf(){
   const ni=Math.min(P.level,LVS.length-1);
   const c=LVS[li].xp,nx=LVS[ni].xp;
   const pct=P.level>=LVS.length?100:Math.min(100,Math.round((P.xp-c)/(nx-c)*100));
+  const regData = JSON.parse(localStorage.getItem('cg_reg') || 'null');
+  const displayName = (regData && regData.name) ? regData.name : 'Agente 001';
+  document.querySelector('.pf-name').textContent = displayName;
   document.getElementById('pf-rank').textContent='Livello '+P.level+' — '+LVS[li].n;
   document.getElementById('pf-bar').style.width=pct+'%';
   document.getElementById('pf-xp-lbl').textContent=P.xp+' / '+(P.level>=LVS.length?'∞':nx)+' XP';
@@ -2908,6 +2911,8 @@ function saveReg(){
     if(email) gtag('set', 'user_properties', { user_email: email });
   }
   loadReg();
+  // Aggiorna subito il nome nel profilo
+  document.querySelector('.pf-name').textContent = name;
   showNotifToast('✅ Profilo salvato!');
 }
 
