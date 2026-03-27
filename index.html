@@ -17,7 +17,7 @@
 <link rel="apple-touch-startup-image" href="https://osensei78.github.io/cyberguard/icon-512.png">
 <meta name="description" content="Impara a riconoscere e difenderti dalle truffe digitali più diffuse in Italia.">
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -55,49 +55,43 @@ body.light-mode .q-card{background:#f8faff;}
 body.light-mode .qopt{background:#f0f4ff;}
 body.light-mode #tabbar{box-shadow:0 -2px 8px rgba(0,0,0,.06);}
 
-/* THEME TOGGLE SWITCH */
 .theme-toggle{display:flex;align-items:center;gap:6px;flex-shrink:0;cursor:pointer;-webkit-tap-highlight-color:transparent;padding:2px 4px;}
 .toggle-ico{font-size:.85rem;line-height:1;transition:opacity .2s;}
 .toggle-track{position:relative;width:40px;height:22px;border-radius:11px;background:var(--accent-dim);border:1.5px solid var(--accent);cursor:pointer;transition:background .3s,border-color .3s;flex-shrink:0;}
-body.light-mode .toggle-track{background:#dbeafe;border-color:var(--accent);box-shadow:0 0 6px rgba(37,99,235,.2);}
+body.light-mode .toggle-track{background:#dbeafe;border-color:var(--accent);}
 .toggle-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:0 1px 4px rgba(0,0,0,.3);}
-body.light-mode .toggle-knob{transform:translateX(18px);box-shadow:0 1px 4px rgba(0,0,0,.2);}
+body.light-mode .toggle-knob{transform:translateX(18px);}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;}
 html,body{height:100%;height:100dvh;overflow:hidden;background:var(--bg);}
 body{font-family:var(--mono);color:var(--text);font-size:13px;display:flex;flex-direction:column;height:100%;height:100dvh;}
 button{font-family:var(--mono);}input{font-family:var(--mono);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-@keyframes glitch{0%,100%{transform:none;opacity:1;}50%{transform:translateY(-2px);opacity:.9;}}
-@keyframes scanline{0%{top:-10%;}100%{top:110%;}}
+
+
 @keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.3);}50%{box-shadow:0 0 0 4px rgba(59,130,246,.08);}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 @keyframes matrix-drop{0%{opacity:0;transform:translateY(-8px);}100%{opacity:1;transform:none;}}
 @keyframes pd{0%,100%{opacity:1;}50%{opacity:.2;}}
-@keyframes neon-flicker{0%,100%{opacity:1;}}
-@keyframes share-pulse{
-  0%,100%{opacity:1;box-shadow:0 0 10px rgba(0,255,65,.5),0 0 20px rgba(0,255,65,.2);border-color:#00ff41;color:#00ff41;}
-  50%{opacity:.55;box-shadow:0 0 4px rgba(0,255,65,.1);border-color:rgba(0,255,65,.3);color:rgba(0,255,65,.5);}
-}
-@keyframes install-pulse{
-  0%,100%{opacity:1;box-shadow:0 0 10px rgba(0,245,255,.6),0 0 22px rgba(0,245,255,.2);border-color:#00f5ff;color:#00f5ff;}
-  50%{opacity:.5;box-shadow:0 0 4px rgba(0,245,255,.1);border-color:rgba(0,245,255,.25);color:rgba(0,245,255,.45);}
-}
+@keyframes btn-pulse{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.4);}50%{box-shadow:0 0 0 6px rgba(59,130,246,0);}}
+@keyframes shield-glitch{0%,94%,100%{transform:none;filter:none;}95%{transform:translateX(-2px);filter:drop-shadow(2px 0 rgba(59,130,246,.7)) drop-shadow(-2px 0 rgba(6,182,212,.5));}97%{transform:translateX(2px);filter:drop-shadow(-1px 0 rgba(59,130,246,.5));}99%{transform:none;filter:none;}}
 
-/* TOPBAR */
+
+
+
+
 #topbar{flex-shrink:0;height:52px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.2);}
 #topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.15;}
 .tb-brand{display:flex;align-items:center;gap:10px;}
 .tb-logo{width:32px;height:32px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(59,130,246,.4);}
 .tb-name{font-family:var(--display);font-size:.82rem;font-weight:700;color:var(--text);letter-spacing:.02em;}
 .tb-right{display:flex;align-items:center;gap:7px;}
-.tb-pill{display:flex;align-items:center;gap:4px;padding:3px 7px;border-radius:2px;font-size:.6rem;font-weight:700;font-family:var(--mono);border:1px solid;letter-spacing:.05em;}
-.pill-green{background:rgba(0,255,65,.08);color:var(--accent);border-color:rgba(0,255,65,.3);text-shadow:0 0 6px var(--accent);}
-.pill-red{background:rgba(255,0,51,.08);color:var(--red);border-color:rgba(255,0,51,.3);}
+.tb-pill{display:flex;align-items:center;gap:4px;padding:3px 7px;border-radius:10px;font-size:.6rem;font-weight:600;font-family:var(--mono);border:1px solid;letter-spacing:.04em;}
+.pill-green{background:rgba(59,130,246,.12);color:var(--accent);border-color:rgba(59,130,246,.3);}
+.pill-red{background:rgba(239,68,68,.08);color:var(--red);border-color:rgba(239,68,68,.3);}
 .pill-red .dot{animation:pd 1.2s infinite;}
 .dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
 #tb-clock{font-family:var(--mono);font-size:.68rem;color:var(--text2);letter-spacing:.1em;}
 
-/* LAYOUT */
 #content{flex:1;overflow:hidden;position:relative;min-height:0;}
 .screen{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:scroll;overflow-x:hidden;display:none;-webkit-overflow-scrolling:touch;}
 .screen.active{display:block;}
@@ -105,19 +99,16 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .screen::-webkit-scrollbar-track{background:var(--bg);}
 .screen::-webkit-scrollbar-thumb{background:var(--accent-dim);}
 
-/* TABBAR */
 #tabbar{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0);position:relative;}
-#tabbar::before{display:none;}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:14px 4px 12px;background:none;border:none;color:var(--text3);font-size:.52rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:var(--mono);cursor:pointer;transition:all .15s;position:relative;-webkit-tap-highlight-color:transparent;}
 .tab-ico{font-size:1.5rem;line-height:1;filter:grayscale(.8);}
-.tab::after{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .2s;box-shadow:0 0 8px var(--accent);}
+.tab::after{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .2s;}
 .tab.active{color:var(--accent);}
 .tab.active .tab-ico{filter:none;}
 .tab.active::after{transform:scaleX(1);}
-.tab-badge{position:absolute;top:8px;right:calc(50% - 20px);background:var(--red);color:#fff;font-size:.48rem;min-width:14px;height:14px;border-radius:2px;display:none;align-items:center;justify-content:center;padding:0 3px;font-family:var(--mono);box-shadow:0 0 6px var(--red);}
+.tab-badge{position:absolute;top:8px;right:calc(50% - 20px);background:var(--red);color:#fff;font-size:.48rem;min-width:14px;height:14px;border-radius:6px;display:none;align-items:center;justify-content:center;padding:0 3px;font-family:var(--mono);}
 .tab-badge.show{display:flex;}
 
-/* SHARED */
 .pg{padding:14px;}
 .page-header{margin-bottom:14px;}
 .page-title{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:.01em;margin-bottom:4px;}
@@ -128,34 +119,32 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .section-title::before{content:'';width:3px;height:14px;background:var(--accent);border-radius:2px;}
 .section-title::after{content:'';}
 
-/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden;transition:all .15s;}
 .card:hover{border-color:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .card.open{border-color:var(--accent);box-shadow:0 4px 16px rgba(59,130,246,.12);}
 .card-head{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.c-ico{width:36px;height:36px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;border:1px solid;}
-.ico-red{background:rgba(255,0,51,.08);border-color:rgba(255,0,51,.2);}
-.ico-orange{background:rgba(255,102,0,.08);border-color:rgba(255,102,0,.2);}
-.ico-yellow{background:rgba(255,204,0,.08);border-color:rgba(255,204,0,.2);}
-.ico-blue{background:rgba(0,245,255,.08);border-color:rgba(0,245,255,.2);}
-.ico-purple{background:rgba(180,0,255,.08);border-color:rgba(180,0,255,.2);}
-.ico-green{background:rgba(0,255,65,.08);border-color:rgba(0,255,65,.2);}
+.c-ico{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;border:1px solid;}
+.ico-red{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
+.ico-orange{background:rgba(249,115,22,.08);border-color:rgba(249,115,22,.2);}
+.ico-yellow{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.2);}
+.ico-blue{background:rgba(6,182,212,.08);border-color:rgba(6,182,212,.2);}
+.ico-purple{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2);}
+.ico-green{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);}
 .c-body{flex:1;min-width:0;}
 .c-label{font-size:.6rem;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;font-family:var(--display);}
 .c-label::before{content:'';}
 .c-title{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:2px;font-family:var(--display);}
 .c-desc{font-size:.73rem;color:var(--text2);line-height:1.5;font-family:var(--display);}
 .c-foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
-.badge{font-size:.56rem;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:.08em;font-family:var(--mono);border:1px solid;}
-.badge-red{background:rgba(255,0,51,.1);color:#ff3355;border-color:rgba(255,0,51,.3);}
-.badge-orange{background:rgba(255,102,0,.1);color:#ff6600;border-color:rgba(255,102,0,.3);}
-.badge-yellow{background:rgba(255,204,0,.1);color:#ffcc00;border-color:rgba(255,204,0,.3);}
+.badge{font-size:.56rem;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.06em;font-family:var(--mono);border:1px solid;}
+.badge-red{background:rgba(239,68,68,.1);color:#f87171;border-color:rgba(239,68,68,.3);}
+.badge-orange{background:rgba(249,115,22,.1);color:#fb923c;border-color:rgba(249,115,22,.3);}
+.badge-yellow{background:rgba(245,158,11,.1);color:#fbbf24;border-color:rgba(245,158,11,.3);}
 .c-chevron{color:var(--text3);font-size:.7rem;transition:transform .2s;flex-shrink:0;margin-top:1px;}
 .card.open .c-chevron{transform:rotate(180deg);color:var(--accent);}
 
-/* DETAIL */
-.detail{display:none;border-top:1px solid var(--border);padding:12px 14px;background:rgba(0,0,20,.3);}
-.detail.open{display:block;animation:fadeUp .2s ease;}
+.detail{display:none;border-top:1px solid var(--border);padding:12px 14px;background:rgba(59,130,246,.03);}
+.detail.open{display:block;}
 .d-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 @media(max-width:580px){.d-grid{grid-template-columns:1fr;}}
 .d-section-title{font-size:.58rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid var(--border);font-family:var(--mono);}
@@ -167,24 +156,23 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .flags{margin-top:8px;}
 .flag-title{font-size:.58rem;font-weight:700;color:var(--red);margin-bottom:4px;text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);}
 .flag-title::before{content:'⚠ ';}
-.flag{display:flex;gap:6px;padding:3px 0;border-bottom:1px solid rgba(255,0,51,.08);font-size:.7rem;color:#ff6677;line-height:1.4;font-family:var(--mono);}
+.flag{display:flex;gap:6px;padding:3px 0;border-bottom:1px solid rgba(239,68,68,.08);font-size:.7rem;color:#f87171;line-height:1.4;font-family:var(--mono);}
 .flag:last-child{border:none;}
 .flag-dot{color:var(--red);flex-shrink:0;}
 .tips{display:flex;flex-direction:column;gap:4px;}
 .tip{display:flex;gap:7px;align-items:flex-start;padding:8px 10px;background:rgba(59,130,246,.05);border:1px solid var(--border);border-radius:6px;font-size:.73rem;color:var(--text2);line-height:1.5;font-family:var(--display);transition:.15s;}
 .tip:hover{border-color:var(--accent);background:rgba(59,130,246,.08);}
 .tip-ico{color:var(--accent);flex-shrink:0;}
-.info-banner{margin-top:7px;padding:7px 9px;background:rgba(255,204,0,.06);border:1px solid rgba(255,204,0,.2);border-left:2px solid var(--yellow);font-size:.7rem;color:#ccaa00;line-height:1.5;font-family:var(--mono);}
+.info-banner{margin-top:7px;padding:7px 9px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-left:2px solid var(--yellow);font-size:.7rem;color:#d4a017;line-height:1.5;font-family:var(--mono);}
 .info-banner strong{color:var(--yellow);}
 
-/* HOME */
 .home-banner{margin:14px;margin-top:16px;border-radius:10px;overflow:hidden;border:1px solid var(--border2);position:relative;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#0c2340 100%);min-height:145px;display:flex;align-items:center;padding:20px 20px;gap:14px;box-shadow:0 4px 24px rgba(0,0,0,.4);}
 .home-banner::after{content:'';}
 .home-banner-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.07) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
 .home-banner-text{position:relative;z-index:1;flex:1;}
 .home-banner-label{font-size:.62rem;font-weight:600;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:7px;font-family:var(--display);}
 .home-banner-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
-.home-banner-title{font-family:var(--display);font-size:1.3rem;font-weight:700;color:#ffffff;letter-spacing:.01em;line-height:1.2;margin-bottom:7px;}
+.home-banner-title{font-family:var(--display);font-size:2rem;font-weight:700;color:#ffffff;letter-spacing:.01em;line-height:1.15;margin-bottom:7px;}
 .home-banner-title span{color:#60a5fa;}
 .home-banner-desc{font-size:.72rem;color:#94a3b8;line-height:1.6;font-family:var(--display);}
 .home-banner-desc::before{content:'';}
@@ -194,15 +182,14 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .nav-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:.15s;}
 .nav-card:hover,.nav-card:active{border-color:var(--accent);background:rgba(59,130,246,.04);box-shadow:0 4px 16px rgba(0,0,0,.1);}
 .nav-card:hover::before,.nav-card:active::before{opacity:1;}
-.nav-card-ico{width:36px;height:36px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid var(--border);background:rgba(0,255,65,.04);}
-.nav-card-title{font-size:.82rem;font-weight:700;color:var(--text);font-family:var(--mono);}
-.nav-card-desc{font-size:.65rem;color:var(--text3);line-height:1.4;font-family:var(--mono);}
-.nav-card-arrow{font-size:.65rem;color:var(--accent);margin-top:auto;font-family:var(--mono);text-shadow:0 0 4px var(--accent);}
+.nav-card-ico{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid var(--border);background:rgba(59,130,246,.06);}
+.nav-card-title{font-size:.82rem;font-weight:700;color:var(--text);font-family:var(--display);}
+.nav-card-desc{font-size:.65rem;color:var(--text3);line-height:1.4;font-family:var(--display);}
+.nav-card-arrow{font-size:.65rem;color:var(--accent);margin-top:auto;font-family:var(--display);}
 
-/* QUIZ */
 .lvl-cards{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
 .lvl-card{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:all .15s;font-family:var(--mono);-webkit-tap-highlight-color:transparent;}
-.lvl-card:hover{border-left-color:var(--accent);background:rgba(0,255,65,.04);}
+.lvl-card:hover{border-color:var(--accent);background:rgba(59,130,246,.04);}
 .lvl-card.active{border-color:var(--accent);background:rgba(59,130,246,.06);box-shadow:0 2px 8px rgba(59,130,246,.1);}
 .lvl-card.locked{opacity:.35;cursor:not-allowed;}
 .lvl-card-icon{font-size:1.2rem;flex-shrink:0;}
@@ -210,11 +197,11 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .lvl-card-title{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:1px;font-family:var(--mono);}
 .lvl-card.active .lvl-card-title{color:var(--accent);}
 .lvl-card-sub{font-size:.65rem;color:var(--text3);}
-.lvl-card-check{font-size:.78rem;color:var(--accent);font-weight:700;text-shadow:0 0 4px var(--accent);}
+.lvl-card-check{font-size:.78rem;color:var(--accent);font-weight:700;}
 .lvl-card.active .lvl-card-check::before{content:'✓';}
 .sim-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-bottom:12px;}
 .sim-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 10px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;gap:3px;font-family:var(--mono);-webkit-tap-highlight-color:transparent;}
-.sim-card:hover{border-left-color:var(--accent);background:rgba(0,255,65,.04);}
+.sim-card:hover{border-color:var(--accent);background:rgba(59,130,246,.04);}
 .sim-card.active{border-color:var(--accent);background:rgba(59,130,246,.06);}
 .sim-card-ico{font-size:1.4rem;margin-bottom:1px;}
 .sim-card-title{font-size:.78rem;font-weight:700;color:var(--text);}
@@ -222,79 +209,78 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .sim-card-desc{font-size:.63rem;color:var(--text3);line-height:1.4;}
 .level-tabs,.sim-tabs{display:none;}
 .quiz-progress{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:.68rem;color:var(--text2);font-family:var(--display);}
-.quiz-progress .val{color:var(--accent);font-weight:700;text-shadow:0 0 4px var(--accent);}
+.quiz-progress .val{color:var(--accent);font-weight:700;}
 .q-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;}
 .q-label{font-size:.58rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px;font-family:var(--mono);}
 .q-label::before{content:'';}
 .q-text{font-size:.85rem;font-weight:500;color:var(--text);line-height:1.6;margin-bottom:12px;font-family:var(--mono);}
 .q-opts{display:flex;flex-direction:column;gap:5px;}
-.qopt{background:var(--bg);border:1px solid var(--border);border-left:2px solid transparent;border-radius:0;color:var(--text2);font-size:.75rem;font-family:var(--mono);padding:8px 11px;cursor:pointer;text-align:left;transition:.15s;-webkit-tap-highlight-color:transparent;}
-.qopt:hover:not(:disabled){border-left-color:var(--accent);color:var(--text);background:rgba(0,255,65,.04);}
-.qopt.correct{border-left-color:var(--accent);color:var(--accent);background:rgba(0,255,65,.08);}
-.qopt.wrong{border-left-color:var(--red);color:var(--red);background:rgba(255,0,51,.08);}
+.qopt{background:var(--bg);border:1px solid var(--border);border-left:2px solid transparent;border-radius:4px;color:var(--text2);font-size:.75rem;font-family:var(--mono);padding:8px 11px;cursor:pointer;text-align:left;transition:.15s;-webkit-tap-highlight-color:transparent;}
+.qopt:hover:not(:disabled){border-left-color:var(--accent);color:var(--text);background:rgba(59,130,246,.05);}
+.qopt.correct{border-left-color:var(--accent);color:var(--accent);background:rgba(59,130,246,.1);}
+.qopt.wrong{border-left-color:var(--red);color:var(--red);background:rgba(239,68,68,.08);}
 .qopt:disabled{cursor:default;}
-.q-feedback{margin-top:9px;padding:9px 11px;border-radius:0;font-size:.75rem;line-height:1.6;display:none;font-family:var(--mono);}
+.q-feedback{margin-top:9px;padding:9px 11px;border-radius:6px;font-size:.75rem;line-height:1.6;display:none;font-family:var(--mono);}
 .q-feedback.show{display:block;}
-.q-feedback.good{background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);border-left:2px solid var(--accent);color:var(--accent);}
-.q-feedback.bad{background:rgba(255,0,51,.06);border:1px solid rgba(255,0,51,.2);border-left:2px solid var(--red);color:#ff6677;}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:0;font-size:.75rem;font-weight:700;cursor:pointer;transition:.15s;border:1px solid;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;}
+.q-feedback.good{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-left:2px solid var(--accent);color:var(--accent);}
+.q-feedback.bad{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-left:2px solid var(--red);color:#f87171;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:6px;font-size:.75rem;font-weight:700;cursor:pointer;transition:.15s;border:1px solid;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;}
 .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,.3);}
 .btn-primary:hover{background:var(--accent2);box-shadow:0 4px 12px rgba(59,130,246,.4);}
 .btn-outline{background:transparent;border-color:var(--border2);color:var(--text2);}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent);}
 .btn-wrap{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;}
 .q-final{text-align:center;padding:24px 14px;}
-.q-final-score{font-family:var(--display);font-size:3.2rem;font-weight:900;color:var(--accent);margin-bottom:5px;text-shadow:0 0 20px rgba(0,255,65,.5);}
+.q-final-score{font-family:var(--display);font-size:3.2rem;font-weight:900;color:var(--accent);margin-bottom:5px;}
 .q-final-label{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:4px;font-family:var(--mono);}
 .q-final-msg{font-size:.75rem;color:var(--text2);line-height:1.6;margin-bottom:16px;white-space:pre-line;font-family:var(--mono);}
 .q-final-btns{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;}
 
-/* SIMULATORI */
 .sim-scene{display:none;}
-.sim-scene.active{display:block;animation:fadeUp .2s ease;}
-.sim-intro{padding:9px 11px;margin-bottom:10px;background:rgba(0,245,255,.04);border-left:3px solid var(--cyan);border:1px solid rgba(0,245,255,.15);font-size:.72rem;color:var(--text2);line-height:1.6;font-family:var(--mono);}
-.browser{max-width:480px;border-radius:0;overflow:hidden;border:1px solid var(--border);margin-bottom:9px;}
-.b-bar{background:#000a00;padding:6px 10px;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border);}
+.sim-scene.active{display:block;}
+.sim-intro{padding:9px 11px;margin-bottom:10px;background:rgba(6,182,212,.05);border-left:3px solid var(--cyan);border:1px solid rgba(6,182,212,.18);border-radius:0 6px 6px 0;font-size:.72rem;color:var(--text2);line-height:1.6;font-family:var(--mono);}
+.browser{max-width:480px;border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-bottom:9px;}
+.b-bar{background:#0d1120;padding:6px 10px;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border);}
 .bdot{width:8px;height:8px;border-radius:50%;}
-.bd-r{background:#ff0033;}.bd-y{background:#ffcc00;}.bd-g{background:#00ff41;}
-.b-url{flex:1;background:#000;border:1px solid var(--border);padding:3px 7px;border-radius:0;font-size:.6rem;color:var(--red);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.b-body{padding:14px;background:#010a01;font-family:var(--mono);}
+.bd-r{background:#ef4444;}.bd-y{background:#f59e0b;}.bd-g{background:#22c55e;}
+.b-url{flex:1;background:var(--bg);border:1px solid var(--border);padding:3px 7px;border-radius:3px;font-size:.6rem;color:var(--red);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.b-body{padding:14px;background:#0a0f1e;font-family:var(--mono);}
 .b-logo{font-size:1.2rem;margin-bottom:3px;}
 .b-h{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:3px;}
 .b-p{font-size:.7rem;color:var(--text3);margin-bottom:9px;line-height:1.5;}
-.b-inp{width:100%;background:#000;border:1px solid var(--border);color:var(--text);padding:6px 8px;margin-bottom:4px;font-size:.73rem;border-radius:0;font-family:var(--mono);}
-.b-btn{width:100%;background:rgba(255,0,51,.15);border:1px solid var(--red);color:var(--red);padding:7px;font-size:.76rem;font-weight:700;border-radius:0;cursor:pointer;font-family:var(--mono);letter-spacing:.05em;}
-.sms-wrap{max-width:320px;background:#000a00;border-radius:0;overflow:hidden;border:1px solid var(--border);margin-bottom:9px;}
+.b-inp{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:6px 8px;margin-bottom:4px;font-size:.73rem;border-radius:3px;font-family:var(--mono);}
+.b-btn{width:100%;background:rgba(239,68,68,.15);border:1px solid var(--red);color:var(--red);padding:7px;font-size:.76rem;font-weight:700;border-radius:4px;cursor:pointer;font-family:var(--mono);letter-spacing:.05em;}
+.sms-wrap{max-width:320px;background:var(--bg);border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-bottom:9px;}
 .sms-head{background:var(--surface);padding:7px 11px;font-size:.68rem;font-weight:700;color:var(--text2);text-align:center;font-family:var(--mono);}
 .sms-body{padding:10px;}
 .sms-ts{font-size:.58rem;color:var(--text3);margin-bottom:4px;font-family:var(--mono);}
-.sms-bubble{background:rgba(0,255,65,.06);border:1px solid var(--border);border-radius:0;padding:7px 9px;font-size:.72rem;color:var(--text2);line-height:1.55;max-width:90%;font-family:var(--mono);}
+.sms-bubble{background:rgba(59,130,246,.06);border:1px solid var(--border);border-radius:0 8px 8px 8px;padding:7px 9px;font-size:.72rem;color:var(--text2);line-height:1.55;max-width:90%;font-family:var(--mono);}
 .sms-link{color:var(--red);text-decoration:underline;word-break:break-all;}
-.call-wrap{max-width:280px;background:var(--surface);border-radius:0;padding:18px;text-align:center;border:1px solid var(--border);border-left:3px solid var(--accent);margin-bottom:9px;}
+.call-wrap{max-width:280px;background:var(--surface);border-radius:8px;padding:18px;text-align:center;border:1px solid var(--border);border-left:3px solid var(--accent);margin-bottom:9px;}
 .call-ico{font-size:2.3rem;margin-bottom:5px;}
 .call-name{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:2px;font-family:var(--mono);}
 .call-sub{font-size:.62rem;color:var(--text3);margin-bottom:8px;font-family:var(--mono);}
-.call-num{font-size:.67rem;color:var(--accent);margin-bottom:8px;padding:4px 7px;background:rgba(0,255,65,.06);border:1px solid var(--border);font-family:var(--mono);}
+.call-num{font-size:.67rem;color:var(--accent);margin-bottom:8px;padding:4px 7px;background:rgba(59,130,246,.08);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);}
 .call-script{font-size:.7rem;color:var(--text2);line-height:1.6;margin-bottom:12px;text-align:left;font-family:var(--mono);}
 .call-btns{display:flex;gap:10px;justify-content:center;}
 .call-btn{width:48px;height:48px;border-radius:50%;border:1px solid;font-size:1.1rem;cursor:pointer;transition:.15s;}
-.call-end{background:rgba(255,0,51,.15);border-color:var(--red);box-shadow:0 0 8px rgba(255,0,51,.2);}
-.call-ans{background:rgba(0,255,65,.12);border-color:var(--accent);box-shadow:0 0 8px rgba(0,255,65,.2);}
-.sim-reveal{display:none;padding:11px 13px;border-radius:0;margin-top:7px;font-size:.75rem;line-height:1.65;font-family:var(--mono);}
+.call-end{background:rgba(239,68,68,.15);border-color:var(--red);}
+.call-ans{background:rgba(59,130,246,.12);border-color:var(--accent);}
+.sim-reveal{display:none;padding:11px 13px;border-radius:6px;margin-top:7px;font-size:.75rem;line-height:1.65;font-family:var(--mono);}
 .sim-reveal.show{display:block;}
-.sim-reveal.good{background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);border-left:3px solid var(--accent);color:var(--accent);}
-.sim-reveal.bad{background:rgba(255,0,51,.06);border:1px solid rgba(255,0,51,.2);border-left:3px solid var(--red);color:#ff6677;}
+.sim-reveal.good{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-left:3px solid var(--accent);color:var(--accent);}
+.sim-reveal.bad{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-left:3px solid var(--red);color:#f87171;}
 .sim-reveal-title{font-weight:700;margin-bottom:4px;font-size:.77rem;}
 .sim-choices{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
-.sim-btn-g{background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.3);border-left:2px solid var(--accent);color:var(--accent);border-radius:0;padding:7px 11px;font-size:.72rem;font-weight:700;cursor:pointer;flex:1;min-width:130px;transition:.15s;font-family:var(--mono);}
-.sim-btn-g:hover{background:rgba(0,255,65,.15);}
-.sim-btn-r{background:rgba(255,0,51,.08);border:1px solid rgba(255,0,51,.3);border-left:2px solid var(--red);color:var(--red);border-radius:0;padding:7px 11px;font-size:.72rem;font-weight:700;cursor:pointer;flex:1;min-width:130px;transition:.15s;font-family:var(--mono);}
-.sim-btn-r:hover{background:rgba(255,0,51,.15);}
+.sim-btn-g{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.3);border-left:2px solid var(--accent);color:var(--accent);border-radius:6px;padding:7px 11px;font-size:.72rem;font-weight:700;cursor:pointer;flex:1;min-width:130px;transition:.15s;font-family:var(--mono);}
+.sim-btn-g:hover{background:rgba(59,130,246,.15);}
+.sim-btn-r{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-left:2px solid var(--red);color:var(--red);border-radius:6px;padding:7px 11px;font-size:.72rem;font-weight:700;cursor:pointer;flex:1;min-width:130px;transition:.15s;font-family:var(--mono);}
+.sim-btn-r:hover{background:rgba(239,68,68,.15);}
 .pw-inp-wrap{display:flex;gap:5px;margin-bottom:7px;}
-.pw-inp{flex:1;background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--accent-dim);color:var(--accent);font-size:.82rem;padding:8px 11px;border-radius:0;outline:none;transition:.15s;font-family:var(--mono);}
-.pw-inp:focus{border-left-color:var(--accent);box-shadow:0 0 8px rgba(0,255,65,.12);}
+.pw-inp{flex:1;background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--accent-dim);color:var(--text);font-size:.82rem;padding:8px 11px;border-radius:0;outline:none;transition:.15s;font-family:var(--mono);}
+.pw-inp:focus{border-left-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.15);}
 .pw-inp::placeholder{color:var(--text3);}
-.pw-result{display:none;background:var(--surface);border:1px solid var(--border);padding:11px;}
+.pw-result{display:none;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px;}
 .pw-result.show{display:block;}
 .pw-score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
 .pw-score-lbl{font-size:.75rem;font-weight:700;font-family:var(--mono);}
@@ -306,13 +292,12 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .pw-check{font-size:.67rem;padding:2px 0;display:flex;align-items:center;gap:4px;font-family:var(--mono);}
 .pw-check.ok{color:var(--accent);}.pw-check.no{color:var(--text3);}
 
-/* ALERTS */
 .filter-bar{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;}
 .flt{padding:5px 10px;border-radius:20px;font-size:.6rem;font-weight:700;background:var(--surface);border:1px solid var(--border);color:var(--text3);cursor:pointer;transition:.15s;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;}
 .flt:hover{border-color:var(--border2);color:var(--text);}
 .flt.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .alert-list{display:flex;flex-direction:column;gap:5px;}
-.alert-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;animation:matrix-drop .2s ease;transition:all .15s;cursor:pointer;}
+.alert-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:all .15s;cursor:pointer;}
 .alert-card:hover{border-color:var(--accent);box-shadow:0 2px 12px rgba(0,0,0,.15);}
 .alert-card.new{border-color:var(--red);box-shadow:0 0 0 1px var(--red);}
 .alert-card.expanded{border-color:var(--accent);box-shadow:0 4px 16px rgba(59,130,246,.1);}
@@ -325,31 +310,30 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .a-time{font-size:.6rem;color:var(--text3);white-space:nowrap;font-family:var(--mono);}
 .a-text{font-size:.68rem;color:var(--text2);line-height:1.5;margin-bottom:4px;font-family:var(--mono);min-height:3em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 .a-tags{display:flex;gap:3px;flex-wrap:wrap;}
-.a-tag{font-size:.56rem;font-weight:700;padding:2px 5px;border-radius:2px;letter-spacing:.06em;font-family:var(--mono);border:1px solid;}
-.at-red{background:rgba(255,0,51,.1);color:#ff3355;border-color:rgba(255,0,51,.3);}
-.at-yellow{background:rgba(255,204,0,.1);color:#ffcc00;border-color:rgba(255,204,0,.3);}
-.at-blue{background:rgba(0,245,255,.1);color:var(--cyan);border-color:rgba(0,245,255,.3);}
-.at-green{background:rgba(0,255,65,.1);color:var(--accent);border-color:rgba(0,255,65,.3);}
+.a-tag{font-size:.56rem;font-weight:700;padding:2px 5px;border-radius:4px;letter-spacing:.06em;font-family:var(--mono);border:1px solid;}
+.at-red{background:rgba(239,68,68,.1);color:#f87171;border-color:rgba(239,68,68,.3);}
+.at-yellow{background:rgba(245,158,11,.1);color:#fbbf24;border-color:rgba(245,158,11,.3);}
+.at-blue{background:rgba(6,182,212,.1);color:var(--cyan);border-color:rgba(6,182,212,.3);}
+.at-green{background:rgba(59,130,246,.1);color:var(--accent);border-color:rgba(59,130,246,.3);}
 .a-chevron{font-size:.62rem;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-top:1px;}
 .alert-card.expanded .a-chevron{transform:rotate(180deg);color:var(--accent);}
-.a-detail{display:none;padding:11px 13px 13px;border-top:1px solid var(--border);background:rgba(0,5,20,.5);}
-.alert-card.expanded .a-detail{display:block;animation:fadeUp .2s ease;}
+.a-detail{display:none;padding:11px 13px 13px;border-top:1px solid var(--border);background:rgba(59,130,246,.03);}
+.alert-card.expanded .a-detail{display:block;}
 .a-detail-title{font-size:.88rem;font-weight:600;color:var(--accent);margin-bottom:7px;line-height:1.4;font-family:var(--display);}
 .a-detail-title::before{content:'';}
 .a-detail-body{font-size:.74rem;color:var(--text2);line-height:1.8;margin-bottom:9px;white-space:pre-wrap;font-family:var(--display);}
 .a-detail-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding-top:7px;border-top:1px solid var(--border);font-size:.62rem;color:var(--text3);font-family:var(--mono);}
-.a-share-wa{display:inline-flex;align-items:center;gap:5px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25d366;border-radius:2px;padding:4px 9px;font-size:.65rem;font-weight:700;cursor:pointer;transition:.15s;margin-left:auto;font-family:var(--mono);letter-spacing:.04em;text-decoration:none;text-transform:uppercase;}
-.a-share-wa:hover{background:rgba(37,211,102,.18);box-shadow:0 0 8px rgba(37,211,102,.2);}
+.a-share-wa{display:inline-flex;align-items:center;gap:5px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25d366;border-radius:4px;padding:4px 9px;font-size:.65rem;font-weight:700;cursor:pointer;transition:.15s;margin-left:auto;font-family:var(--mono);letter-spacing:.04em;text-decoration:none;text-transform:uppercase;}
+.a-share-wa:hover{background:rgba(37,211,102,.18);}
 
-/* PROFILE */
-.pf-hero{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:7px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;box-shadow:0 0 16px rgba(0,255,65,.05);}
-.pf-avatar{width:44px;height:44px;border-radius:2px;background:rgba(0,255,65,.08);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;box-shadow:0 0 10px rgba(0,255,65,.12);}
+.pf-hero{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:7px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.pf-avatar{width:44px;height:44px;border-radius:8px;background:rgba(59,130,246,.12);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
 .pf-info{flex:1;}
 .pf-name{font-size:.92rem;font-weight:700;color:var(--accent);margin-bottom:1px;font-family:var(--display);letter-spacing:.01em;}
 .pf-rank{font-size:.65rem;color:var(--text2);margin-bottom:5px;font-family:var(--mono);}
 .pf-rank::before{content:'';}
 .pf-bar-wrap{height:3px;background:var(--bg);overflow:hidden;border:1px solid var(--border);}
-.pf-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:width .5s;box-shadow:0 0 6px var(--accent);}
+.pf-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:width .5s;}
 .pf-xp-lbl{font-size:.6rem;color:var(--text3);margin-top:2px;font-family:var(--mono);}
 .pf-xp-big{font-family:var(--display);font-size:1.2rem;font-weight:700;color:var(--accent);margin-left:auto;}
 .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px;}
@@ -360,19 +344,19 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .stat-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);font-family:var(--mono);}
 .stat-row:last-child{border:none;}
 .sk{font-size:.68rem;color:var(--text2);}
-.sv{font-size:.75rem;font-weight:700;color:var(--accent);text-shadow:0 0 4px rgba(0,255,65,.3);}
+.sv{font-size:.75rem;font-weight:700;color:var(--accent);}
 .badges-wrap{display:flex;flex-wrap:wrap;gap:3px;}
-.badge-item{padding:2px 6px;border-radius:2px;font-size:.62rem;font-weight:700;border:1px solid var(--border);color:var(--text3);font-family:var(--mono);}
-.badge-item.earned{background:rgba(0,255,65,.08);border-color:rgba(0,255,65,.3);color:var(--accent);}
+.badge-item{padding:2px 6px;border-radius:4px;font-size:.62rem;font-weight:700;border:1px solid var(--border);color:var(--text3);font-family:var(--mono);}
+.badge-item.earned{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:var(--accent);}
 .badge-item.locked{opacity:.25;}
 .act-log{display:flex;flex-direction:column;}
 .act-row{display:flex;gap:7px;padding:4px 0;border-bottom:1px solid var(--border);font-size:.67rem;font-family:var(--mono);}
 .act-row:last-child{border:none;}
-.act-t{color:var(--accent);flex-shrink:0;min-width:34px;text-shadow:0 0 4px rgba(0,255,65,.3);}
+.act-t{color:var(--accent);flex-shrink:0;min-width:34px;}
 .act-msg{color:var(--text2);}
 .danger-zone{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:12px 14px;margin-top:4px;display:flex;align-items:center;justify-content:space-between;gap:9px;}
 .dz-text{font-size:.72rem;color:var(--text2);font-family:var(--mono);}
-.dz-text strong{color:#ff6677;display:block;margin-bottom:1px;font-size:.76rem;}
+.dz-text strong{color:#f87171;display:block;margin-bottom:1px;font-size:.76rem;}
 </style>
 </head>
 <body>
@@ -407,12 +391,12 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         <div class="home-banner-title">DIFESA<br><span>DIGITALE</span></div>
         <div class="home-banner-desc">alert ufficiali CERT-AGID aggiornati ogni 5 minuti</div>
         <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;">
-          <button onclick="document.getElementById('share-modal').style.display='flex'" style="display:flex;align-items:center;gap:5px;background:rgba(0,255,65,.12);border:1px solid rgba(0,255,65,.4);padding:5px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:#00ff41;letter-spacing:.04em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;">📤 CONDIVIDI</button>
-          <button onclick="triggerInstall()" style="display:flex;align-items:center;gap:6px;background:rgba(0,245,255,.15);border:2px solid #00f5ff;padding:6px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;color:#00f5ff;letter-spacing:.06em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;animation:install-pulse 1.4s ease-in-out infinite;">📲 INSTALLA APP</button>
-          <a href="https://chat.whatsapp.com/H3Bgx9polgEHAoKgR7rzcG" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;background:rgba(37,211,102,.15);border:2px solid #25d366;padding:6px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;color:#25d366;letter-spacing:.06em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;text-decoration:none;">💬 COMMUNITY</a>
+          <button onclick="document.getElementById('share-modal').style.display='flex'" style="display:flex;align-items:center;gap:5px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.4);padding:6px 12px;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:600;color:#93c5fd;letter-spacing:.04em;text-transform:uppercase;-webkit-tap-highlight-color:transparent;">📤 CONDIVIDI</button>
+          <button onclick="triggerInstall()" style="display:flex;align-items:center;gap:6px;background:#3b82f6;border:none;padding:6px 14px;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:600;color:#fff;-webkit-tap-highlight-color:transparent;animation:btn-pulse 1.8s ease-in-out infinite;">📲 Installa App</button>
+          <a href="https://chat.whatsapp.com/H3Bgx9polgEHAoKgR7rzcG" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;background:rgba(37,211,102,.15);border:2px solid #25d366;padding:6px 14px;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:600;color:#25d366;-webkit-tap-highlight-color:transparent;text-decoration:none;">💬 COMMUNITY</a>
         </div>
       </div>
-      <div class="home-banner-ico">🛡️</div>
+      <div class="home-banner-ico" style="animation:shield-glitch 6s ease-in-out infinite;font-size:6.4rem;">🛡️</div>
     </div>
 <div style="padding:0 20px"><div class="section-title">Cosa vuoi fare?</div></div>
     <div class="nav-grid">
@@ -1029,7 +1013,7 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
     <div class="pg">
       <div class="page-header">
         <div class="page-title">Alert Live</div>
-        <div class="page-sub">CERT-AGID · Commissariato PS · Cybersecurity360 — aggiornato ogni 5 min</div>
+        <div class="page-sub">CERT-AGID · Polizia Postale · Google News Italia — aggiornato ogni 5 min</div>
       </div>
       <div class="filter-bar">
         <button class="flt active" onclick="filterAlerts('all',this)">Tutti</button>
@@ -1422,28 +1406,28 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 
 <!-- ── INSTALL GUIDE MODAL ── -->
 <div id="ios-guide" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.92);align-items:flex-end;justify-content:center;overflow:hidden;">
-  <div style="background:#050f05;border:1px solid #1a5c1a;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:500px;max-height:92vh;display:flex;flex-direction:column;position:relative;">
+  <div style="background:#0d1829;border:1px solid #1e3a6e;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:500px;max-height:92vh;display:flex;flex-direction:column;position:relative;">
 
     <!-- Handle -->
-    <div style="width:36px;height:3px;background:#2d5c2d;border-radius:2px;margin:14px auto 0;flex-shrink:0;"></div>
+    <div style="width:36px;height:3px;background:#2a4170;border-radius:2px;margin:14px auto 0;flex-shrink:0;"></div>
 
     <!-- Header -->
-    <div style="display:flex;align-items:center;gap:12px;padding:16px 18px 12px;flex-shrink:0;border-bottom:1px solid #0d3d0d;">
-      <div style="width:40px;height:40px;border:1px solid #00ff41;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 0 10px rgba(0,255,65,.3);flex-shrink:0;">🛡️</div>
+    <div style="display:flex;align-items:center;gap:12px;padding:16px 18px 12px;flex-shrink:0;border-bottom:1px solid #1e2d4a;">
+      <div style="width:40px;height:40px;border:1px solid #3b82f6;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 2px 8px rgba(59,130,246,.3);flex-shrink:0;">🛡️</div>
       <div style="flex:1;">
-        <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:700;color:#00ff41;letter-spacing:.06em;">INSTALLA CYBERGUARD</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;color:#5a9a5a;margin-top:2px;">// guida passo per passo per il tuo dispositivo</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;color:#e2e8f0;">Installa CyberGuard</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:#94a3b8;margin-top:2px;">// guida passo per passo per il tuo dispositivo</div>
       </div>
       <button onclick="document.getElementById('ios-guide').style.display='none'" style="background:rgba(255,0,51,.12);border:1px solid rgba(255,0,51,.4);color:#ff3355;font-size:1.5rem;font-weight:700;cursor:pointer;padding:4px 10px;flex-shrink:0;line-height:1;font-family:monospace;">✕</button>
     </div>
 
     <!-- Device tabs -->
-    <div style="display:flex;gap:0;flex-shrink:0;border-bottom:1px solid #0d3d0d;overflow-x:auto;" id="install-tabs">
-      <button onclick="showInstallTab('iphone-new')" id="tab-iphone-new" style="flex:1;min-width:80px;padding:10px 6px;background:rgba(0,255,65,.1);border:none;border-bottom:2px solid #00ff41;color:#00ff41;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS 18+</button>
-      <button onclick="showInstallTab('iphone-old')" id="tab-iphone-old" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS vecchio</button>
-      <button onclick="showInstallTab('ipad')" id="tab-ipad" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📲 iPad</button>
-      <button onclick="showInstallTab('android-chrome')" id="tab-android-chrome" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">🤖 Android<br>Chrome</button>
-      <button onclick="showInstallTab('android-samsung')" id="tab-android-samsung" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#2d5c2d;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">🤖 Android<br>Samsung</button>
+    <div style="display:flex;gap:0;flex-shrink:0;border-bottom:1px solid #1e2d4a;overflow-x:auto;border-bottom:1px solid #1e2d4a;" id="install-tabs">
+      <button onclick="showInstallTab('iphone-new')" id="tab-iphone-new" style="flex:1;min-width:80px;padding:10px 6px;background:rgba(59,130,246,.12);border:none;border-bottom:2px solid #3b82f6;color:#3b82f6;font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS 18+</button>
+      <button onclick="showInstallTab('iphone-old')" id="tab-iphone-old" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#475569;font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📱 iPhone<br>iOS vecchio</button>
+      <button onclick="showInstallTab('ipad')" id="tab-ipad" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#475569;font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">📲 iPad</button>
+      <button onclick="showInstallTab('android-chrome')" id="tab-android-chrome" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#475569;font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">🤖 Android<br>Chrome</button>
+      <button onclick="showInstallTab('android-samsung')" id="tab-android-samsung" style="flex:1;min-width:80px;padding:10px 6px;background:none;border:none;border-bottom:2px solid transparent;color:#475569;font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">🤖 Android<br>Samsung</button>
     </div>
 
     <!-- Tab content scrollabile -->
@@ -1451,211 +1435,211 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 
       <!-- iPhone iOS 16.4+ -->
       <div id="panel-iphone-new" class="install-panel">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
           ✓ Supporta notifiche push · Richiede Safari · iOS 18 o superiore
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#ff6633;margin-bottom:14px;padding:8px 12px;background:rgba(255,100,50,.06);border-left:3px solid #ff6633;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:#f97316;margin-bottom:14px;padding:8px 12px;background:rgba(255,100,50,.06);border-left:3px solid #ff6633;">
           ⚠ Attenzione: apri questa pagina con Safari. Se stai usando Chrome, Firefox o il browser di WhatsApp, le istruzioni non funzioneranno.
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#5a9a5a;margin-bottom:16px;">// 4 step — circa 30 secondi</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:#94a3b8;margin-bottom:16px;">// 4 step — circa 30 secondi</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">1</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">1</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Safari e vai su questo link</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Assicurati di usare <strong style="color:#00f5ff">Safari</strong> (icona bussola blu). Se sei già qui con Safari, prosegui. Se vedi Chrome o WhatsApp, copia il link e incollalo in Safari.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Apri Safari e vai su questo link</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Assicurati di usare <strong style="color:#06b6d4">Safari</strong> (icona bussola blu). Se sei già qui con Safari, prosegui. Se vedi Chrome o WhatsApp, copia il link e incollalo in Safari.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">2</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">2</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Trova il tasto Condividi — dipende dalla versione iOS</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">
-                <span style="color:#ffcc00">● iOS 18+</span> → tocca i <strong style="color:#ffcc00">tre puntini ···</strong> nella barra degli indirizzi in alto, poi nel menu che appare tocca <strong style="color:#ffcc00">Condividi</strong><br><br>
-                <span style="color:#00ff41">● iOS 16–17</span> → tocca il quadrato con freccia <strong style="color:#00ff41">⬆</strong> in basso al centro della barra di navigazione
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Trova il tasto Condividi — dipende dalla versione iOS</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">
+                <span style="color:#ffcc00">● iOS 18+</span> → tocca i <strong style="color:#f59e0b">tre puntini ···</strong> nella barra degli indirizzi in alto, poi nel menu che appare tocca <strong style="color:#f59e0b">Condividi</strong><br><br>
+                <span style="color:#3b82f6">● iOS 16–17</span> → tocca il quadrato con freccia <strong style="color:#3b82f6">⬆</strong> in basso al centro della barra di navigazione
               </div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">3</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">3</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Scorri in basso → "Aggiungi a schermata Home"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Si apre un menu con tante opzioni. Scorri verso il basso finché non vedi <strong style="color:#00ff41">＋ Aggiungi a schermata Home</strong>. Toccalo. Se non lo vedi subito, scorri ancora — a volte è in fondo alla lista.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Scorri in basso → "Aggiungi a schermata Home"</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Si apre un menu con tante opzioni. Scorri verso il basso finché non vedi <strong style="color:#3b82f6">＋ Aggiungi a schermata Home</strong>. Toccalo. Se non lo vedi subito, scorri ancora — a volte è in fondo alla lista.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">4</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">4</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi" in alto a destra</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Apparirà un'anteprima con il nome "CyberGuard". In alto a destra c'è il tasto <strong style="color:#00ff41">Aggiungi</strong> — toccalo. L'icona apparirà sulla tua schermata Home.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca "Aggiungi" in alto a destra</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Apparirà un'anteprima con il nome "CyberGuard". In alto a destra c'è il tasto <strong style="color:#3b82f6">Aggiungi</strong> — toccalo. L'icona apparirà sulla tua schermata Home.</div>
             </div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
-          <strong style="color:#00f5ff">Dopo l'installazione:</strong><br>
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#94a3b8;line-height:1.7;">
+          <strong style="color:#06b6d4">Dopo l'installazione:</strong><br>
           Apri CyberGuard dalla Home → vai su Profilo → tocca "Attiva notifiche" → conferma il permesso. Le notifiche arrivano solo quando l'app è installata sulla Home.
         </div>
       </div>
 
       <!-- iPhone iOS vecchio -->
       <div id="panel-iphone-old" class="install-panel" style="display:none;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#ff6633;margin-bottom:14px;padding:8px 12px;background:rgba(255,100,50,.06);border-left:3px solid #ff6633;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#ff6633;margin-bottom:14px;padding:8px 12px;background:rgba(255,100,50,.06);border-left:3px solid #ff6633;">
           ⚠ iOS 15 o precedente: puoi installare l'app ma le notifiche push non sono supportate. Aggiorna a iOS 16.4+ per riceverle.
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#5a9a5a;margin-bottom:16px;">// procedura identica — notifiche non disponibili</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:#94a3b8;margin-bottom:16px;">// procedura identica — notifiche non disponibili</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">1</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #ffcc00;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#f59e0b;min-width:22px;text-align:center;">1</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Safari (obbligatorio)</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iOS 15 e precedenti solo Safari supporta "Aggiungi a schermata Home". Chrome e altri browser non hanno questa funzione.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Apri Safari (obbligatorio)</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Su iOS 15 e precedenti solo Safari supporta "Aggiungi a schermata Home". Chrome e altri browser non hanno questa funzione.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">2</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #ffcc00;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#f59e0b;min-width:22px;text-align:center;">2</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca il tasto Condividi ⬆</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iOS 15 il tasto è in basso al centro. Su iOS 13–14 potrebbe essere in alto a destra accanto alla barra dell'indirizzo.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca il tasto Condividi ⬆</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Su iOS 15 il tasto è in basso al centro. Su iOS 13–14 potrebbe essere in alto a destra accanto alla barra dell'indirizzo.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">3</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #ffcc00;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#f59e0b;min-width:22px;text-align:center;">3</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Scorri → "Aggiungi a schermata Home"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nel foglio di condivisione, scorri le icone nella seconda riga finché non trovi <strong style="color:#ffcc00">Aggiungi a schermata Home</strong>. Toccalo.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Scorri → "Aggiungi a schermata Home"</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Nel foglio di condivisione, scorri le icone nella seconda riga finché non trovi <strong style="color:#f59e0b">Aggiungi a schermata Home</strong>. Toccalo.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #ffcc00;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#ffcc00;min-width:22px;text-align:center;">4</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #ffcc00;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#f59e0b;min-width:22px;text-align:center;">4</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Conferma con "Aggiungi"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Tocca <strong style="color:#ffcc00">Aggiungi</strong> in alto a destra nella schermata di conferma. L'app apparirà sulla Home come qualsiasi altra app.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Conferma con "Aggiungi"</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Tocca <strong style="color:#f59e0b">Aggiungi</strong> in alto a destra nella schermata di conferma. L'app apparirà sulla Home come qualsiasi altra app.</div>
             </div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:rgba(255,204,0,.05);border:1px solid rgba(255,204,0,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
-          <strong style="color:#ffcc00">Vuoi le notifiche?</strong> Aggiorna iPhone a iOS 16.4 o superiore da Impostazioni → Generali → Aggiornamento software.
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(255,204,0,.05);border:1px solid rgba(255,204,0,.15);font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#94a3b8;line-height:1.7;">
+          <strong style="color:#f59e0b">Vuoi le notifiche?</strong> Aggiorna iPhone a iOS 16.4 o superiore da Impostazioni → Generali → Aggiornamento software.
         </div>
       </div>
 
       <!-- iPad -->
       <div id="panel-ipad" class="install-panel" style="display:none;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
           ✓ Supporto completo su iPadOS 16.4+ · Usa Safari · Il tasto condividi è in alto
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">1</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">1</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Safari su iPad</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iPad Safari è l'unico browser che supporta l'installazione PWA. Assicurati di non essere in modalità privata (scheda scura).</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Apri Safari su iPad</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Su iPad Safari è l'unico browser che supporta l'installazione PWA. Assicurati di non essere in modalità privata (scheda scura).</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">2</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">2</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca il tasto Condividi — in alto a destra</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Su iPad il tasto Condividi <strong style="color:#00f5ff">⬆</strong> si trova nella barra in alto a destra, accanto alla barra degli indirizzi — non in basso come su iPhone.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca il tasto Condividi — in alto a destra</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Su iPad il tasto Condividi <strong style="color:#06b6d4">⬆</strong> si trova nella barra in alto a destra, accanto alla barra degli indirizzi — non in basso come su iPhone.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">3</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">3</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi a schermata Home"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Si apre un menu a tendina. Scorri verso il basso e tocca <strong style="color:#00f5ff">＋ Aggiungi a schermata Home</strong>. Potrebbe non essere visibile subito — scorri.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca "Aggiungi a schermata Home"</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Si apre un menu a tendina. Scorri verso il basso e tocca <strong style="color:#06b6d4">＋ Aggiungi a schermata Home</strong>. Potrebbe non essere visibile subito — scorri.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">4</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">4</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Conferma → "Aggiungi"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nella schermata di conferma puoi modificare il nome. Poi tocca <strong style="color:#00f5ff">Aggiungi</strong>. L'icona comparirà nella schermata Home del tuo iPad.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Conferma → "Aggiungi"</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Nella schermata di conferma puoi modificare il nome. Poi tocca <strong style="color:#06b6d4">Aggiungi</strong>. L'icona comparirà nella schermata Home del tuo iPad.</div>
             </div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
-          <strong style="color:#00f5ff">Nota iPad:</strong> Su iPadOS 16.4+ le notifiche push funzionano. Dopo l'installazione vai su Profilo → Attiva notifiche.
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#94a3b8;line-height:1.7;">
+          <strong style="color:#06b6d4">Nota iPad:</strong> Su iPadOS 16.4+ le notifiche push funzionano. Dopo l'installazione vai su Profilo → Attiva notifiche.
         </div>
       </div>
 
       <!-- Android Chrome -->
       <div id="panel-android-chrome" class="install-panel" style="display:none;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
           ✓ Installazione automatica disponibile · Notifiche push supportate · Android 8+
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">A</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">A</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#00ff41;font-weight:700;margin-bottom:4px;">Metodo rapido — banner automatico</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Chrome mostra automaticamente un banner in basso "Aggiungi a schermata Home". Basta toccare <strong style="color:#00ff41">Installa</strong> e confermare. Se il banner non compare, usa il metodo manuale qui sotto.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#3b82f6;font-weight:600;margin-bottom:4px;">Metodo rapido — banner automatico</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Chrome mostra automaticamente un banner in basso "Aggiungi a schermata Home". Basta toccare <strong style="color:#3b82f6">Installa</strong> e confermare. Se il banner non compare, usa il metodo manuale qui sotto.</div>
             </div>
           </div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#2d5c2d;text-align:center;padding:4px 0;">— oppure manualmente —</div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">1</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#475569;text-align:center;padding:4px 0;">— oppure manualmente —</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">1</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca i tre puntini ⋮ in alto a destra</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">In Chrome, tocca il menu <strong style="color:#00ff41">⋮</strong> (tre puntini verticali) nell'angolo in alto a destra dello schermo.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca i tre puntini ⋮ in alto a destra</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">In Chrome, tocca il menu <strong style="color:#3b82f6">⋮</strong> (tre puntini verticali) nell'angolo in alto a destra dello schermo.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">2</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">2</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi a schermata Home"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nel menu che si apre, trova la voce <strong style="color:#00ff41">Aggiungi a schermata Home</strong> (o "Installa app" su versioni recenti di Chrome). Toccala.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca "Aggiungi a schermata Home"</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Nel menu che si apre, trova la voce <strong style="color:#3b82f6">Aggiungi a schermata Home</strong> (o "Installa app" su versioni recenti di Chrome). Toccala.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00ff41;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00ff41;min-width:22px;text-align:center;">3</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #3b82f6;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#3b82f6;min-width:22px;text-align:center;">3</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Installa" per confermare</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Apparirà un popup con l'anteprima. Tocca <strong style="color:#00ff41">Installa</strong>. L'app verrà aggiunta alla schermata Home e all'app drawer come un'app normale.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca "Installa" per confermare</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Apparirà un popup con l'anteprima. Tocca <strong style="color:#3b82f6">Installa</strong>. L'app verrà aggiunta alla schermata Home e all'app drawer come un'app normale.</div>
             </div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,255,65,.05);border:1px solid rgba(0,255,65,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
-          <strong style="color:#00ff41">Dopo l'installazione:</strong> Le notifiche push vengono chieste automaticamente. Se hai rifiutato, vai su Impostazioni Android → App → CyberGuard → Notifiche → Attiva.
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.15);font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#94a3b8;line-height:1.7;">
+          <strong style="color:#3b82f6">Dopo l'installazione:</strong> Le notifiche push vengono chieste automaticamente. Se hai rifiutato, vai su Impostazioni Android → App → CyberGuard → Notifiche → Attiva.
         </div>
       </div>
 
       <!-- Android Samsung -->
       <div id="panel-android-samsung" class="install-panel" style="display:none;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#00f5ff;margin-bottom:14px;padding:8px 12px;background:rgba(0,245,255,.06);border-left:3px solid #00f5ff;">
           ✓ Samsung Internet versione 15+ · Notifiche push supportate
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">1</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">1</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Apri Samsung Internet</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Usa il browser Samsung Internet (icona blu con "S"). Se non ce l'hai, scaricalo dal Galaxy Store o usa Chrome come alternativa.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Apri Samsung Internet</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Usa il browser Samsung Internet (icona blu con "S"). Se non ce l'hai, scaricalo dal Galaxy Store o usa Chrome come alternativa.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">2</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">2</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca le tre linee ☰ in basso a destra</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">In Samsung Internet il menu è in basso a destra con l'icona <strong style="color:#00f5ff">☰</strong> (tre linee orizzontali). Toccalo per aprire il menu principale.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca le tre linee ☰ in basso a destra</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">In Samsung Internet il menu è in basso a destra con l'icona <strong style="color:#06b6d4">☰</strong> (tre linee orizzontali). Toccalo per aprire il menu principale.</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">3</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">3</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi pagina a" → "Schermata Home"</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Nel menu, cerca <strong style="color:#00f5ff">Aggiungi pagina a</strong> e poi seleziona <strong style="color:#00f5ff">Schermata Home</strong>. In alcune versioni compare direttamente "Installa app".</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca "Aggiungi pagina a" → "Schermata Home"</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Nel menu, cerca <strong style="color:#06b6d4">Aggiungi pagina a</strong> e poi seleziona <strong style="color:#06b6d4">Schermata Home</strong>. In alcune versioni compare direttamente "Installa app".</div>
             </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:rgba(0,255,65,.04);border:1px solid #0d3d0d;border-left:3px solid #00f5ff;">
-            <div style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#00f5ff;min-width:22px;text-align:center;">4</div>
+          <div style="display:flex;gap:12px;padding:12px;background:rgba(59,130,246,.05);border:1px solid #1e2d4a;border-left:3px solid #00f5ff;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:800;color:#06b6d4;min-width:22px;text-align:center;">4</div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#b0ffb0;font-weight:700;margin-bottom:4px;">Tocca "Aggiungi" per confermare</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a9a5a;line-height:1.6;">Conferma con <strong style="color:#00f5ff">Aggiungi</strong>. L'icona CyberGuard apparirà sulla schermata Home del tuo Samsung.</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#e2e8f0;font-weight:600;margin-bottom:4px;">Tocca "Aggiungi" per confermare</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;line-height:1.6;">Conferma con <strong style="color:#06b6d4">Aggiungi</strong>. L'icona CyberGuard apparirà sulla schermata Home del tuo Samsung.</div>
             </div>
           </div>
         </div>
-        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;line-height:1.7;">
-          <strong style="color:#00f5ff">Notifiche Samsung:</strong> Dopo l'installazione, il browser chiede il permesso notifiche. Accetta. Se lo hai rifiutato: Impostazioni → Notifiche → Samsung Internet → CyberGuard → Attiva.
+        <div style="margin-top:14px;padding:10px 12px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#94a3b8;line-height:1.7;">
+          <strong style="color:#06b6d4">Notifiche Samsung:</strong> Dopo l'installazione, il browser chiede il permesso notifiche. Accetta. Se lo hai rifiutato: Impostazioni → Notifiche → Samsung Internet → CyberGuard → Attiva.
         </div>
       </div>
 
@@ -1664,50 +1648,50 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 </div>
 
 <!-- ── ANDROID INSTALL BANNER ── -->
-<div id="android-banner" style="display:none;position:fixed;bottom:80px;left:10px;right:10px;background:#050f05;border:1px solid #1a5c1a;border-left:3px solid #00ff41;padding:14px 16px;z-index:8000;align-items:center;gap:12px;box-shadow:0 0 24px rgba(0,255,65,.1);">
-  <div style="font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(0,255,65,.4));">🛡️</div>
+<div id="android-banner" style="display:none;position:fixed;bottom:80px;left:10px;right:10px;background:#0d1829;border:1px solid #1e3a6e;border-left:3px solid #3b82f6;padding:14px 16px;z-index:8000;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(0,0,0,.4);">
+  <div style="font-size:1.6rem;flex-shrink:0;filter:none;">🛡️</div>
   <div style="flex:1;">
-    <div style="font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#00ff41;margin-bottom:2px;letter-spacing:.04em;">INSTALLA CYBERGUARD</div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.67rem;color:#5a9a5a;">Aggiungi alla schermata Home per accesso rapido e notifiche</div>
+    <div style="font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;color:#e2e8f0;margin-bottom:2px;">Installa CyberGuard</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:#94a3b8;">Aggiungi alla schermata Home per accesso rapido e notifiche</div>
   </div>
-  <button id="android-install-btn" style="background:rgba(0,255,65,.1);border:1px solid #00ff41;color:#00ff41;border-radius:2px;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.04em;box-shadow:0 0 8px rgba(0,255,65,.2);">INSTALLA</button>
+  <button id="android-install-btn" style="background:#3b82f6;border:1px solid #3b82f6;color:#fff;border-radius:6px;padding:7px 12px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;white-space:nowrap;">Installa</button>
   <button id="android-dismiss" style="background:rgba(255,0,51,.12);border:1px solid rgba(255,0,51,.4);color:#ff3355;font-size:1.5rem;font-weight:700;cursor:pointer;padding:4px 10px;flex-shrink:0;line-height:1;font-family:monospace;">✕</button>
 </div>
 
 <!-- ── SHARE MODAL ── -->
 <div id="share-modal" style="display:none;position:fixed;inset:0;z-index:9400;background:rgba(0,0,0,.8);align-items:flex-end;justify-content:center;">
-  <div style="background:#050f05;border:1px solid #1a5c1a;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:20px 20px 36px;">
-    <div style="width:36px;height:3px;background:#2d5c2d;border-radius:2px;margin:0 auto 18px;"></div>
+  <div style="background:#0d1829;border:1px solid #1e3a6e;border-bottom:none;border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:20px 20px 36px;">
+    <div style="width:36px;height:3px;background:#2a4170;border-radius:2px;margin:0 auto 18px;"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-      <div style="font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;color:#00ff41;letter-spacing:.06em;">CONDIVIDI CYBERGUARD</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;color:#e2e8f0;letter-spacing:.01em;">Condividi CyberGuard</div>
       <button onclick="document.getElementById('share-modal').style.display='none'" style="background:rgba(255,0,51,.12);border:1px solid rgba(255,0,51,.4);color:#ff3355;font-size:1.5rem;font-weight:700;cursor:pointer;padding:4px 10px;flex-shrink:0;line-height:1;font-family:monospace;">✕</button>
     </div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5a9a5a;margin-bottom:16px;">// aiuta i tuoi contatti a difendersi dalle truffe digitali</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:#94a3b8;margin-bottom:16px;">// aiuta i tuoi contatti a difendersi dalle truffe digitali</div>
     <!-- Bottoni condivisione -->
     <div style="display:flex;flex-direction:column;gap:8px;">
       <button onclick="shareWA()" style="display:flex;align-items:center;gap:14px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.3);border-left:3px solid #25d366;padding:14px 16px;cursor:pointer;width:100%;text-align:left;transition:.15s;" onmouseover="this.style.background='rgba(37,211,102,.15)'" onmouseout="this.style.background='rgba(37,211,102,.08)'">
         <span style="font-size:1.5rem;">💬</span>
         <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:#25d366;">WhatsApp</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;">Invia ai tuoi contatti o gruppi</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;color:#25d366;">WhatsApp</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:.65rem;color:#94a3b8;">Invia ai tuoi contatti o gruppi</div>
         </div>
         <span style="margin-left:auto;color:#25d366;font-size:.8rem;">→</span>
       </button>
       <button onclick="shareTelegram()" style="display:flex;align-items:center;gap:14px;background:rgba(0,136,204,.08);border:1px solid rgba(0,136,204,.3);border-left:3px solid #0088cc;padding:14px 16px;cursor:pointer;width:100%;text-align:left;transition:.15s;" onmouseover="this.style.background='rgba(0,136,204,.15)'" onmouseout="this.style.background='rgba(0,136,204,.08)'">
         <span style="font-size:1.5rem;">✈️</span>
         <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:#0088cc;">Telegram</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;">Condividi su chat o canali</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;color:#0088cc;">Telegram</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:.65rem;color:#94a3b8;">Condividi su chat o canali</div>
         </div>
         <span style="margin-left:auto;color:#0088cc;font-size:.8rem;">→</span>
       </button>
-      <button onclick="copyLink()" id="copy-link-btn" style="display:flex;align-items:center;gap:14px;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.2);border-left:3px solid #00ff41;padding:14px 16px;cursor:pointer;width:100%;text-align:left;transition:.15s;" onmouseover="this.style.background='rgba(0,255,65,.12)'" onmouseout="this.style.background='rgba(0,255,65,.06)'">
+      <button onclick="copyLink()" id="copy-link-btn" style="display:flex;align-items:center;gap:14px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-left:3px solid #3b82f6;padding:14px 16px;cursor:pointer;width:100%;text-align:left;transition:.15s;" onmouseover="this.style.background='rgba(59,130,246,.12)'" onmouseout="this.style.background='rgba(59,130,246,.06)'">
         <span style="font-size:1.5rem;">🔗</span>
         <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:#00ff41;">Copia link</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a9a5a;">Incollalo dove vuoi — SMS, email, Instagram...</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;color:#3b82f6;">Copia link</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:.65rem;color:#94a3b8;">Incollalo dove vuoi — SMS, email, Instagram...</div>
         </div>
-        <span style="margin-left:auto;color:#00ff41;font-size:.8rem;" id="copy-icon">→</span>
+        <span style="margin-left:auto;color:#3b82f6;font-size:.8rem;" id="copy-icon">→</span>
       </button>
     </div>
   </div>
@@ -2324,15 +2308,15 @@ function showInstallTab(tab) {
   document.querySelectorAll('#install-tabs button').forEach(b => {
     b.style.background = 'none';
     b.style.borderBottom = '2px solid transparent';
-    b.style.color = '#2d5c2d';
+    b.style.color = '#475569';
   });
   const panel = document.getElementById('panel-' + tab);
   if (panel) panel.style.display = 'block';
   const tabBtn = document.getElementById('tab-' + tab);
   if (tabBtn) {
-    tabBtn.style.background = 'rgba(0,255,65,.1)';
-    tabBtn.style.borderBottom = '2px solid #00ff41';
-    tabBtn.style.color = '#00ff41';
+    tabBtn.style.background = 'rgba(59,130,246,.12)';
+    tabBtn.style.borderBottom = '2px solid #3b82f6';
+    tabBtn.style.color = '#3b82f6';
   }
 }
 
@@ -2392,7 +2376,7 @@ async function copyLink() {
     const icon = document.getElementById('copy-icon');
     const btn = document.getElementById('copy-link-btn');
     icon.textContent = '✓';
-    btn.style.borderLeftColor = '#00ff41';
+    btn.style.borderLeftColor = '#3b82f6';
     showNotifToast('✅ Link copiato! Incollalo dove vuoi.');
     setTimeout(() => { icon.textContent = '→'; }, 2000);
   } catch(e) {
@@ -2494,10 +2478,10 @@ function labResult(elId, ok, title, lines, color) {
   const el = document.getElementById(elId);
   el.style.display = 'block';
   const borderColor = ok ? 'var(--accent)' : 'var(--red)';
-  const bgColor = ok ? 'rgba(0,255,65,.06)' : 'rgba(255,0,51,.06)';
+  const bgColor = ok ? 'rgba(59,130,246,.06)' : 'rgba(239,68,68,.06)';
   const textColor = ok ? 'var(--accent)' : '#ff6677';
   el.innerHTML = `
-    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;animation:fadeUp .2s ease;overflow:hidden;box-sizing:border-box;width:100%;">
+    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;overflow:hidden;box-sizing:border-box;width:100%;">
       <div style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:${textColor};margin-bottom:8px;word-break:break-word;">${title}</div>
       ${lines.map(l => `<div style="font-family:var(--mono);font-size:.7rem;color:var(--text2);margin-bottom:3px;word-break:break-word;overflow-wrap:break-word;line-height:1.5;">${l}</div>`).join('')}
     </div>`;
@@ -2560,7 +2544,7 @@ async function checkEmail() {
   }
 
   resEl.style.display = 'block';
-  resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(0,255,65,.04);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);overflow:hidden;box-sizing:border-box;width:100%;word-break:break-word;">
+  resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(59,130,246,.05);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);overflow:hidden;box-sizing:border-box;width:100%;word-break:break-word;">
     <span style="color:var(--accent);">→</span> Verifica in corso per <strong style="color:var(--text)">${email.toLowerCase()}</strong>...
   </div>`;
 
@@ -2636,7 +2620,7 @@ async function checkPhone() {
 
   const resEl = document.getElementById('lab-phone-result');
   resEl.style.display = 'block';
-  resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(0,255,65,.04);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);overflow:hidden;box-sizing:border-box;width:100%;word-break:break-word;">
+  resEl.innerHTML = `<div style="border:1px solid var(--accent-dim);border-left:3px solid var(--accent-dim);background:rgba(59,130,246,.05);padding:12px 14px;font-family:var(--mono);font-size:.72rem;color:var(--text2);overflow:hidden;box-sizing:border-box;width:100%;word-break:break-word;">
     <span style="color:var(--accent);">→</span> Ricerca in corso per <strong style="color:var(--text)">${phone}</strong> su chi-ha-chiamato.it...
   </div>`;
 
@@ -2712,11 +2696,11 @@ async function checkPhone() {
 
   // Render custom con supporto HTML nelle lines
   const borderColor = isDangerous ? 'var(--red)' : hasComments ? 'var(--yellow)' : 'var(--accent)';
-  const bgColor = isDangerous ? 'rgba(255,0,51,.06)' : hasComments ? 'rgba(255,204,0,.05)' : 'rgba(0,255,65,.04)';
+  const bgColor = isDangerous ? 'rgba(255,0,51,.06)' : hasComments ? 'rgba(255,204,0,.05)' : 'rgba(59,130,246,.05)';
   const titleColor = isDangerous ? '#ff6677' : hasComments ? 'var(--yellow)' : 'var(--accent)';
 
   resEl.innerHTML = `
-    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;animation:fadeUp .2s ease;overflow:hidden;box-sizing:border-box;width:100%;">
+    <div style="border:1px solid ${borderColor};border-left:3px solid ${borderColor};background:${bgColor};padding:12px 14px;overflow:hidden;box-sizing:border-box;width:100%;">
       <div style="font-family:var(--mono);font-size:.78rem;font-weight:700;color:${titleColor};margin-bottom:10px;word-break:break-word;">${title}</div>
       <div style="font-family:var(--mono);font-size:.68rem;color:var(--text3);margin-bottom:8px;">Numero verificato: <span style="color:var(--text2)">${phone}</span></div>
       ${lines.map(l => l === '―'
@@ -2772,7 +2756,7 @@ function checkPwLab(pw) {
     {ok:!/(password|123|qwerty|admin|ciao|abc)/i.test(pw),label:'Nessuna parola comune'},
   ];
   const sc = checks.filter(c=>c.ok).length;
-  const cols=['#ff0033','#ff0033','#ff6600','#ff6600','#ffcc00','#00ff41','#00ff41'];
+  const cols=['#ef4444','#ef4444','#f97316','#f97316','#f59e0b','#22c55e','#22c55e'];
   const lbls=['Pessima','Molto debole','Debole','Media','Discreta','Buona','Ottima'];
   const tms=['< 1 secondo','pochi secondi','qualche minuto','ore','giorni','anni','secoli'];
   const sl=document.getElementById('lab-pw-slbl'),fill=document.getElementById('lab-pw-fill');
