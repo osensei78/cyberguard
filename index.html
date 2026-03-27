@@ -358,6 +358,18 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
 .dz-text{font-size:.72rem;color:var(--text2);font-family:var(--mono);}
 .dz-text strong{color:#f87171;display:block;margin-bottom:1px;font-size:.76rem;}
 </style>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPFVQBJBY6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WPFVQBJBY6');
+  // Traccia apertura come PWA installata vs browser
+  if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone){
+    gtag('event', 'pwa_launch', {event_category: 'PWA', event_label: 'Installata sulla Home'});
+  }
+</script>
 </head>
 <body>
 
@@ -1065,6 +1077,29 @@ button{font-family:var(--mono);}input{font-family:var(--mono);}
         </div>
       </div>
 
+
+      <!-- REGISTRAZIONE UTENTE -->
+      <div id="reg-card" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;">
+        <div style="font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:4px;font-family:var(--display);">👤 Il tuo profilo</div>
+        <div style="font-size:.75rem;color:var(--text3);margin-bottom:14px;font-family:var(--display);">Registrati per ricevere aggiornamenti e far parte della community CyberGuard.</div>
+        <div id="reg-form-wrap">
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <input id="reg-name" class="pw-inp" type="text" placeholder="Nome o nickname" autocomplete="given-name" style="font-size:.8rem;">
+            <input id="reg-email" class="pw-inp" type="email" placeholder="Email (opzionale)" autocomplete="email" style="font-size:.8rem;border-left-color:var(--cyan-dim);">
+            <input id="reg-phone" class="pw-inp" type="tel" placeholder="Telefono (opzionale)" autocomplete="tel" style="font-size:.8rem;border-left-color:var(--accent-dim);">
+            <button class="btn btn-primary" onclick="saveReg()" style="align-self:flex-start;margin-top:4px;">Salva profilo</button>
+          </div>
+        </div>
+        <div id="reg-done" style="display:none;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div>
+              <div style="font-size:.85rem;font-weight:600;color:var(--text);font-family:var(--display);" id="reg-display-name"></div>
+              <div style="font-size:.72rem;color:var(--text3);font-family:var(--mono);" id="reg-display-info"></div>
+            </div>
+            <button class="btn btn-outline" onclick="editReg()" style="margin-left:auto;font-size:.65rem;padding:4px 10px;">Modifica</button>
+          </div>
+        </div>
+      </div>
       <!-- NOTIFICHE -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
         <div>
@@ -1773,7 +1808,7 @@ function goTo(id){
   if(sc) sc.classList.add('active');
   const tb = document.getElementById('tab-'+id);
   if(tb) tb.classList.add('active');
-  if(id==='profilo')renderPf();
+  if(id==='profilo'){renderPf();loadReg();} if(typeof gtag!=='undefined') gtag('event','page_view',{page_title:id,page_location:window.location.href+'#'+id});
   if(id==='alerts'){renderAlerts();clearBadge();}
   if(id==='casireali' && casiData.length === 0) loadCasiReali();
 }
@@ -2835,6 +2870,47 @@ function checkPwLab(pw) {
   document.getElementById('lab-pw-checks').innerHTML=checks.map(c=>`<div class="pw-check ${c.ok?'ok':'no'}">${c.ok?'✓':'○'} ${c.label}</div>`).join('');
 }
 
+
+// ── REGISTRAZIONE UTENTE ──
+function loadReg(){
+  const r = JSON.parse(localStorage.getItem('cg_reg') || 'null');
+  if(r && r.name){
+    document.getElementById('reg-form-wrap').style.display = 'none';
+    document.getElementById('reg-done').style.display = 'block';
+    document.getElementById('reg-display-name').textContent = r.name;
+    const info = [r.email, r.phone].filter(Boolean).join(' · ');
+    document.getElementById('reg-display-info').textContent = info || 'Nessun contatto aggiunto';
+  }
+}
+function editReg(){
+  const r = JSON.parse(localStorage.getItem('cg_reg') || '{}');
+  if(r.name) document.getElementById('reg-name').value = r.name;
+  if(r.email) document.getElementById('reg-email').value = r.email;
+  if(r.phone) document.getElementById('reg-phone').value = r.phone;
+  document.getElementById('reg-form-wrap').style.display = 'block';
+  document.getElementById('reg-done').style.display = 'none';
+}
+function saveReg(){
+  const name = document.getElementById('reg-name').value.trim();
+  if(!name){ showNotifToast('⚠ Inserisci almeno un nome o nickname.'); return; }
+  const email = document.getElementById('reg-email').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const reg = { name, email, phone, ts: new Date().toISOString() };
+  localStorage.setItem('cg_reg', JSON.stringify(reg));
+  // Traccia su GA4
+  if(typeof gtag !== 'undefined'){
+    gtag('event', 'user_registered', {
+      event_category: 'Registrazione',
+      event_label: name,
+      has_email: !!email,
+      has_phone: !!phone
+    });
+    if(email) gtag('set', 'user_properties', { user_email: email });
+  }
+  loadReg();
+  showNotifToast('✅ Profilo salvato!');
+}
+
 // ── TEMA CHIARO / SCURO ──
 function toggleTheme() {
   const isLight = document.body.classList.toggle('light-mode');
@@ -2857,6 +2933,7 @@ if('serviceWorker' in navigator){
 }
 initTheme();
 renderPf();
+loadReg();
 refreshAlerts();
 setInterval(refreshAlerts, 5 * 60 * 1000);
 updateNotifBtn();
